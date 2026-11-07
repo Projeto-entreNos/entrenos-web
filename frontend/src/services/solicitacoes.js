@@ -1,13 +1,16 @@
-/* eslint-disable no-unused-vars */
 import { empresas } from '../mocks/empresas';
 import { pacotes } from '../mocks/pacotes';
 import { servicos } from '../mocks/servicos';
 import { solicitacoes } from '../mocks/solicitacoes';
+import { universidades } from '../mocks/universidades';
 import { usuarios } from '../mocks/usuarios';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 
 // Troque para true para testar o erro no envio da solicitação (modo mock)
 export const SIMULAR_FALHA_SOLICITACAO = false;
+
+// Troque para true para testar o erro no cancelamento (modo mock)
+export const SIMULAR_FALHA_CANCELAMENTO = false;
 
 const LIMITE_MENSAGEM = 300;
 const STATUS_ABERTOS = ['Enviada', 'Em contato'];
@@ -46,6 +49,39 @@ for (const salva of lerSolicitacoesSalvas()) {
   }
 }
 
+/*
+  Modo mock: os cancelamentos ficam numa chave separada, porque as
+  solicitações de exemplo (src/mocks) não estão no localStorage.
+  Formato: [{ id: "sol-2", atualizadaEm: "AAAA-MM-DD" }]
+*/
+const CHAVE_CANCELAMENTOS = 'entrenos:cancelamentos';
+
+function lerCancelamentos() {
+  try {
+    const texto = localStorage.getItem(CHAVE_CANCELAMENTOS);
+    return texto ? JSON.parse(texto) : [];
+  } catch {
+    return [];
+  }
+}
+
+function salvarCancelamento(id, atualizadaEm) {
+  try {
+    const lista = lerCancelamentos().filter((item) => item.id !== id);
+    localStorage.setItem(CHAVE_CANCELAMENTOS, JSON.stringify([...lista, { id, atualizadaEm }]));
+  } catch {
+    // Sem localStorage o cancelamento vale só até recarregar a página
+  }
+}
+
+for (const cancelamento of lerCancelamentos()) {
+  const solicitacao = solicitacoes.find((item) => item.id === cancelamento.id);
+  if (solicitacao) {
+    solicitacao.status = 'Cancelada';
+    solicitacao.atualizadaEm = cancelamento.atualizadaEm;
+  }
+}
+
 // Data local no formato AAAA-MM-DD (toISOString usaria o fuso UTC)
 function dataDeHoje() {
   const hoje = new Date();
@@ -72,15 +108,42 @@ function procurarAberta(colaboradorId, servicoId) {
 */
 
 /**
- * Lista as solicitações do colaborador logado.
- * API: GET /solicitacoes/minhas
+ * Lista as solicitações do usuário, da mais recente para a mais antiga.
+ * Não traz a mensagem: ela é só da universidade (LGPD).
+ * API: GET /usuarios/:usuarioId/solicitacoes
  * Resposta esperada: [
  *   { id, status: "Enviada"|"Em contato"|"Atendida"|"Cancelada", criadaEm: "AAAA-MM-DD",
- *     atualizadaEm: "AAAA-MM-DD", servico: { id, nome, categoria }, universidade: { id, nome } }
+ *     atualizadaEm: "AAAA-MM-DD", servico: { id, nome }, universidade: { id, nome } }
  * ]
  */
-export async function listarMinhasSolicitacoes() {
-  throw new Error('listarMinhasSolicitacoes ainda não foi implementada.');
+export async function listarMinhasSolicitacoes(usuarioId) {
+  if (!USAR_MOCK) {
+    return requisicao(`/usuarios/${usuarioId}/solicitacoes`);
+  }
+
+  await esperarMock();
+
+  const usuario = usuarios.find((item) => item.id === usuarioId);
+  if (!usuario?.colaboradorId) return [];
+
+  return solicitacoes
+    .filter((item) => item.colaboradorId === usuario.colaboradorId)
+    // As criadas por último ficam no fim da lista: invertendo, elas vêm antes no mesmo dia
+    .reverse()
+    .map((item) => {
+      const servico = servicos.find((s) => s.id === item.servicoId);
+      const universidade = universidades.find((u) => u.id === servico?.universidadeId);
+      return {
+        id: item.id,
+        status: item.status,
+        criadaEm: item.criadaEm,
+        atualizadaEm: item.atualizadaEm,
+        servico: { id: item.servicoId, nome: servico?.nome ?? 'Serviço removido' },
+        universidade: { id: universidade?.id ?? null, nome: universidade?.nome ?? '-' },
+      };
+    })
+    // Datas "AAAA-MM-DD" podem ser comparadas como texto
+    .sort((a, b) => b.criadaEm.localeCompare(a.criadaEm));
 }
 
 /**
@@ -169,12 +232,39 @@ export async function buscarSolicitacaoAberta(servicoId, usuarioId) {
 }
 
 /**
- * Cancela uma solicitação (só quando está "Enviada").
- * API: POST /solicitacoes/:id/cancelar
- * Resposta esperada: { id, status: "Cancelada" }
+ * Cancela uma solicitação. Só o próprio colaborador cancela, e só quando está "Enviada"
+ * (depois disso a universidade já está em contato). Cancelada, deixa de contar no limite do mês.
+ * "usuarioId" é usado SÓ no modo mock: na API, o usuário vem do token.
+ * API: PATCH /solicitacoes/:id/cancelar
+ * Resposta esperada: { id, status: "Cancelada", atualizadaEm: "AAAA-MM-DD" }
+ * Erros (409): { mensagem: "Esta solicitação não pode mais ser cancelada." }
  */
-export async function cancelarSolicitacao(id) {
-  throw new Error('cancelarSolicitacao ainda não foi implementada.');
+export async function cancelarSolicitacao(id, usuarioId) {
+  if (!USAR_MOCK) {
+    // TODO: enviar o token do usuário quando a API exigir autenticação
+    return requisicao(`/solicitacoes/${id}/cancelar`, { metodo: 'PATCH' });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_CANCELAMENTO) {
+    throw new Error('Falha simulada no cancelamento.');
+  }
+
+  const usuario = usuarios.find((item) => item.id === usuarioId);
+  const solicitacao = solicitacoes.find((item) => item.id === id);
+  if (!usuario?.colaboradorId || solicitacao?.colaboradorId !== usuario.colaboradorId) {
+    throw new Error('Solicitação não encontrada.');
+  }
+  if (solicitacao.status !== 'Enviada') {
+    throw new Error('Esta solicitação não pode mais ser cancelada.');
+  }
+
+  solicitacao.status = 'Cancelada';
+  solicitacao.atualizadaEm = dataDeHoje();
+  salvarCancelamento(id, solicitacao.atualizadaEm);
+
+  return { id, status: solicitacao.status, atualizadaEm: solicitacao.atualizadaEm };
 }
 
 /**
