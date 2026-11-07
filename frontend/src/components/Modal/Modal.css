@@ -7,7 +7,8 @@
   align-items: center;
   justify-content: center;
   padding: var(--esp-32);
-  background: var(--cor-fundo-modal);
+  /* Figma "Fundo escurecido": grafite com 60% de opacidade */
+  background: color-mix(in srgb, var(--cor-grafite) 60%, transparent);
 }
 
 .modal {
