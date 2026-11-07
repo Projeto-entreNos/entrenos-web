@@ -298,6 +298,27 @@ export async function contarAtendimentosDoMes(usuarioId) {
 }
 
 /**
+ * SÓ NO MODO MOCK: cancela as solicitações em aberto ("Enviada" ou "Em contato")
+ * de um colaborador removido pela empresa. Devolve quantas foram canceladas.
+ * Na API real não existe este endereço: o DELETE /colaboradores/:id faz isso no back-end.
+ * Quem chama (removerColaborador) já simulou a espera da rede.
+ */
+export async function cancelarSolicitacoesAbertasDoColaborador(colaboradorId) {
+  const hoje = dataDeHoje();
+  const abertas = solicitacoes.filter(
+    (item) => item.colaboradorId === colaboradorId && STATUS_ABERTOS.includes(item.status)
+  );
+
+  for (const solicitacao of abertas) {
+    solicitacao.status = 'Cancelada';
+    solicitacao.atualizadaEm = hoje;
+    salvarCancelamento(solicitacao.id, hoje);
+  }
+
+  return abertas.length;
+}
+
+/**
  * Uso do mês do colaborador logado (para mostrar "X de Y atendimentos").
  * API: GET /solicitacoes/uso-do-mes
  * Resposta esperada: { usados: 2, limite: 5, pacote: "Completo" }

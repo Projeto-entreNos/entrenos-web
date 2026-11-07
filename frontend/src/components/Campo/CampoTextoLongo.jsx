@@ -6,6 +6,8 @@ import { idsDescricao } from './idsDescricao';
  * Área de texto com contador de caracteres (tipo "Área de texto" do Figma).
  * - limite: número máximo de caracteres (padrão 500)
  * - value e onChange: obrigatórios para o contador funcionar (campo controlado)
+ * - textoContador: opcional, troca o texto do contador (ex.: "6 linhas").
+ *   Sem ele, o contador mostra os caracteres ("120/500").
  */
 export default function CampoTextoLongo({
   rotulo,
@@ -15,12 +17,13 @@ export default function CampoTextoLongo({
   value = '',
   desabilitado = false,
   sobreEscuro = false,
+  textoContador,
   id,
   ...resto
 }) {
   const idGerado = useId();
   const idCampo = id || idGerado;
-  const contador = `${value.length}/${limite}`;
+  const contador = textoContador ?? `${value.length}/${limite}`;
 
   return (
     <CampoBase

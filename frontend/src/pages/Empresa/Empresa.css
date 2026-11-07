@@ -1,0 +1,281 @@
+/* Tela Empresa (Figma: frames "Empresa-...") */
+.empresa {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.empresa__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+/* ---------- Cartão "Seu plano" ---------- */
+.cartao-plano {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-40);
+  padding: var(--esp-24) var(--esp-32);
+  border-radius: var(--raio-destaque);
+}
+
+.cartao-plano__plano {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+}
+
+.cartao-plano__rotulo {
+  font: var(--texto-rotulo);
+  color: var(--cor-cinza-asfalto);
+}
+
+.cartao-plano__pacote {
+  font: var(--texto-titulo-2);
+  color: var(--cor-azul-abissal);
+}
+
+.cartao-plano__contrato {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-8) var(--esp-12);
+}
+
+.cartao-plano__vigencia,
+.cartao-plano__restantes {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.cartao-plano__vagas {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--esp-8);
+  min-width: 0;
+}
+
+/* ---------- Mensagens (região aria-live) ---------- */
+/* Vazia, a região continua na página (para o anúncio funcionar), mas sem somar o gap */
+.empresa__regiao-viva:empty {
+  margin-top: calc(-1 * var(--esp-32));
+}
+
+.empresa__mensagem:focus {
+  outline: none;
+}
+
+.empresa__mensagem:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+  border-radius: var(--raio-card);
+}
+
+/* ---------- Barra de ações: busca, filtro e botão ---------- */
+.empresa__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-16);
+}
+
+.empresa__busca {
+  flex: 1;
+  min-width: 0;
+}
+
+.empresa__filtro {
+  flex-shrink: 0;
+  width: 220px;
+}
+
+/* A busca não tem rótulo visível no Figma: o label fica só para leitores de tela */
+.empresa__busca .campo__rotulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.empresa__barra .campo {
+  gap: 0;
+}
+
+/* ---------- Tabela: larguras do Figma ----------
+   Nome 190, E-mail 260, Status 170 e Data 140 px, com 16 px entre as células
+   e 24 px da borda. Ações fica com o resto. Nome e E-mail em % (proporção do
+   Figma em 1220 px) para sobrar espaço às ações em janelas menores. */
+.empresa .tabela {
+  table-layout: fixed;
+}
+
+.empresa .tabela th,
+.empresa .tabela td {
+  padding-inline: var(--esp-8);
+}
+
+.empresa .tabela th:first-child,
+.empresa .tabela td:first-child {
+  padding-left: var(--esp-24);
+}
+
+.empresa .tabela th:last-child,
+.empresa .tabela td:last-child {
+  padding-right: var(--esp-24);
+}
+
+.empresa .tabela th:nth-child(1) {
+  width: 18.2%;
+}
+
+.empresa .tabela th:nth-child(2) {
+  width: 22.6%;
+}
+
+.empresa .tabela th:nth-child(3) {
+  width: calc(170px + var(--esp-16));
+}
+
+.empresa .tabela th:nth-child(4) {
+  width: calc(140px + var(--esp-16));
+}
+
+.empresa .tabela td {
+  font: var(--texto-legenda);
+}
+
+/* E-mails longos quebram em vez de empurrar a tabela */
+.empresa__email {
+  overflow-wrap: anywhere;
+}
+
+/* Ações: botões com visual de link do Figma, um embaixo do outro */
+.empresa__acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-4);
+}
+
+.empresa__acao {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.empresa__acao:hover:not(:disabled) {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+}
+
+.empresa__acao--perigo {
+  color: var(--cor-erro-texto);
+}
+
+.empresa__acao--perigo:hover:not(:disabled) {
+  color: var(--cor-erro-texto);
+}
+
+.empresa__acao:disabled {
+  color: var(--cor-cinza-asfalto);
+  cursor: not-allowed;
+}
+
+.empresa__total {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+/* ---------- Carregando ---------- */
+.empresa__esqueleto {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+.empresa__esqueleto--plano {
+  border-radius: var(--raio-destaque);
+}
+
+/* ---------- Modais ---------- */
+.empresa__modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+/* O modal de convite tem 640 px no Figma (o padrão do Modal é 560) */
+.modal:has(.convite) {
+  width: 640px;
+}
+
+.convite__resultado {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.convite__resultado:empty {
+  display: none;
+}
+
+.convite__resumo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  padding: var(--esp-16);
+  background: var(--cor-fundo-pagina);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.convite__resumo-titulo,
+.convite__detalhe-titulo {
+  font: var(--texto-rotulo);
+  color: var(--cor-azul-abissal);
+}
+
+.convite__numeros {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  margin: 0;
+}
+
+.convite__linha {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--esp-16);
+}
+
+.convite__linha dd {
+  margin: 0;
+  font: var(--texto-rotulo);
+  color: var(--cor-azul-abissal);
+}
+
+.convite__linha .convite__numero--erro {
+  color: var(--cor-erro-texto);
+}
+
+.convite__detalhe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding-top: var(--esp-8);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.convite__detalhe ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding-left: var(--esp-20);
+}
