@@ -1,0 +1,11 @@
+.em-construcao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-24);
+  max-width: 640px;
+}
+
+.em-construcao__margem {
+  padding-top: var(--esp-48);
+  padding-bottom: var(--esp-80);
+}

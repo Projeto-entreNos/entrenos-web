@@ -1,0 +1,66 @@
+/* Cartão de aviso (Figma: "Cartão de aviso"). */
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-12);
+  padding: var(--esp-16);
+  border: 1px solid;
+  border-radius: var(--raio-card);
+}
+
+.aviso__icone {
+  flex-shrink: 0;
+}
+
+.aviso__conteudo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  min-width: 0;
+}
+
+.aviso__titulo {
+  font: var(--texto-rotulo);
+}
+
+.aviso__texto {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+/* Informação e sucesso usam o mesmo fundo; só o ícone muda */
+.aviso--informacao,
+.aviso--sucesso {
+  background: var(--cor-esmeralda-10);
+  border-color: var(--cor-esmeralda-20);
+}
+
+.aviso--informacao .aviso__titulo,
+.aviso--sucesso .aviso__titulo {
+  color: var(--cor-azul-abissal);
+}
+
+.aviso--informacao .aviso__icone,
+.aviso--sucesso .aviso__icone {
+  color: var(--cor-esmeralda-escuro);
+}
+
+.aviso--aviso {
+  background: var(--cor-aviso-fundo);
+  border-color: var(--cor-aviso-fundo);
+}
+
+.aviso--aviso .aviso__titulo,
+.aviso--aviso .aviso__icone {
+  color: var(--cor-aviso-texto);
+}
+
+.aviso--erro {
+  background: var(--cor-erro-fundo);
+  border-color: var(--cor-erro-fundo);
+}
+
+.aviso--erro .aviso__titulo,
+.aviso--erro .aviso__icone {
+  color: var(--cor-erro-texto);
+}

@@ -1,0 +1,27 @@
+/* Filtro em pílulas (Figma: "Filtro em pílulas", Ativa e Inativa). */
+.filtro {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-12);
+}
+
+.filtro__pilula {
+  padding: var(--esp-8) var(--esp-16);
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-pilula);
+  font: var(--texto-rotulo);
+  color: var(--cor-azul-abissal);
+  white-space: nowrap;
+  transition: background-color var(--duracao-rapida);
+}
+
+.filtro__pilula:hover {
+  background: var(--cor-esmeralda-10);
+}
+
+.filtro__pilula[aria-pressed='true'] {
+  background: var(--cor-esmeralda);
+  border-color: var(--cor-esmeralda);
+  color: var(--cor-branco);
+}

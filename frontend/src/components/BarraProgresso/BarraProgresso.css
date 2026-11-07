@@ -1,0 +1,37 @@
+/* Barra de progresso (Figma: "Barra de progresso"). */
+.barra-progresso {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  width: 100%;
+}
+
+.barra-progresso__textos {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--esp-8);
+}
+
+.barra-progresso__legenda {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.barra-progresso__valor {
+  font: var(--texto-rotulo);
+  color: var(--cor-azul-abissal);
+}
+
+.barra-progresso__trilha {
+  height: 8px;
+  overflow: hidden;
+  background: var(--cor-esmeralda-20);
+  border-radius: var(--raio-pilula);
+}
+
+.barra-progresso__preenchimento {
+  height: 100%;
+  background: var(--cor-esmeralda);
+  border-radius: var(--raio-pilula);
+  transition: width 300ms ease-out;
+}

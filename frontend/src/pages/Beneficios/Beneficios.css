@@ -1,0 +1,98 @@
+/* Tela Benefícios (Figma: Beneficios-Padrão e estados) */
+.beneficios {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+/* ---------- Saudação ---------- */
+.beneficios__saudacao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+}
+
+.beneficios__ola {
+  color: var(--cor-cinza-asfalto);
+}
+
+.beneficios__nome {
+  color: var(--cor-esmeralda);
+}
+
+/* ---------- Cartão "Encontrar com IA" ---------- */
+.beneficios__busca {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+  padding: var(--esp-32) var(--esp-40);
+  background: var(--cor-azul-abissal);
+  border-radius: var(--raio-destaque);
+}
+
+.beneficios__busca-titulo {
+  color: var(--cor-branco);
+}
+
+.beneficios__destaque-folha {
+  color: var(--cor-folha);
+}
+
+.beneficios__busca-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.beneficios__busca-acao {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-16);
+}
+
+.beneficios__busca-cota {
+  font: var(--texto-legenda);
+  color: var(--cor-azul-20);
+}
+
+/* Foco visível em verde-folha, que contrasta com o fundo escuro */
+.beneficios__busca :focus-visible {
+  outline-color: var(--cor-folha);
+}
+
+/* ---------- Resultado da IA ---------- */
+.beneficios__resultado-ia {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+/* Vazia, a região continua na página (para o aria-live funcionar),
+   mas desconta o espaço entre seções para não criar um vão duplo */
+.beneficios__resultado-ia:empty {
+  margin-top: calc(-1 * var(--esp-32));
+}
+
+.beneficios__sugestoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-12);
+}
+
+.beneficios__sugestoes-aviso {
+  font: var(--texto-legenda);
+}
+
+/* ---------- Lista de serviços ---------- */
+.beneficios__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+/* Grade de 3 colunas iguais, como no Figma: 24 px entre colunas e 32 px entre linhas */
+.beneficios__grade {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--esp-32) var(--esp-24);
+}

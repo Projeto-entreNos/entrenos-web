@@ -1,122 +1,78 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { lazy, Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Carregando from './components/Carregando/Carregando';
+import LayoutLogado from './layouts/LayoutLogado/LayoutLogado';
+import LayoutPublico from './layouts/LayoutPublico/LayoutPublico';
+import AdminEmpresas from './pages/AdminEmpresas';
+import AdminServicos from './pages/AdminServicos';
+import AdminSolicitacoes from './pages/AdminSolicitacoes';
+import AtivarConta from './pages/AtivarConta';
+import Beneficios from './pages/Beneficios';
+import DetalheServico from './pages/DetalheServico';
+import Empresa from './pages/Empresa';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import MinhasSolicitacoes from './pages/MinhasSolicitacoes';
+import NaoEncontrada from './pages/NaoEncontrada';
+import RotaProtegida from './rotas/RotaProtegida';
 
-function App() {
-  const [count, setCount] = useState(0)
+// A vitrine de componentes só existe em desenvolvimento ("npm run dev").
+// Com lazy, ela nem entra no build de produção.
+const Componentes = import.meta.env.DEV ? lazy(() => import('./pages/Componentes')) : null;
 
+/*
+  Todas as rotas do projeto (tabela de rotas do CLAUDE.md).
+  Para fazer uma tela, edite só o arquivo src/pages/<NomeDaTela>/index.jsx.
+*/
+export default function App() {
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <Routes>
+      {/* Públicas com navbar da landing */}
+      <Route element={<LayoutPublico />}>
+        <Route path="/" element={<Landing />} />
+        <Route path="*" element={<NaoEncontrada />} />
+      </Route>
 
-      <div className="ticks"></div>
+      {/* Públicas em tela cheia (no Figma não têm navbar) */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/ativar/:token" element={<AtivarConta />} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Colaborador */}
+      <Route element={<RotaProtegida perfis={['colaborador']} />}>
+        <Route element={<LayoutLogado />}>
+          <Route path="/beneficios" element={<Beneficios />} />
+          <Route path="/servicos/:id" element={<DetalheServico />} />
+          <Route path="/minhas-solicitacoes" element={<MinhasSolicitacoes />} />
+        </Route>
+      </Route>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Empresa */}
+      <Route element={<RotaProtegida perfis={['empresa']} />}>
+        <Route element={<LayoutLogado />}>
+          <Route path="/empresa" element={<Empresa />} />
+        </Route>
+      </Route>
+
+      {/* Admin */}
+      <Route element={<RotaProtegida perfis={['admin']} />}>
+        <Route element={<LayoutLogado />}>
+          <Route path="/admin/empresas" element={<AdminEmpresas />} />
+          <Route path="/admin/servicos" element={<AdminServicos />} />
+          <Route path="/admin/solicitacoes" element={<AdminSolicitacoes />} />
+        </Route>
+      </Route>
+
+      {/* Só em desenvolvimento */}
+      {Componentes && (
+        <Route
+          path="/componentes"
+          element={
+            <Suspense fallback={<Carregando />}>
+              <Componentes />
+            </Suspense>
+          }
+        />
+      )}
+    </Routes>
+  );
 }
-
-export default App

@@ -1,0 +1,183 @@
+/* Estilos só da vitrine de componentes (rota /componentes). */
+.vitrine {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-48);
+  padding-top: var(--esp-48);
+  padding-bottom: var(--esp-80);
+}
+
+.vitrine__cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+}
+
+.vitrine__secao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-24);
+}
+
+.vitrine__titulo-secao {
+  padding-bottom: var(--esp-8);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.vitrine__linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--esp-24);
+}
+
+.vitrine__linha--topo {
+  align-items: flex-start;
+}
+
+.vitrine__pilha {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+/* Cores */
+.vitrine__cores {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: var(--esp-16);
+}
+
+.vitrine__amostra {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  padding: var(--esp-12);
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  font: var(--texto-legenda);
+}
+
+.vitrine__cor {
+  height: 56px;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+}
+
+/* Tipografia */
+.vitrine__texto-titulo-1 {
+  font: var(--texto-titulo-1);
+  letter-spacing: var(--espaco-letras-titulo-1);
+  color: var(--cor-azul-abissal);
+}
+.vitrine__texto-titulo-2 {
+  font: var(--texto-titulo-2);
+  color: var(--cor-azul-abissal);
+}
+.vitrine__texto-titulo-3 {
+  font: var(--texto-titulo-3);
+  color: var(--cor-azul-abissal);
+}
+.vitrine__texto-corpo {
+  font: var(--texto-corpo);
+}
+.vitrine__texto-rotulo {
+  font: var(--texto-rotulo);
+}
+.vitrine__texto-legenda {
+  font: var(--texto-legenda);
+}
+.vitrine__texto-sobretitulo {
+  font: var(--texto-sobretitulo);
+  letter-spacing: var(--espaco-letras-sobretitulo);
+  text-transform: uppercase;
+  color: var(--cor-esmeralda);
+}
+.vitrine__texto-botao {
+  font: var(--texto-botao);
+}
+
+/* Logo */
+.vitrine__logo {
+  padding: var(--esp-24);
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+.vitrine__logo--escuro {
+  background: var(--cor-azul-abissal);
+}
+
+/* Botões: grade com uma linha por variante */
+.vitrine__grade-botoes {
+  display: grid;
+  grid-template-columns: 200px repeat(3, max-content);
+  gap: var(--esp-16) var(--esp-48);
+  align-items: center;
+}
+
+.vitrine__linha-botao {
+  display: contents; /* os filhos entram direto na grade */
+}
+
+/* "Principal sobre escuro" é mostrado sobre um bloco azul-abissal */
+.vitrine__bloco-escuro {
+  display: grid;
+  grid-template-columns: 200px repeat(3, max-content);
+  gap: var(--esp-48);
+  align-items: center;
+  padding: var(--esp-24);
+  background: var(--cor-azul-abissal);
+  border-radius: var(--raio-card);
+}
+
+.vitrine__bloco-escuro .vitrine__legenda-linha {
+  color: var(--cor-branco);
+}
+
+.vitrine__bloco-escuro :focus-visible {
+  outline-color: var(--cor-folha);
+}
+
+.vitrine__legenda-coluna,
+.vitrine__legenda-linha {
+  font: var(--texto-rotulo);
+  color: var(--cor-cinza-asfalto);
+}
+
+/* Campos */
+.vitrine__grade-campos {
+  display: grid;
+  grid-template-columns: repeat(3, 360px);
+  gap: var(--esp-32) var(--esp-40);
+  align-items: start;
+}
+
+.vitrine__caixa-selecao {
+  width: 400px;
+}
+
+.vitrine__grade-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 520px);
+  gap: var(--esp-24) var(--esp-40);
+}
+
+.vitrine__grade-cards {
+  display: grid;
+  grid-template-columns: 280px 380px 380px;
+  gap: var(--esp-24);
+  align-items: start;
+}
+
+.vitrine__navbar {
+  overflow: hidden;
+  border-radius: var(--raio-card);
+  border: 1px solid var(--cor-borda);
+}
+
+.vitrine__esqueletos {
+  width: 380px;
+}

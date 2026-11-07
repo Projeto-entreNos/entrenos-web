@@ -1,0 +1,49 @@
+/* Estado vazio (Figma: "Estado vazio"). */
+.estado-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--esp-16);
+  width: 100%;
+  max-width: 480px;
+  margin-inline: auto;
+  padding: var(--esp-48) var(--esp-32);
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+  text-align: center;
+}
+
+.estado-vazio__mosaico {
+  display: grid;
+  grid-template-columns: repeat(3, 28px);
+  gap: var(--esp-8);
+}
+
+.estado-vazio__quadrado {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--raio-botao);
+}
+
+.estado-vazio__quadrado--folha {
+  background: var(--cor-folha);
+}
+
+.estado-vazio__quadrado--esmeralda {
+  background: var(--cor-esmeralda);
+}
+
+.estado-vazio__quadrado--azul {
+  background: var(--cor-azul-abissal);
+}
+
+.estado-vazio__titulo {
+  font: var(--texto-titulo-3);
+  color: var(--cor-azul-abissal);
+}
+
+.estado-vazio__texto {
+  font: var(--texto-corpo);
+  color: var(--cor-cinza-asfalto);
+}

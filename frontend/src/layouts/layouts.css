@@ -1,0 +1,35 @@
+/* Estilos compartilhados pelos layouts */
+
+/* Layout público: o rodapé fica sempre no fim da janela, mesmo em páginas curtas */
+.layout-publico {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-publico__conteudo {
+  flex: 1;
+}
+
+/* Conteúdo das telas logadas: 48 px abaixo da navbar, como no Figma */
+.layout-logado__conteudo {
+  padding-top: var(--esp-48);
+  padding-bottom: var(--esp-80);
+}
+
+/* Link "Pular para o conteúdo": invisível até receber foco pelo teclado */
+.pular-para-conteudo {
+  position: absolute;
+  top: var(--esp-8);
+  left: var(--esp-8);
+  z-index: 200;
+  padding: var(--esp-12) var(--esp-16);
+  background: var(--cor-branco);
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  transform: translateY(-200%);
+}
+
+.pular-para-conteudo:focus {
+  transform: none;
+}

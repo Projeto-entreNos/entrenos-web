@@ -1,0 +1,65 @@
+/* Card base */
+.card {
+  padding: var(--esp-24);
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+/* ---------- Card de resumo ---------- */
+.card-resumo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.card-resumo__numero {
+  font: var(--texto-titulo-1);
+  letter-spacing: var(--espaco-letras-titulo-1);
+  color: var(--cor-esmeralda);
+}
+
+.card-resumo__legenda {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+/* ---------- Card de serviço ---------- */
+.card-servico {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.card-servico__topo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-8) var(--esp-12);
+}
+
+.card-servico__universidade {
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda-escuro);
+}
+
+/* Descrição limitada a 3 linhas, como no Figma */
+.card-servico__descricao {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 72px;
+}
+
+.card-servico__motivo {
+  padding: var(--esp-12);
+  background: var(--cor-esmeralda-10);
+  border-radius: var(--raio-botao);
+  font: var(--texto-legenda);
+  color: var(--cor-azul-abissal);
+}
+
+/* O botão fica sempre no fim do card, mesmo com textos de tamanhos diferentes */
+.card-servico .botao {
+  margin-top: auto;
+}
