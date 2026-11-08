@@ -5,7 +5,7 @@
 
 export const USAR_MOCK = true;
 
-// Endereço da API: frontend/.env.local (modelo em .env.example)
+// Endereço da API: variável VITE_API_URL, configurada no arquivo frontend/.env
 export const URL_API = import.meta.env.VITE_API_URL;
 
 export function esperar(ms) {
