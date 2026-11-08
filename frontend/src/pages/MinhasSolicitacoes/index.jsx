@@ -8,7 +8,7 @@ import Selo from '../../components/Selo/Selo';
 import Tabela from '../../components/Tabela/Tabela';
 import { useAuth } from '../../context/AuthContext';
 import { cancelarSolicitacao, listarMinhasSolicitacoes } from '../../services/solicitacoes';
-import { formatarData } from './formatarData';
+import { formatarData } from '../../utils/datas';
 import ModalCancelar from './ModalCancelar';
 import './MinhasSolicitacoes.css';
 
@@ -96,11 +96,11 @@ export default function MinhasSolicitacoes() {
       <div className="minhas-solicitacoes">
         {titulo}
         <Aviso tipo="erro" titulo="Não foi possível carregar suas solicitações">
-          {erro} Tente de novo em alguns instantes.
+          {erro} Tente novamente.
         </Aviso>
         <div>
           <Botao variante="secundario" onClick={tentarDeNovo}>
-            Tentar de novo
+            Tentar novamente
           </Botao>
         </div>
       </div>

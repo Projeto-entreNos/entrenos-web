@@ -1,7 +1,7 @@
 import BarraProgresso from '../../components/BarraProgresso/BarraProgresso';
 import Card from '../../components/Card/Card';
 import Selo from '../../components/Selo/Selo';
-import { formatarData } from '../MinhasSolicitacoes/formatarData';
+import { formatarData } from '../../utils/datas';
 import { LINK_FALAR_COM_ENTRENOS } from './contato';
 
 const TIPO_DO_SELO = {
@@ -11,15 +11,11 @@ const TIPO_DO_SELO = {
   Encerrado: 'erro',
 };
 
-/**
- * Cartão "Seu plano" (Figma: Cartão Seu plano).
- * - empresa: resposta de buscarMinhaEmpresa
- * - vagasUsadas: colaboradores na lista agora (muda depois de convidar ou remover)
- */
+// vagasUsadas: tamanho atual da lista de colaboradores (muda ao convidar ou remover)
 export default function CartaoPlano({ empresa, vagasUsadas }) {
   const { pacote, statusContrato, vagasContratadas } = empresa;
   const restantes = Math.max(0, vagasContratadas - vagasUsadas);
-  // Antes do contrato começar, o Figma mostra a vigência como "prevista"
+  // Antes do início do contrato, a vigência aparece como prevista
   const contratoComecou = statusContrato === 'Ativo' || statusContrato === 'Encerrado';
 
   return (
@@ -48,7 +44,6 @@ export default function CartaoPlano({ empresa, vagasUsadas }) {
         </p>
       </div>
 
-      {/* Link (não Botao): abre o e-mail. Usa o visual do botão secundário grande. */}
       <a href={LINK_FALAR_COM_ENTRENOS} className="botao botao--secundario botao--grande">
         Falar com o EntreNós
       </a>

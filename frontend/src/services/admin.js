@@ -1,11 +1,6 @@
 /* eslint-disable no-unused-vars */
-/*
-  Telas do admin (equipe EntreNós): Empresas, Serviços e Solicitações.
-  Funções ainda VAZIAS. Modo mock: use os arquivos de src/mocks.
-  LGPD: o admin NÃO vê o conteúdo da mensagem do colaborador.
-*/
-
-// ---------- Empresas ----------
+// LGPD: o admin nunca recebe o conteúdo da mensagem do colaborador.
+// TODO: implementar as funções deste arquivo (modo mock e API).
 
 /**
  * API: GET /admin/empresas
@@ -42,8 +37,6 @@ export async function alterarStatusContrato(id, statusContrato) {
   throw new Error('alterarStatusContrato ainda não foi implementada.');
 }
 
-// ---------- Serviços ----------
-
 /**
  * API: GET /admin/servicos
  * Resposta esperada: [ { id, nome, categoria, universidade: { id, nome }, modalidade, pacotes: ["essencial"],
@@ -78,8 +71,6 @@ export async function editarServico(id, dados) {
 export async function listarUniversidades() {
   throw new Error('listarUniversidades ainda não foi implementada.');
 }
-
-// ---------- Solicitações ----------
 
 /**
  * API: GET /admin/solicitacoes?status=Enviada

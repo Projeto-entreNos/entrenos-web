@@ -7,17 +7,14 @@ const ICONE_POR_ESTADO = {
   erro: 'erro',
 };
 
-// Texto escondido que diz o estado para quem usa leitor de tela (estado nunca só pela cor)
+// Estado em texto para leitores de tela: nunca indicado só pela cor
 const TEXTO_ESTADO = {
   pendente: 'pendente',
   cumprida: 'cumprida',
   erro: 'não cumprida',
 };
 
-/**
- * Uma regra da senha (ex.: "Mínimo de 8 caracteres").
- * - estado: "pendente" | "cumprida" | "erro"
- */
+// estado: "pendente" | "cumprida" | "erro"
 export default function RegraSenha({ estado = 'pendente', children }) {
   return (
     <p className={`regra-senha regra-senha--${estado}`}>

@@ -15,7 +15,7 @@ import {
   criarSolicitacao,
 } from '../../services/solicitacoes';
 import SelosDoServico from '../Beneficios/SelosDoServico';
-import CartaoResumo from './CartaoResumo';
+import CartaoLateral from './CartaoLateral';
 import './DetalheServico.css';
 
 const linkVoltar = (
@@ -107,11 +107,11 @@ export default function DetalheServico() {
       <div className="detalhe">
         {linkVoltar}
         <Aviso tipo="erro" titulo="Não foi possível carregar o serviço">
-          {erro} Tente de novo em alguns instantes.
+          {erro} Tente novamente.
         </Aviso>
         <div>
           <Botao variante="secundario" onClick={tentarDeNovo}>
-            Tentar de novo
+            Tentar novamente
           </Botao>
         </div>
       </div>
@@ -177,7 +177,7 @@ export default function DetalheServico() {
         </div>
 
         <div className="detalhe__coluna">
-          <CartaoResumo
+          <CartaoLateral
             servico={servico}
             empresa={empresa}
             atendimentosUsados={atendimentosUsados}

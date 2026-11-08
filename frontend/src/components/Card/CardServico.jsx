@@ -3,13 +3,8 @@ import Selo from '../Selo/Selo';
 import Card from './Card';
 
 /**
- * Card de serviço (lista de benefícios).
- * - categoria, titulo, universidade, descricao: textos do card
- * - novo: mostra o selo "Novo"
  * - motivo: motivo da indicação da IA (opcional)
- * - para: rota do botão "Ver detalhes" (ex.: "/servicos/3")
- * - seloStatus: elemento <Selo> extra (ex.: "Sem vagas"), opcional
- * - textoBotao: texto do botão (padrão "Ver detalhes")
+ * - seloStatus: <Selo> extra, ex.: "Sem vagas" (opcional)
  */
 export default function CardServico({
   categoria,

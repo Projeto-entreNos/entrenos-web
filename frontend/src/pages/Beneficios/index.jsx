@@ -16,10 +16,7 @@ import './Beneficios.css';
 
 const MAXIMO_SUGESTOES = 3;
 
-/*
-  A resposta da IA não é confiável: só aceitamos serviços que existem na lista
-  do pacote e estão Ativos, sem repetir, no máximo 3.
-*/
+// A resposta da IA é validada: só serviços do pacote, Ativos, sem repetição, no máximo 3
 function validarSugestoes(recomendacoes, servicos) {
   if (!Array.isArray(recomendacoes)) return [];
 
@@ -38,13 +35,11 @@ function validarSugestoes(recomendacoes, servicos) {
 export default function Beneficios() {
   const { usuario } = useAuth();
 
-  // Dados da página
   const [dados, setDados] = useState(null); // { empresa, servicos, atendimentosUsados }
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState('');
   const [tentativa, setTentativa] = useState(0); // muda para carregar de novo
 
-  // Busca com IA
   const [texto, setTexto] = useState('');
   const [estadoIa, setEstadoIa] = useState('ocioso');
   const [sugestoes, setSugestoes] = useState([]);
@@ -124,11 +119,11 @@ export default function Beneficios() {
       <div className="beneficios">
         {titulo}
         <Aviso tipo="erro" titulo="Não foi possível carregar seus benefícios">
-          {erro} Tente de novo em alguns instantes.
+          {erro} Tente novamente.
         </Aviso>
         <div>
           <Botao variante="secundario" onClick={tentarDeNovo}>
-            Tentar de novo
+            Tentar novamente
           </Botao>
         </div>
       </div>

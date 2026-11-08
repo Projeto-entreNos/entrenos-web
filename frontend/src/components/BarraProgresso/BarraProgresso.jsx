@@ -1,12 +1,7 @@
 import './BarraProgresso.css';
 
-/**
- * Barra de progresso com legenda e porcentagem.
- * - valor: número de 0 a 100
- * - legenda: texto à esquerda (também usado como nome acessível)
- */
+// valor: porcentagem de 0 a 100
 export default function BarraProgresso({ valor = 0, legenda }) {
-  // Garante que o valor fique entre 0 e 100
   const porcentagem = Math.min(100, Math.max(0, Math.round(valor)));
 
   return (

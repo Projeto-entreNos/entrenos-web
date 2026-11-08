@@ -2,12 +2,8 @@ import { useId, useRef, useState } from 'react';
 import './Abas.css';
 
 /**
- * Abas acessíveis (role="tablist").
- * - abas: [{ id: 'ativos', rotulo: 'Ativos', conteudo: <div>...</div> }]
- * - abaInicial: id da aba aberta no começo (padrão: a primeira)
- * - aoMudar: função opcional chamada com o id da nova aba
- *
- * Teclado: setas esquerda/direita trocam de aba; Home e End vão para a primeira e a última.
+ * - abas: [{ id, rotulo, conteudo }]
+ * - abaInicial: id da aba aberta no início (padrão: a primeira)
  */
 export default function Abas({ abas, abaInicial, aoMudar, rotulo }) {
   const prefixo = useId();

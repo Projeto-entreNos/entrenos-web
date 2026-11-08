@@ -3,12 +3,7 @@ import Aviso from '../../components/Aviso/Aviso';
 import Botao from '../../components/Botao/Botao';
 import Modal from '../../components/Modal/Modal';
 
-/**
- * Confirmação do cancelamento (Figma: Minhas-solicitacoes-Modal Cancelar).
- * - solicitacao: a solicitação que será cancelada
- * - aoFechar: fecha sem cancelar
- * - aoConfirmar: função async; se falhar, o modal continua aberto com o aviso de erro
- */
+// aoConfirmar é async; se falhar, o modal continua aberto com o aviso de erro
 export default function ModalCancelar({ solicitacao, aoFechar, aoConfirmar }) {
   const [enviando, setEnviando] = useState(false);
   const [falhou, setFalhou] = useState(false);

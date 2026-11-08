@@ -5,11 +5,12 @@ import { solicitacoes } from '../mocks/solicitacoes';
 import { universidades } from '../mocks/universidades';
 import { usuarios } from '../mocks/usuarios';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
+import { dataDeHoje } from '../utils/datas';
 
-// Troque para true para testar o erro no envio da solicitação (modo mock)
+// true: simula erro ao enviar a solicitação (modo mock)
 export const SIMULAR_FALHA_SOLICITACAO = false;
 
-// Troque para true para testar o erro no cancelamento (modo mock)
+// true: simula erro ao cancelar a solicitação (modo mock)
 export const SIMULAR_FALHA_CANCELAMENTO = false;
 
 const LIMITE_MENSAGEM = 300;
@@ -82,14 +83,6 @@ for (const cancelamento of lerCancelamentos()) {
   }
 }
 
-// Data local no formato AAAA-MM-DD (toISOString usaria o fuso UTC)
-function dataDeHoje() {
-  const hoje = new Date();
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0');
-  const dia = String(hoje.getDate()).padStart(2, '0');
-  return `${hoje.getFullYear()}-${mes}-${dia}`;
-}
-
 function procurarAberta(colaboradorId, servicoId) {
   return solicitacoes.find(
     (item) =>
@@ -100,8 +93,6 @@ function procurarAberta(colaboradorId, servicoId) {
 }
 
 /*
-  Solicitações do colaborador (Detalhe do serviço e Minhas solicitações).
-  Algumas funções ainda estão vazias. Modo mock: use src/mocks/solicitacoes.js.
   Regras: só serviços "Ativo" podem ser solicitados; não pode haver outra
   solicitação "Enviada" ou "Em contato" do mesmo serviço; respeitar o limite
   mensal do pacote.
@@ -319,7 +310,8 @@ export async function cancelarSolicitacoesAbertasDoColaborador(colaboradorId) {
 }
 
 /**
- * Uso do mês do colaborador logado (para mostrar "X de Y atendimentos").
+ * Uso do mês do colaborador logado ("X de Y atendimentos").
+ * TODO: implementar (modo mock e API).
  * API: GET /solicitacoes/uso-do-mes
  * Resposta esperada: { usados: 2, limite: 5, pacote: "Completo" }
  */

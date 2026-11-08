@@ -2,7 +2,6 @@ import Botao from '../../components/Botao/Botao';
 import EstadoVazio from '../../components/EstadoVazio/EstadoVazio';
 import './NaoEncontrada.css';
 
-// Página 404: aparece quando o endereço não corresponde a nenhuma rota
 export default function NaoEncontrada() {
   return (
     <div className="container nao-encontrada">

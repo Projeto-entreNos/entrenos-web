@@ -1,4 +1,3 @@
-/* Cartão de aviso (Figma: "Cartão de aviso"). */
 .aviso {
   display: flex;
   align-items: flex-start;
@@ -28,7 +27,6 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* Informação e sucesso usam o mesmo fundo; só o ícone muda */
 .aviso--informacao,
 .aviso--sucesso {
   background: var(--cor-esmeralda-10);

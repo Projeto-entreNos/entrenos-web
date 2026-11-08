@@ -1,6 +1,6 @@
 import Selo from '../../components/Selo/Selo';
 import Tabela from '../../components/Tabela/Tabela';
-import { formatarData } from '../MinhasSolicitacoes/formatarData';
+import { formatarData } from '../../utils/datas';
 
 const TIPO_DO_SELO = {
   Ativo: 'sucesso',
@@ -8,13 +8,7 @@ const TIPO_DO_SELO = {
   'Convite expirado': 'erro',
 };
 
-/**
- * Tabela de colaboradores (Figma: Tabela de colaboradores).
- * - linhas: colaboradores já filtrados
- * - podeReenviar: false quando o contrato não está Ativo (reenviar é convidar de novo)
- * - reenviandoId: id do convite sendo reenviado agora (botão bloqueado)
- * - aoReenviar(colaborador) e aoRemover(colaborador)
- */
+// Reenviar é convidar de novo: só com contrato Ativo (podeReenviar)
 export default function TabelaColaboradores({ linhas, podeReenviar, reenviandoId, aoReenviar, aoRemover }) {
   const colunas = [
     { chave: 'nome', titulo: 'Nome', renderizar: (linha) => linha.nome || '-' },

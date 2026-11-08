@@ -1,4 +1,3 @@
-/* Modal (Figma: "Modal", tipos Padrão e Perigo). */
 .modal__fundo {
   position: fixed;
   inset: 0;
@@ -7,7 +6,6 @@
   align-items: center;
   justify-content: center;
   padding: var(--esp-32);
-  /* Figma "Fundo escurecido": grafite com 60% de opacidade */
   background: color-mix(in srgb, var(--cor-grafite) 60%, transparent);
 }
 

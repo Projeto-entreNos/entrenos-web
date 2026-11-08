@@ -1,4 +1,3 @@
-/* Card base */
 .card {
   padding: var(--esp-24);
   background: var(--cor-branco);
@@ -6,7 +5,6 @@
   border-radius: var(--raio-card);
 }
 
-/* ---------- Card de resumo ---------- */
 .card-resumo {
   display: flex;
   flex-direction: column;
@@ -24,7 +22,6 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* ---------- Card de serviço ---------- */
 .card-servico {
   display: flex;
   flex-direction: column;
@@ -42,7 +39,6 @@
   color: var(--cor-esmeralda-escuro);
 }
 
-/* Descrição limitada a 3 linhas, como no Figma */
 .card-servico__descricao {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -59,7 +55,7 @@
   color: var(--cor-azul-abissal);
 }
 
-/* O botão fica sempre no fim do card, mesmo com textos de tamanhos diferentes */
+/* Mantém o botão no fim do card, mesmo com textos de tamanhos diferentes */
 .card-servico .botao {
   margin-top: auto;
 }

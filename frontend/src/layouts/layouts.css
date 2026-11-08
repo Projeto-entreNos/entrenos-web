@@ -1,6 +1,4 @@
-/* Estilos compartilhados pelos layouts */
-
-/* Layout público: o rodapé fica sempre no fim da janela, mesmo em páginas curtas */
+/* O rodapé fica no fim da janela, mesmo em páginas curtas */
 .layout-publico {
   display: flex;
   flex-direction: column;
@@ -11,7 +9,6 @@
   flex: 1;
 }
 
-/* Conteúdo das telas logadas: 48 px abaixo da navbar, como no Figma */
 .layout-logado__conteudo {
   padding-top: var(--esp-48);
   padding-bottom: var(--esp-80);

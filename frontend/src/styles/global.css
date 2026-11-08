@@ -1,7 +1,5 @@
-/* Estilos globais: reset simples, fonte e estilos base de texto. */
 @import './tokens.css';
 
-/* ---------- Reset ---------- */
 *,
 *::before,
 *::after {
@@ -45,7 +43,6 @@ button {
   cursor: pointer;
 }
 
-/* ---------- Página ---------- */
 html {
   scroll-behavior: smooth; /* rolagem suave nos links das seções da landing */
 }
@@ -58,7 +55,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---------- Textos base ---------- */
 h1 {
   font: var(--texto-titulo-1);
   letter-spacing: var(--espaco-letras-titulo-1);
@@ -79,16 +75,12 @@ a {
   color: var(--cor-esmeralda-escuro);
 }
 
-/* ---------- Foco visível (acessibilidade) ---------- */
 :focus-visible {
   outline: 3px solid var(--cor-esmeralda);
   outline-offset: 2px;
 }
 
-/* ---------- Utilitários ---------- */
-
-/* Conteúdo centralizado com a largura da grade do Figma (1220 px).
-   O padding lateral garante uma margem mínima em janelas menores. */
+/* O padding lateral garante uma margem mínima em janelas menores */
 .container {
   width: 100%;
   max-width: calc(var(--largura-conteudo) + 2 * var(--esp-32));

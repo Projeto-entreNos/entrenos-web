@@ -3,7 +3,7 @@ import { paginaInicial } from '../../rotas/paginaInicial';
 import Logo from '../Logo/Logo';
 import './NavbarLogada.css';
 
-// Itens do menu de cada perfil. Cada perfil só vê o próprio menu.
+// Cada perfil só vê o próprio menu
 const MENU_POR_PERFIL = {
   colaborador: [
     { rotulo: 'Benefícios', para: '/beneficios' },
@@ -17,12 +17,6 @@ const MENU_POR_PERFIL = {
   ],
 };
 
-/**
- * Navbar das telas logadas (Figma: "Navbar logada").
- * - usuario: { nome, perfil }
- * - aoSair: função chamada no botão "Sair"
- * O item ativo é marcado pelo NavLink (classe "ativo" e aria-current="page").
- */
 export default function NavbarLogada({ usuario, aoSair }) {
   const itens = MENU_POR_PERFIL[usuario.perfil] || [];
 

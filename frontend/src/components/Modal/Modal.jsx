@@ -3,27 +3,18 @@ import { createPortal } from 'react-dom';
 import Icone from '../Icone/Icone';
 import './Modal.css';
 
-// Elementos que podem receber foco pelo Tab
 const SELETOR_FOCAVEIS =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
-/**
- * Modal acessível.
- * - aberto: mostra ou esconde
- * - aoFechar: função chamada no Esc, no clique no fundo e no botão X
- * - titulo: título do modal (ligado ao aria-labelledby)
- * - children: conteúdo
- * - acoes: botões do rodapé (ex.: Cancelar e Confirmar)
- *
- * Comportamento: prende o foco dentro do modal e, ao fechar,
- * devolve o foco para o elemento que abriu.
- */
+/*
+  aoFechar é chamado no Esc, no clique no fundo e no botão X.
+  Enquanto aberto, o foco fica preso no modal; ao fechar, volta para quem o abriu.
+*/
 export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
   const idTitulo = useId();
   const refCaixa = useRef(null);
 
-  // Guardamos a função mais recente em uma ref para o efeito abaixo
-  // não rodar de novo a cada renderização do componente pai.
+  // Ref com a versão mais recente de aoFechar: o efeito não roda de novo a cada renderização do pai
   const refAoFechar = useRef(aoFechar);
   useEffect(() => {
     refAoFechar.current = aoFechar;
@@ -32,14 +23,12 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
   useEffect(() => {
     if (!aberto) return;
 
-    const quemAbriu = document.activeElement; // para devolver o foco depois
+    const quemAbriu = document.activeElement;
     const caixa = refCaixa.current;
 
-    // Coloca o foco no primeiro elemento focável (ou na própria caixa)
     const focaveis = caixa.querySelectorAll(SELETOR_FOCAVEIS);
     (focaveis[0] || caixa).focus();
 
-    // Impede a página de rolar por trás do modal
     const overflowAnterior = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
 
@@ -49,7 +38,6 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
         return;
       }
 
-      // Foco preso: Tab no último volta ao primeiro, Shift+Tab no primeiro vai ao último
       if (evento.key === 'Tab') {
         const lista = caixa.querySelectorAll(SELETOR_FOCAVEIS);
         if (lista.length === 0) {
@@ -71,7 +59,6 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
 
     document.addEventListener('keydown', aoPressionarTecla);
 
-    // Limpeza: roda quando o modal fecha
     return () => {
       document.removeEventListener('keydown', aoPressionarTecla);
       document.body.style.overflow = overflowAnterior;
@@ -81,12 +68,11 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
 
   if (!aberto) return null;
 
-  // Fecha só se o clique começou no próprio fundo (não dentro da caixa)
+  // Só fecha quando o clique começa no próprio fundo, não dentro da caixa
   function aoClicarNoFundo(evento) {
     if (evento.target === evento.currentTarget) aoFechar();
   }
 
-  // createPortal coloca o modal no fim do <body>, por cima de tudo
   return createPortal(
     <div className="modal__fundo" onMouseDown={aoClicarNoFundo}>
       <div

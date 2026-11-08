@@ -181,11 +181,11 @@ export default function Empresa() {
       <div className="empresa">
         <h1 className="empresa__titulo">Colaboradores</h1>
         <Aviso tipo="erro" titulo="Não foi possível carregar seus colaboradores">
-          {erro} Tente de novo em alguns instantes.
+          {erro} Tente novamente.
         </Aviso>
         <div>
           <Botao variante="secundario" onClick={tentarDeNovo}>
-            Tentar de novo
+            Tentar novamente
           </Botao>
         </div>
       </div>

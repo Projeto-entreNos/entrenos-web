@@ -1,6 +1,5 @@
 /*
-  DADOS DE EXEMPLO (fictícios), mas nomes, preços e limites seguem
-  EXATAMENTE a seção "Pacotes" da landing page no Figma.
+  DADOS DE EXEMPLO (fictícios). Nomes, preços e limites são os oficiais da landing page.
 */
 
 export const pacotes = [

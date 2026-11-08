@@ -1,13 +1,7 @@
 import Icone from '../Icone/Icone';
 import './Campo.css';
 
-/*
-  Estrutura comum a todos os campos: rótulo em cima, entrada no meio e rodapé
-  (ajuda ou erro) embaixo. Os campos específicos (Campo, CampoSenha, CampoTextoLongo,
-  CampoSelecao) usam esta base para não repetir código.
-*/
-
-// sobreEscuro: textos claros para usar o campo sobre blocos azul-abissal (desligado por padrão)
+// sobreEscuro: cores para usar o campo sobre fundo azul-abissal
 export default function CampoBase({ id, rotulo, ajuda, erro, desabilitado, contador, sobreEscuro = false, children }) {
   const classes = [
     'campo',
@@ -28,7 +22,7 @@ export default function CampoBase({ id, rotulo, ajuda, erro, desabilitado, conta
 
       {(ajuda || erro || contador) && (
         <div className="campo__rodape">
-          {/* O erro substitui a ajuda, como no Figma */}
+          {/* O erro substitui a ajuda */}
           {erro ? (
             <p id={`${id}-erro`} className="campo__erro">
               <Icone nome="erro" tamanho={16} />

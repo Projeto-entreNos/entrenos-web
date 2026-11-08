@@ -2,12 +2,8 @@ import Aviso from '../Aviso/Aviso';
 import './EmConstrucao.css';
 
 /**
- * Espaço reservado para telas que ainda não foram feitas.
- * Quem for fazer a tela troca o conteúdo do index.jsx da pasta dela
- * (em src/pages/<NomeDaTela>) e apaga o uso deste componente.
- *
- * - comMargem: use em telas que não estão no LayoutLogado (landing, ativação),
- *   para o texto não ficar colado na borda da janela.
+ * Marcador de tela ainda não implementada.
+ * - comMargem: para telas fora do LayoutLogado (landing, ativação)
  */
 export default function EmConstrucao({ nome, rota, comMargem = false }) {
   const conteudo = (

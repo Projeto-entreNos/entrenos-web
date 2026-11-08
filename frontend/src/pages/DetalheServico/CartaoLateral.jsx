@@ -4,12 +4,11 @@ import Botao from '../../components/Botao/Botao';
 import Card from '../../components/Card/Card';
 import ModalSolicitar from './ModalSolicitar';
 
-/**
- * Cartão lateral: resumo do serviço, atendimentos do mês e o botão "Solicitar".
- * Ordem de prioridade do botão: serviço indisponível (Sem vagas/Pausado),
- * solicitação em andamento, limite do mês atingido e, por fim, habilitado.
- */
-export default function CartaoResumo({ servico, empresa, atendimentosUsados, solicitacaoAberta, aoEnviar }) {
+/*
+  Prioridade do bloqueio do botão "Solicitar": serviço indisponível (Sem vagas ou Pausado),
+  solicitação em andamento e limite do mês atingido.
+*/
+export default function CartaoLateral({ servico, empresa, atendimentosUsados, solicitacaoAberta, aoEnviar }) {
   const [modalAberto, setModalAberto] = useState(false);
   const [enviada, setEnviada] = useState(false);
   const refSucesso = useRef(null);
@@ -26,8 +25,7 @@ export default function CartaoResumo({ servico, empresa, atendimentosUsados, sol
     setModalAberto(false);
   }
 
-  // Depois do envio o botão fica desabilitado e não pode receber o foco de volta,
-  // então o foco vai para a mensagem de sucesso
+  // O botão fica desabilitado após o envio, então o foco vai para a mensagem de sucesso
   useEffect(() => {
     if (enviada && !modalAberto) refSucesso.current?.focus();
   }, [enviada, modalAberto]);

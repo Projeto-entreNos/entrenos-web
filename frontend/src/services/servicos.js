@@ -4,11 +4,7 @@ import { servicos } from '../mocks/servicos';
 import { universidades } from '../mocks/universidades';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 
-/*
-  Serviços do catálogo (tela Benefícios e Detalhe do serviço).
-  Modo mock: use os dados de src/mocks/servicos.js e src/mocks/universidades.js,
-  com "await esperarMock()" antes de responder (veja src/services/auth.js como exemplo).
-*/
+// TODO: implementar listarServicos e listarCategorias (modo mock e API).
 
 /**
  * Serviços do pacote da empresa, em TODOS os status (a lista mostra os selos
@@ -64,7 +60,7 @@ export async function listarServicos({ categoria, busca } = {}) {
   throw new Error('listarServicos ainda não foi implementada.');
 }
 
-// Texto padrão de "Observações" (Figma), enquanto os serviços não têm esse campo próprio
+// TODO: trocar pelo campo próprio de observações quando os serviços tiverem um
 const OBSERVACOES_PADRAO = 'As vagas dependem da disponibilidade da universidade.';
 
 /**

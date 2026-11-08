@@ -3,7 +3,7 @@ import Botao from '../Botao/Botao';
 import Logo from '../Logo/Logo';
 import './NavbarPublica.css';
 
-// Seções da landing. O "id" precisa ser igual ao id da <section> na landing.
+// Cada "id" precisa ser igual ao id da <section> correspondente na landing
 const SECOES = [
   { id: 'inicio', rotulo: 'Início' },
   { id: 'empresas', rotulo: 'Empresas' },
@@ -12,11 +12,7 @@ const SECOES = [
   { id: 'contato', rotulo: 'Contate-nos' },
 ];
 
-/**
- * Navbar da landing (Figma: "header"). Fundo claro fixo e só o botão "Entrar".
- * Os links levam para "/#secao": o LayoutPublico rola até a seção,
- * inclusive quando a pessoa está em outra página.
- */
+// Links "/#secao": o LayoutPublico rola até a seção, mesmo vindo de outra página
 export default function NavbarPublica() {
   return (
     <header className="navbar-publica">

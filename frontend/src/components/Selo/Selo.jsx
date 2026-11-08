@@ -1,7 +1,7 @@
 import Icone from '../Icone/Icone';
 import './Selo.css';
 
-// Ícone de cada tipo, como no Figma (o estado nunca é indicado só pela cor)
+// O estado nunca é indicado só pela cor: cada tipo tem um ícone
 const ICONE_POR_TIPO = {
   sucesso: 'sucesso',
   aviso: 'aviso',
@@ -9,12 +9,7 @@ const ICONE_POR_TIPO = {
   neutro: 'informacao',
 };
 
-/**
- * Selo de status em formato de pílula (ex.: "Ativo", "Sem vagas").
- * - tipo: "sucesso" | "aviso" | "erro" | "neutro"
- * - children: o texto do selo (obrigatório)
- * A largura se ajusta ao texto, que nunca quebra linha.
- */
+// tipo: "sucesso" | "aviso" | "erro" | "neutro"
 export default function Selo({ tipo = 'neutro', children }) {
   return (
     <span className={`selo selo--${tipo}`}>

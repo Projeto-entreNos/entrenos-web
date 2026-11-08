@@ -6,11 +6,7 @@ import Modal from '../../components/Modal/Modal';
 
 const LIMITE_MENSAGEM = 300;
 
-/**
- * Modal "Confirmar solicitação".
- * - aoEnviar(mensagem): devolve uma Promise; se falhar, o modal continua aberto
- *   com o aviso de erro e a mensagem digitada.
- */
+// aoEnviar(mensagem) devolve uma Promise; se falhar, o modal continua aberto com o erro e a mensagem digitada
 export default function ModalSolicitar({ aberto, aoFechar, aoEnviar }) {
   const idFormulario = useId();
   const [mensagem, setMensagem] = useState('');
@@ -67,7 +63,6 @@ export default function ModalSolicitar({ aberto, aoFechar, aoEnviar }) {
           desabilitado={enviando}
         />
 
-        {/* O Aviso de erro usa role="alert": o leitor de tela anuncia na hora */}
         {falhou && <Aviso tipo="erro" titulo="Não foi possível enviar. Tente novamente." />}
       </form>
     </Modal>

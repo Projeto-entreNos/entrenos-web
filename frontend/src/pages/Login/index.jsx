@@ -8,11 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 import { paginaInicial } from '../../rotas/paginaInicial';
 import './Login.css';
 
-/*
-  PÁGINA TEMPORÁRIA, só para testar os perfis enquanto a tela de login não existe.
-  Quem fizer a tela de verdade (Figma: "Login-Padrão") troca todo este arquivo.
-  A tela nova deve usar: const { login } = useAuth(); await login(email, senha);
-*/
+// TODO: substituir pela tela de login definitiva; esta página só entra com os usuários de teste
 
 // E-mails dos usuários de teste (senha de todos: teste123)
 const PERFIS_TESTE = [
@@ -57,7 +53,6 @@ export default function Login() {
           </Aviso>
         )}
 
-        {/* aria-live: o leitor de tela anuncia o erro assim que ele aparece */}
         <div aria-live="polite">{erro && <Aviso tipo="erro" titulo={erro} />}</div>
 
         <div className="login-temporario__botoes">

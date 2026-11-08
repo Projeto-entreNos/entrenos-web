@@ -1,12 +1,8 @@
 import './Filtro.css';
 
 /**
- * Filtro em pílulas (ex.: categorias na tela de Benefícios).
- * - rotulo: descreve o grupo para leitores de tela (ex.: "Filtrar por categoria")
- * - opcoes: [{ valor: 'todos', rotulo: 'Todos' }, ...]
- * - valor: valor selecionado agora
- * - aoMudar: função chamada com o novo valor
- * Cada pílula é um botão com aria-pressed (ligado/desligado).
+ * - rotulo: nome do grupo para leitores de tela
+ * - opcoes: [{ valor, rotulo }]
  */
 export default function Filtro({ rotulo, opcoes, valor, aoMudar }) {
   return (

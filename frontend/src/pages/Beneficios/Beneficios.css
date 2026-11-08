@@ -1,11 +1,9 @@
-/* Tela Benefícios (Figma: Beneficios-Padrão e estados) */
 .beneficios {
   display: flex;
   flex-direction: column;
   gap: var(--esp-32);
 }
 
-/* ---------- Saudação ---------- */
 .beneficios__saudacao {
   display: flex;
   flex-direction: column;
@@ -20,7 +18,6 @@
   color: var(--cor-esmeralda);
 }
 
-/* ---------- Cartão "Encontrar com IA" ---------- */
 .beneficios__busca {
   display: flex;
   flex-direction: column;
@@ -55,20 +52,18 @@
   color: var(--cor-azul-20);
 }
 
-/* Foco visível em verde-folha, que contrasta com o fundo escuro */
+/* Foco em verde-folha: contrasta com o fundo escuro */
 .beneficios__busca :focus-visible {
   outline-color: var(--cor-folha);
 }
 
-/* ---------- Resultado da IA ---------- */
 .beneficios__resultado-ia {
   display: flex;
   flex-direction: column;
   gap: var(--esp-16);
 }
 
-/* Vazia, a região continua na página (para o aria-live funcionar),
-   mas desconta o espaço entre seções para não criar um vão duplo */
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
 .beneficios__resultado-ia:empty {
   margin-top: calc(-1 * var(--esp-32));
 }
@@ -83,14 +78,12 @@
   font: var(--texto-legenda);
 }
 
-/* ---------- Lista de serviços ---------- */
 .beneficios__lista {
   display: flex;
   flex-direction: column;
   gap: var(--esp-32);
 }
 
-/* Grade de 3 colunas iguais, como no Figma: 24 px entre colunas e 32 px entre linhas */
 .beneficios__grade {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

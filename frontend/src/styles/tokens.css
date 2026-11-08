@@ -1,12 +1,6 @@
-/*
-  Tokens de design do EntreNós.
-  Gerados a partir das variáveis e estilos do Figma (quadro "0 Base").
-  Regra do projeto: use SOMENTE estas variáveis no CSS. Nunca escreva cores soltas.
-  Se precisar de um valor novo, adicione aqui (com o nome em português) e avise a equipe.
-*/
+/* Tokens de design do EntreNós. O CSS do projeto usa somente estas variáveis: nenhuma cor solta. */
 
 :root {
-  /* ---------- Cores (coleção "Cores" do Figma) ---------- */
   --cor-esmeralda: #08837f;          /* principal: botões, links, estado ativo */
   --cor-esmeralda-escuro: #066966;   /* hover do principal, textos em esmeralda */
   --cor-esmeralda-10: #e6f3f2;       /* fundos claros (selo sucesso, aviso info) */
@@ -25,19 +19,15 @@
   --cor-erro-texto: #b42318;
   --cor-erro-fundo: #fee4e2;
 
-  /* Cores com transparência usadas pela base (não existem como variável no Figma) */
+  /* Cores com transparência */
   --cor-branco-80: rgba(255, 255, 255, 0.8);        /* texto do rodapé */
-  --cor-fundo-modal: rgba(6, 33, 61, 0.6);          /* azul-abissal 60%: fundo atrás do modal */
 
-  /* ---------- Fonte ---------- */
   --fonte: 'Poppins', system-ui, sans-serif;
   --peso-regular: 400;
   --peso-medio: 500;
   --peso-seminegrito: 600;
 
-  /* ---------- Estilos de texto do Figma ----------
-     Use com a propriedade "font": ex.: font: var(--texto-corpo);
-     "Altura de linha auto" do Figma = "normal" no CSS. */
+  /* Estilos de texto, para a propriedade "font": font: var(--texto-corpo); */
   --texto-titulo-1: var(--peso-medio) 48px/1.2 var(--fonte);
   --texto-titulo-2: var(--peso-seminegrito) 28px/normal var(--fonte);
   --texto-titulo-3: var(--peso-seminegrito) 20px/normal var(--fonte);
@@ -48,11 +38,9 @@
   --texto-botao: var(--peso-regular) 20px/normal var(--fonte);
   --texto-menu: var(--peso-regular) 20px/normal var(--fonte);
 
-  /* Espaçamento entre letras de alguns estilos */
   --espaco-letras-titulo-1: -0.005em;  /* -0,5% */
   --espaco-letras-sobretitulo: 0.08em; /* 8% */
 
-  /* ---------- Espaçamentos (coleção "Espaçamento e raios") ---------- */
   --esp-2: 2px;
   --esp-4: 4px;
   --esp-8: 8px;
@@ -71,24 +59,20 @@
   --esp-100: 100px;
   --esp-110: 110px;
 
-  /* ---------- Raios ---------- */
   --raio-botao: 8px;
   --raio-card: 16px;
   --raio-destaque: 32px;
   --raio-pilula: 999px;
 
-  /* ---------- Sombras (estilo de efeito "Sombra suave") ---------- */
   --sombra-suave: 0 16px 40px rgba(6, 33, 61, 0.2);
 
-  /* ---------- Grade e medidas da página ---------- */
   --largura-conteudo: 1220px;   /* 12 colunas */
-  --margem-pagina: 110px;       /* margem lateral no frame de 1440 */
+  --margem-pagina: 110px;       /* margem lateral em 1440 px */
   --espaco-colunas: 20px;
   --altura-navbar: 100px;
   --altura-botao: 48px;
   --altura-botao-grande: 62px;
   --altura-campo: 56px;
 
-  /* ---------- Animação ---------- */
   --duracao-rapida: 150ms;
 }

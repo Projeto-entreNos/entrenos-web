@@ -1,4 +1,3 @@
-/* ---------- Indicador ---------- */
 .carregando {
   display: flex;
   align-items: center;
@@ -20,7 +19,6 @@
   }
 }
 
-/* ---------- Esqueleto (Figma: "Esqueleto de carregamento") ---------- */
 .esqueleto {
   display: flex;
   background: var(--cor-branco);

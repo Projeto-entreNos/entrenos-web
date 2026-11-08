@@ -1,4 +1,3 @@
-/* Tela Empresa (Figma: frames "Empresa-...") */
 .empresa {
   display: flex;
   flex-direction: column;
@@ -9,7 +8,6 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* ---------- Cartão "Seu plano" ---------- */
 .cartao-plano {
   display: flex;
   align-items: center;
@@ -55,8 +53,7 @@
   min-width: 0;
 }
 
-/* ---------- Mensagens (região aria-live) ---------- */
-/* Vazia, a região continua na página (para o anúncio funcionar), mas sem somar o gap */
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
 .empresa__regiao-viva:empty {
   margin-top: calc(-1 * var(--esp-32));
 }
@@ -71,7 +68,6 @@
   border-radius: var(--raio-card);
 }
 
-/* ---------- Barra de ações: busca, filtro e botão ---------- */
 .empresa__barra {
   display: flex;
   align-items: center;
@@ -88,7 +84,7 @@
   width: 220px;
 }
 
-/* A busca não tem rótulo visível no Figma: o label fica só para leitores de tela */
+/* A busca não tem rótulo visível: o label fica só para leitores de tela */
 .empresa__busca .campo__rotulo {
   position: absolute;
   width: 1px;
@@ -101,10 +97,7 @@
   gap: 0;
 }
 
-/* ---------- Tabela: larguras do Figma ----------
-   Nome 190, E-mail 260, Status 170 e Data 140 px, com 16 px entre as células
-   e 24 px da borda. Ações fica com o resto. Nome e E-mail em % (proporção do
-   Figma em 1220 px) para sobrar espaço às ações em janelas menores. */
+/* Nome e E-mail em %: sobra espaço para as ações em janelas menores */
 .empresa .tabela {
   table-layout: fixed;
 }
@@ -149,7 +142,6 @@
   overflow-wrap: anywhere;
 }
 
-/* Ações: botões com visual de link do Figma, um embaixo do outro */
 .empresa__acoes {
   display: flex;
   flex-direction: column;
@@ -191,7 +183,6 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* ---------- Carregando ---------- */
 .empresa__esqueleto {
   background: var(--cor-branco);
   border: 1px solid var(--cor-borda);
@@ -202,14 +193,13 @@
   border-radius: var(--raio-destaque);
 }
 
-/* ---------- Modais ---------- */
 .empresa__modal {
   display: flex;
   flex-direction: column;
   gap: var(--esp-16);
 }
 
-/* O modal de convite tem 640 px no Figma (o padrão do Modal é 560) */
+/* Modal de convite mais largo que o padrão (560 px) */
 .modal:has(.convite) {
   width: 640px;
 }

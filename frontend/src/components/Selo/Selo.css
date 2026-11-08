@@ -1,4 +1,3 @@
-/* Selo de status (Figma: auto layout, largura "hug", texto sem quebra). */
 .selo {
   display: inline-flex;
   align-items: center;

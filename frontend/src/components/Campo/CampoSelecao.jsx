@@ -4,9 +4,8 @@ import CampoBase from './CampoBase';
 import { idsDescricao } from './idsDescricao';
 
 /**
- * Lista de seleção (select), no visual do "Filtro suspenso" do Figma.
- * - opcoes: [{ valor: 'ativo', rotulo: 'Ativo' }, ...]
- * - rotulo: label visível. Para filtros sem label visível, use ocultarRotulo.
+ * - opcoes: [{ valor, rotulo }]
+ * - ocultarRotulo: esconde o rótulo na tela e o mantém para leitores de tela
  */
 export default function CampoSelecao({
   rotulo,

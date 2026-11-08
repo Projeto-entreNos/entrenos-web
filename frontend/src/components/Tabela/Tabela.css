@@ -1,4 +1,3 @@
-/* Tabela: cabeçalho cinza-claro, linhas brancas com divisória. */
 .tabela__moldura {
   overflow: hidden;
   border: 1px solid var(--cor-borda);
@@ -32,12 +31,11 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* Primeira coluna em destaque (nome do item), como no Figma */
 .tabela td:first-child {
   color: var(--cor-azul-abissal);
 }
 
-/* A última linha não precisa de divisória (a moldura já fecha) */
+/* A moldura já fecha a última linha */
 .tabela tbody tr:last-child td {
   border-bottom: none;
 }

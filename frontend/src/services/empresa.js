@@ -3,23 +3,22 @@ import { empresas } from '../mocks/empresas';
 import { pacotes } from '../mocks/pacotes';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 import { cancelarSolicitacoesAbertasDoColaborador } from './solicitacoes';
+import { dataDeHoje, somarDias } from '../utils/datas';
 
 /*
-  Tela Empresa (perfil empresa): contrato, vagas, colaboradores e convites.
   Regras: só contrato "Ativo" permite convidar; cada convidado ocupa uma vaga
   (Convidado, Convite expirado ou Ativo); um e-mail não pode estar duas vezes
   na mesma empresa; o convite vale 7 dias.
 */
 
-// Troque para true para testar o erro ao carregar a tela Empresa (modo mock)
+// true: simula erro ao carregar a tela Empresa (modo mock)
 export const SIMULAR_FALHA_EMPRESA = false;
 
-// Troque para 'emp-2' (Aguardando pagamento), 'emp-3' (Encerrado) ou 'emp-4'
-// (Proposta enviada) para ver a tela Empresa com outro contrato. null = empresa do login.
-// Só a tela Empresa usa esta constante.
+// Empresa exibida na tela Empresa no modo mock: 'emp-2' (Aguardando pagamento),
+// 'emp-3' (Encerrado), 'emp-4' (Proposta enviada) ou null (empresa do login).
 export const EMPRESA_DE_TESTE = null;
 
-// Troque para true para ver a lista vazia com contrato Ativo (modo mock)
+// true: simula a lista de colaboradores vazia (modo mock)
 export const SIMULAR_LISTA_VAZIA = false;
 
 const DIAS_VALIDADE_CONVITE = 7;
@@ -32,10 +31,8 @@ export function emailValido(email) {
 }
 
 /*
-  Modo mock: a lista inteira de colaboradores fica no localStorage depois da
-  primeira mudança (convite, reenvio ou remoção), para valer ao recarregar.
-  Para voltar aos dados de exemplo, rode no console do navegador:
-  localStorage.removeItem('entrenos:colaboradores')
+  Modo mock: depois da primeira mudança (convite, reenvio ou remoção), a lista de
+  colaboradores fica no localStorage. Apagar a chave restaura os dados de exemplo.
 */
 const CHAVE_COLABORADORES = 'entrenos:colaboradores';
 
@@ -56,29 +53,17 @@ function salvarColaboradores() {
   }
 }
 
-// Troca o conteúdo do array (sem criar outro) para quem já importou o mock ver a mesma lista
+// Altera o próprio array para que todos os módulos que importam o mock vejam a mesma lista
 const salvos = lerColaboradoresSalvos();
 if (salvos) {
   colaboradores.splice(0, colaboradores.length, ...salvos);
-}
-
-// Data local no formato AAAA-MM-DD (toISOString usaria o fuso UTC)
-function formatarAAAAMMDD(data) {
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const dia = String(data.getDate()).padStart(2, '0');
-  return `${data.getFullYear()}-${mes}-${dia}`;
-}
-
-function somarDias(dataTexto, dias) {
-  const [ano, mes, dia] = dataTexto.split('-').map(Number);
-  return formatarAAAAMMDD(new Date(ano, mes - 1, dia + dias));
 }
 
 // O convite vence 7 dias depois do envio. Datas "AAAA-MM-DD" podem ser comparadas como texto.
 function statusAtual(colaborador) {
   if (colaborador.status === 'Ativo') return 'Ativo';
   const vencimento = somarDias(colaborador.conviteEnviadoEm, DIAS_VALIDADE_CONVITE);
-  return vencimento < formatarAAAAMMDD(new Date()) ? 'Convite expirado' : 'Convidado';
+  return vencimento < dataDeHoje() ? 'Convite expirado' : 'Convidado';
 }
 
 function paraResposta(colaborador) {
@@ -186,7 +171,7 @@ export async function convidarColaboradores(empresaId, lista) {
   const emailsUsados = new Set(daEmpresa.map((item) => item.email.toLowerCase()));
   const novos = [];
   const ignorados = [];
-  const hoje = formatarAAAAMMDD(new Date());
+  const hoje = dataDeHoje();
 
   lista.forEach((item, indice) => {
     const email = item.email.trim().toLowerCase();
@@ -245,7 +230,7 @@ export async function reenviarConvite(colaboradorId) {
   }
 
   colaborador.status = 'Convidado';
-  colaborador.conviteEnviadoEm = formatarAAAAMMDD(new Date());
+  colaborador.conviteEnviadoEm = dataDeHoje();
   salvarColaboradores();
 
   return paraResposta(colaborador);

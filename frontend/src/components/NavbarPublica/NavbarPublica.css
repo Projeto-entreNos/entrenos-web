@@ -1,4 +1,3 @@
-/* Navbar pública (Figma: "header" da Landing Page). */
 .navbar-publica {
   height: var(--altura-navbar);
   background: var(--cor-fundo-pagina);
@@ -20,7 +19,7 @@
 
 .navbar-publica__links {
   display: flex;
-  gap: 50px; /* valor exato do Figma (não existe variável de 50) */
+  gap: 50px; /* não há variável de espaçamento de 50 px */
 }
 
 .navbar-publica__link {
@@ -36,7 +35,6 @@
   text-underline-offset: 6px;
 }
 
-/* Em janelas menores que o frame (a partir de 1024 px), aproxima os links */
 @media (max-width: 1280px) {
   .navbar-publica__links {
     gap: var(--esp-24);

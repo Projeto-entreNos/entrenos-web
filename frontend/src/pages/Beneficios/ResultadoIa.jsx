@@ -4,10 +4,9 @@ import Esqueleto from '../../components/Carregando/Esqueleto';
 import SelosDoServico from './SelosDoServico';
 
 /**
- * Área do resultado da IA. Fica sempre na página (mesmo vazia) porque o
- * aria-live só anuncia mudanças em uma região que já existia antes.
  * - estado: "ocioso" | "buscando" | "resultado" | "sem-resultado" | "indisponivel"
- * - sugestoes: [{ servico, motivo }] já validadas
+ * - sugestoes: [{ servico, motivo }], já validadas
+ * Fica sempre na página, mesmo vazia: o aria-live só anuncia mudanças em uma região que já existia.
  */
 export default function ResultadoIa({ estado, sugestoes, semBuscas }) {
   return (

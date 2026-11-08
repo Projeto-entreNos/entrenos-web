@@ -9,7 +9,7 @@ import { USAR_MOCK, esperar, requisicao } from './api';
   Se a IA falhar, a tela continua mostrando a lista com filtros (plano B obrigatório).
 */
 
-// Troque para true para testar o estado "IA indisponível" (plano B)
+// true: simula a IA indisponível, para testar o plano B (modo mock)
 export const SIMULAR_FALHA_IA = false;
 
 /**
@@ -56,9 +56,8 @@ export async function recomendarServicos(texto, empresaId) {
   return { recomendacoes };
 }
 
-// ---------- Simulação da IA (só no modo mock) ----------
+// Simulação da IA (modo mock)
 
-// Palavras comuns que não ajudam a escolher um serviço
 const PALAVRAS_IGNORADAS = new Set([
   'quero', 'queria', 'gostaria', 'preciso', 'ajuda', 'para', 'com', 'uma', 'umas', 'uns', 'que',
   'minha', 'meu', 'meus', 'minhas', 'estou', 'tenho', 'sobre', 'mais', 'muito', 'muita', 'algum',
@@ -84,7 +83,6 @@ const MOTIVO_POR_CATEGORIA = {
   Odontologia: 'cuida da saúde dos dentes com avaliação e tratamento.',
 };
 
-// Tira acentos e deixa em minúsculas ("Nutrição" -> "nutricao")
 function normalizar(texto) {
   return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 }

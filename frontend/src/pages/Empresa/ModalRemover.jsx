@@ -3,12 +3,7 @@ import Aviso from '../../components/Aviso/Aviso';
 import Botao from '../../components/Botao/Botao';
 import Modal from '../../components/Modal/Modal';
 
-/**
- * Confirmação da remoção (Figma: Empresa-Modal Confirmar remoção).
- * - colaborador: quem será removido
- * - aoFechar: fecha sem remover
- * - aoConfirmar: função async; se falhar, o modal continua aberto com o aviso de erro
- */
+// aoConfirmar é async; se falhar, o modal continua aberto com o aviso de erro
 export default function ModalRemover({ colaborador, aoFechar, aoConfirmar }) {
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState('');

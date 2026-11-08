@@ -1,16 +1,9 @@
 import { emailValido } from '../../services/empresa';
 
 /**
- * Lê a lista colada no modal de convite. Cada linha pode ser:
- *   "email@empresa.com", "email@empresa.com, Nome" ou "Nome, email@empresa.com"
- * (a parte com "@" é o e-mail, a outra é o nome).
- *
- * - texto: o que a pessoa colou
- * - emailsDaEmpresa: e-mails já convidados ou ativos (em minúsculas)
- * - dominio: domínio da empresa (ex.: "alfa.exemplo.com"), para o aviso de outro domínio
- *
- * Devolve { totalLinhas, validos, invalidos, duplicados, outroDominio }.
+ * Cada linha: "email", "email, Nome" ou "Nome, email" (a parte com "@" é o e-mail).
  * Linhas em branco são ignoradas; "linha" é o número da linha no texto.
+ * Devolve { totalLinhas, validos, invalidos, duplicados, outroDominio }.
  */
 export function verificarLista(texto, emailsDaEmpresa, dominio) {
   const validos = [];

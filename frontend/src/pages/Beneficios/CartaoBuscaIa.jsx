@@ -10,10 +10,7 @@ function textoDaCota(buscasRestantes) {
   return `Você ainda tem ${buscasRestantes} buscas hoje`;
 }
 
-/**
- * Cartão escuro "Diga o que você procura e a gente indica".
- * Enter quebra linha; Ctrl+Enter (ou Cmd+Enter no Mac) envia.
- */
+// Enter quebra linha; Ctrl+Enter (Cmd+Enter no Mac) envia a busca
 export default function CartaoBuscaIa({ texto, aoMudarTexto, aoBuscar, buscando, buscasRestantes }) {
   const semBuscas = buscasRestantes === 0;
   const podeBuscar = texto.trim().length >= MINIMO_CARACTERES && !buscando && !semBuscas;

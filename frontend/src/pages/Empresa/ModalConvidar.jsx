@@ -7,21 +7,14 @@ import { convidarColaboradores } from '../../services/empresa';
 import { LINK_FALAR_COM_ENTRENOS } from './contato';
 import { verificarLista } from './verificarLista';
 
-// Limite de caracteres do campo (cerca de 200 linhas)
+// Cerca de 200 linhas
 const LIMITE_TEXTO = 10000;
 
 function plural(quantidade, singular, varios) {
   return quantidade === 1 ? singular : varios;
 }
 
-/**
- * Modal "Convidar colaboradores" (Figma: Empresa-Modal Convidar colaboradores
- * e a variação com vagas insuficientes).
- * - empresa: resposta de buscarMinhaEmpresa (id e domínio)
- * - emailsDaEmpresa: e-mails já na empresa (em minúsculas), para achar duplicados
- * - vagasRestantes: vagas livres agora
- * - aoFechar e aoEnviar(resposta de convidarColaboradores)
- */
+// emailsDaEmpresa: e-mails já na empresa, em minúsculas
 export default function ModalConvidar({ empresa, emailsDaEmpresa, vagasRestantes, aoFechar, aoEnviar }) {
   const [texto, setTexto] = useState('');
   const [resultado, setResultado] = useState(null); // resultado da última verificação
@@ -122,7 +115,7 @@ export default function ModalConvidar({ empresa, emailsDaEmpresa, vagasRestantes
           </Botao>
         </div>
 
-        {/* O resultado aparece depois do clique: o leitor de tela anuncia o resumo */}
+        {/* Região sempre presente para o leitor de tela anunciar o resultado */}
         <div aria-live="polite" className="convite__resultado">
           {resultado && (
             <>
@@ -174,7 +167,7 @@ export default function ModalConvidar({ empresa, emailsDaEmpresa, vagasRestantes
                 )}
               </div>
 
-              {/* Só um alerta: não bloqueia o envio */}
+              {/* Domínio diferente só gera alerta: não bloqueia o envio */}
               {resultado.outroDominio.length > 0 && !faltamVagas && (
                 <Aviso tipo="informacao" titulo="Confira os domínios">
                   {plural(

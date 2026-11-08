@@ -1,10 +1,8 @@
 import './Carregando.css';
 
 /**
- * Esqueleto de carregamento (formas cinza no lugar do conteúdo).
- * - tipo: "card" (para listas de cards) | "linha" (para tabelas)
- * É só visual (aria-hidden). Use junto com um texto de status,
- * por exemplo: <Carregando /> ou um <span role="status"> escondido.
+ * - tipo: "card" | "linha"
+ * Só visual (aria-hidden): deve vir acompanhado de um texto com role="status".
  */
 export default function Esqueleto({ tipo = 'card' }) {
   if (tipo === 'linha') {

@@ -1,13 +1,10 @@
 import './Tabela.css';
 
 /**
- * Tabela (Figma: "Linha de tabela", cabeçalho e dados).
- *
- * - legenda: descreve a tabela para leitores de tela (fica escondida na tela)
- * - colunas: [{ chave: 'nome', titulo: 'Nome', alinhar: 'direita', renderizar: (linha) => ... }]
- *     "renderizar" é opcional: use para mostrar um Selo, um botão etc.
- *     Sem ele, a célula mostra linha[chave].
- * - linhas: array de objetos, cada um com um "id"
+ * - legenda: descrição da tabela para leitores de tela (escondida na tela)
+ * - colunas: [{ chave, titulo, alinhar?: 'direita', renderizar?: (linha) => conteúdo }]
+ *   Sem "renderizar", a célula mostra linha[chave].
+ * - linhas: objetos com "id"
  */
 export default function Tabela({ legenda, colunas, linhas }) {
   return (

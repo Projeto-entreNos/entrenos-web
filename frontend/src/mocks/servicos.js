@@ -1,8 +1,7 @@
 /*
   DADOS DE EXEMPLO (fictícios).
-  Categorias iguais às da landing page do Figma.
-  Como diz a landing, os dois pacotes dão acesso ao catálogo completo,
-  por isso todo serviço tem pacotes: ['essencial', 'completo'].
+  Categorias iguais às da landing page.
+  Os dois pacotes dão acesso ao catálogo completo: todo serviço tem pacotes ['essencial', 'completo'].
   Status possíveis: 'Ativo', 'Sem vagas', 'Pausado'. Só 'Ativo' pode ser solicitado.
   "novo" é só um selo visual.
 */

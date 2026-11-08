@@ -2,13 +2,6 @@ import { useId } from 'react';
 import Icone from '../Icone/Icone';
 import './Campo.css';
 
-/**
- * Caixa de seleção (checkbox), ex.: aceite dos termos.
- * - children: texto do label (pode ter links)
- * - ajuda: texto pequeno abaixo (ex.: "Obrigatório")
- * - erro: mensagem de erro
- * Demais props (checked, onChange, required...) vão para o <input>.
- */
 export default function CaixaSelecao({ children, ajuda, erro, id, ...resto }) {
   const idGerado = useId();
   const idCampo = id || idGerado;
@@ -19,7 +12,7 @@ export default function CaixaSelecao({ children, ajuda, erro, id, ...resto }) {
   return (
     <div className={`caixa-selecao ${erro ? 'caixa-selecao--erro' : ''}`}>
       <div className="caixa-selecao__linha">
-        {/* O input fica invisível por cima da caixa desenhada, assim continua clicável e acessível */}
+        {/* Input real invisível sobre a caixa desenhada: mantém clique, teclado e leitor de tela */}
         <span className="caixa-selecao__caixa">
           <input
             id={idCampo}

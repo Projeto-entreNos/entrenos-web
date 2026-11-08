@@ -4,11 +4,7 @@ import NavbarLogada from '../../components/NavbarLogada/NavbarLogada';
 import { useAuth } from '../../context/AuthContext';
 import '../layouts.css';
 
-/**
- * Layout das telas logadas: navbar escura com o menu do perfil + conteúdo
- * com a largura da grade do Figma (1220 px).
- * Só é usado dentro de <RotaProtegida>, então sempre há usuário logado.
- */
+// Usado só dentro de <RotaProtegida>: sempre há usuário logado
 export default function LayoutLogado() {
   const { usuario, logout } = useAuth();
   const navegar = useNavigate();

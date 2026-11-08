@@ -1,9 +1,7 @@
 import { usuarios } from '../mocks/usuarios';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 
-/*
-  Autenticação. Por enquanto só o login funciona (em modo mock).
-*/
+// TODO: implementar ativarConta, buscarConvite e recuperarSenha (modo mock e API).
 
 /**
  * Entra no sistema.
@@ -27,7 +25,7 @@ export async function login(email, senha) {
     throw new Error('E-mail ou senha incorretos.');
   }
 
-  // Nunca devolvemos a senha para a tela
+  // A senha nunca é devolvida para a tela
   const { id, nome, email: emailUsuario, perfil, empresaId } = encontrado;
   return {
     token: `token-ficticio-${id}`,

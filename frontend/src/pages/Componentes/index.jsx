@@ -23,11 +23,7 @@ import Selo from '../../components/Selo/Selo';
 import Tabela from '../../components/Tabela/Tabela';
 import './Componentes.css';
 
-/*
-  Vitrine dos componentes (rota /componentes, SÓ em desenvolvimento).
-  Serve para comparar com o quadro "0 Base" do Figma.
-  A ordem das seções segue o quadro.
-*/
+// Vitrine dos componentes: rota /componentes, só em desenvolvimento
 
 const CORES = [
   'esmeralda',
@@ -54,7 +50,6 @@ const VARIANTES_BOTAO = [
   { variante: 'secundario', nome: 'Secundário' },
   { variante: 'perigo', nome: 'Perigo' },
   { variante: 'texto', nome: 'Texto' },
-  // "principal-escuro" aparece à parte, sobre um bloco azul-abissal
 ];
 
 const OPCOES_STATUS = [
@@ -97,7 +92,6 @@ const LINHAS_TABELA = [
   { id: 3, nome: 'Íris Exemplo', email: 'iris@alfa.exemplo.com', convite: '20/10/2026', status: 'Convite expirado', tipoSelo: 'aviso' },
 ];
 
-// Bloco com título para cada seção da vitrine
 function Secao({ titulo, children, escura = false }) {
   return (
     <section className={`vitrine__secao ${escura ? 'vitrine__secao--escura' : ''}`}>

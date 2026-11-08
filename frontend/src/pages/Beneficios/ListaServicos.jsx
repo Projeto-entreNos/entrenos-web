@@ -6,8 +6,7 @@ import SelosDoServico from './SelosDoServico';
 
 const TODOS = 'todos';
 
-// Ordem das categorias na landing e no Figma. Uma categoria nova, fora desta
-// lista, aparece no fim, em ordem alfabética.
+// Ordem das categorias na landing. Categoria fora desta lista vai para o fim, em ordem alfabética.
 const ORDEM_CATEGORIAS = ['Assessoria jurídica', 'Psicologia', 'Nutrição', 'Fisioterapia', 'Odontologia'];
 
 function posicao(categoria) {
@@ -15,10 +14,7 @@ function posicao(categoria) {
   return indice === -1 ? ORDEM_CATEGORIAS.length : indice;
 }
 
-/**
- * "Todos os serviços do seu pacote": filtro por categoria e grade de cards.
- * Só aparecem pílulas das categorias que têm serviços.
- */
+// Só aparecem pílulas das categorias que têm serviços
 export default function ListaServicos({ servicos }) {
   const [categoria, setCategoria] = useState(TODOS);
 

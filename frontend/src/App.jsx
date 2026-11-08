@@ -16,24 +16,19 @@ import MinhasSolicitacoes from './pages/MinhasSolicitacoes';
 import NaoEncontrada from './pages/NaoEncontrada';
 import RotaProtegida from './rotas/RotaProtegida';
 
-// A vitrine de componentes só existe em desenvolvimento ("npm run dev").
-// Com lazy, ela nem entra no build de produção.
+// Vitrine de componentes: só em desenvolvimento, fora do build de produção.
 const Componentes = import.meta.env.DEV ? lazy(() => import('./pages/Componentes')) : null;
 
-/*
-  Todas as rotas do projeto (tabela de rotas do CLAUDE.md).
-  Para fazer uma tela, edite só o arquivo src/pages/<NomeDaTela>/index.jsx.
-*/
 export default function App() {
   return (
     <Routes>
-      {/* Públicas com navbar da landing */}
+      {/* Públicas com a navbar da landing */}
       <Route element={<LayoutPublico />}>
         <Route path="/" element={<Landing />} />
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
 
-      {/* Públicas em tela cheia (no Figma não têm navbar) */}
+      {/* Públicas sem navbar */}
       <Route path="/login" element={<Login />} />
       <Route path="/ativar/:token" element={<AtivarConta />} />
 
@@ -62,7 +57,6 @@ export default function App() {
         </Route>
       </Route>
 
-      {/* Só em desenvolvimento */}
       {Componentes && (
         <Route
           path="/componentes"

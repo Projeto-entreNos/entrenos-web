@@ -1,7 +1,6 @@
 import Selo from '../../components/Selo/Selo';
-import { formatarMesAno } from './formatar';
+import { formatarMesAno } from '../../utils/datas';
 
-// Selos de estado do serviço, ao lado do selo da categoria
 export default function SelosDoServico({ servico }) {
   return (
     <>

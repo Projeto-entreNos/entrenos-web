@@ -1,4 +1,3 @@
-/* Campos de formulário (componente "Campo de texto" do Figma). */
 .campo {
   display: flex;
   flex-direction: column;
@@ -11,7 +10,7 @@
   color: var(--cor-azul-abissal);
 }
 
-/* Caixa usada quando há algo ao lado da entrada (botão de senha, seta do select) */
+/* Envolve a entrada quando há um elemento ao lado (botão de senha, seta do select) */
 .campo__caixa {
   position: relative;
 }
@@ -32,8 +31,7 @@
   opacity: 0.7;
 }
 
-/* Foco: borda de 2 px esmeralda. O box-shadow faz o segundo pixel
-   sem mudar o tamanho do campo. */
+/* O box-shadow faz o segundo pixel da borda sem mudar o tamanho do campo */
 .campo__entrada:focus {
   outline: none;
   border-color: var(--cor-esmeralda);
@@ -52,13 +50,11 @@
   cursor: not-allowed;
 }
 
-/* Área de texto: 120 px de altura no Figma */
 .campo__entrada--longa {
   height: 120px;
   resize: vertical;
 }
 
-/* Espaço para o ícone de mostrar/ocultar senha */
 .campo__entrada--com-botao {
   padding-right: var(--esp-48);
 }
@@ -80,7 +76,6 @@
   background: var(--cor-esmeralda-10);
 }
 
-/* Select no visual do "Filtro suspenso" */
 .campo__entrada--selecao {
   appearance: none;
   padding-right: var(--esp-48);
@@ -106,7 +101,6 @@
   clip: rect(0, 0, 0, 0);
 }
 
-/* Rodapé: ajuda/erro à esquerda e contador à direita */
 .campo__rodape {
   display: flex;
   justify-content: space-between;
@@ -136,7 +130,6 @@
   flex-shrink: 0;
 }
 
-/* ---------- Campo sobre fundo escuro (opção sobreEscuro) ---------- */
 .campo--sobre-escuro .campo__rotulo {
   color: var(--cor-branco);
 }
@@ -151,8 +144,7 @@
   color: var(--cor-erro-fundo);
 }
 
-/* Desabilitado: a opacidade no campo inteiro deixaria o fundo escuro aparecer
-   através dele. Aqui o fundo fica sólido e só o placeholder fica apagado. */
+/* Fundo sólido: com opacidade no campo inteiro, o fundo escuro apareceria através dele */
 .campo--sobre-escuro .campo__entrada:disabled {
   opacity: 1;
 }
@@ -161,7 +153,6 @@
   opacity: 0.6;
 }
 
-/* ---------- Caixa de seleção ---------- */
 .caixa-selecao {
   display: flex;
   flex-direction: column;
@@ -235,7 +226,6 @@
   color: var(--cor-cinza-asfalto);
 }
 
-/* ---------- Regra da senha ---------- */
 .regra-senha {
   display: flex;
   align-items: center;

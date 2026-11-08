@@ -3,10 +3,6 @@ import Icone from '../Icone/Icone';
 import CampoBase from './CampoBase';
 import { idsDescricao } from './idsDescricao';
 
-/**
- * Campo de senha com botão de mostrar/ocultar (tipo Senha do Figma).
- * Recebe as mesmas props do Campo.
- */
 export default function CampoSenha({ rotulo = 'Senha', ajuda, erro, desabilitado = false, id, ...resto }) {
   const idGerado = useId();
   const idCampo = id || idGerado;
