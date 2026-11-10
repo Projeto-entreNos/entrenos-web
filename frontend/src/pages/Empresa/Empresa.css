@@ -79,9 +79,10 @@
   min-width: 0;
 }
 
+/* 220 px no Figma; cresce até caber a opção mais longa ("Status: convite expirado") */
 .empresa__filtro {
   flex-shrink: 0;
-  width: 220px;
+  min-width: 220px;
 }
 
 /* A busca não tem rótulo visível: o label fica só para leitores de tela */

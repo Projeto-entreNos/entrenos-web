@@ -1,0 +1,199 @@
+.admin-empresas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.admin-empresas__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
+.admin-empresas__regiao-viva:empty {
+  margin-top: calc(-1 * var(--esp-32));
+}
+
+.admin-empresas__mensagem:focus {
+  outline: none;
+}
+
+.admin-empresas__mensagem:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+  border-radius: var(--raio-card);
+}
+
+.admin-empresas__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-16);
+}
+
+.admin-empresas__busca {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A busca não tem rótulo visível: o label fica só para leitores de tela */
+.admin-empresas__busca .campo__rotulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.admin-empresas__barra .campo {
+  gap: 0;
+}
+
+/* 220 px no Figma; cresce até caber a opção mais longa ("Aguardando pagamento") */
+.admin-empresas__filtro {
+  flex-shrink: 0;
+  min-width: 220px;
+}
+
+/* Larguras das colunas do Figma (conteúdo + espaço entre colunas) */
+.admin-empresas .tabela {
+  table-layout: fixed;
+}
+
+.admin-empresas .tabela th,
+.admin-empresas .tabela td {
+  padding-inline: var(--esp-8);
+}
+
+.admin-empresas .tabela th:first-child,
+.admin-empresas .tabela td:first-child {
+  padding-left: var(--esp-24);
+}
+
+.admin-empresas .tabela th:last-child,
+.admin-empresas .tabela td:last-child {
+  padding-right: var(--esp-24);
+}
+
+.admin-empresas .tabela th:nth-child(1) {
+  width: calc(160px + var(--esp-24) + var(--esp-8));
+}
+
+.admin-empresas .tabela th:nth-child(2) {
+  width: calc(156px + var(--esp-16));
+}
+
+.admin-empresas .tabela th:nth-child(3) {
+  width: calc(120px + var(--esp-16));
+}
+
+.admin-empresas .tabela th:nth-child(4) {
+  width: calc(80px + var(--esp-16));
+}
+
+.admin-empresas .tabela th:nth-child(5) {
+  width: calc(208px + var(--esp-16));
+}
+
+.admin-empresas .tabela th:nth-child(6) {
+  width: calc(56px + var(--esp-16));
+}
+
+.admin-empresas .tabela th:nth-child(7) {
+  width: calc(130px + var(--esp-16));
+}
+
+.admin-empresas .tabela td {
+  font: var(--texto-legenda);
+}
+
+.admin-empresas__cnpj {
+  white-space: nowrap;
+}
+
+.admin-empresas__acoes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-4);
+}
+
+.admin-empresas__acao {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.admin-empresas__acao:hover {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+}
+
+/* Em janelas menores que 1280 px as larguras fixas não cabem: o navegador distribui pelo conteúdo */
+@media (max-width: 1279px) {
+  .admin-empresas .tabela {
+    table-layout: auto;
+  }
+
+  .admin-empresas .tabela th:nth-child(n) {
+    width: auto;
+  }
+
+  /* "Confirmar pagamento" quebra em duas linhas para a tabela caber */
+  .admin-empresas__acao {
+    white-space: normal;
+    text-align: left;
+  }
+}
+
+.admin-empresas__total {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-empresas__esqueleto {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+/* Modais (abrem fora de .admin-empresas, no fim do body) */
+.admin-empresas__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-20);
+}
+
+.admin-empresas__linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-16);
+  align-items: start;
+}
+
+.admin-empresas__valor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+  padding: var(--esp-12) var(--esp-16);
+  background: var(--cor-esmeralda-10);
+  border-radius: var(--raio-botao);
+}
+
+.admin-empresas__valor-rotulo {
+  font: var(--texto-rotulo);
+  color: var(--cor-azul-abissal);
+}
+
+.admin-empresas__valor-numero {
+  font: var(--texto-titulo-3);
+  color: var(--cor-azul-abissal);
+}
+
+.admin-empresas__valor-detalhe {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}

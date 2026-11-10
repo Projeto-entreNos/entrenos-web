@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Abas from '../../components/Abas/Abas';
+import AbasAdmin from '../../components/Abas/AbasAdmin';
 import Aviso from '../../components/Aviso/Aviso';
 import BarraProgresso from '../../components/BarraProgresso/BarraProgresso';
 import Botao from '../../components/Botao/Botao';
@@ -105,7 +106,7 @@ export default function Componentes() {
   const [textoLongo, setTextoLongo] = useState('');
   const [aceite, setAceite] = useState(false);
   const [categoria, setCategoria] = useState('todos');
-  const [modalAberto, setModalAberto] = useState(null); // null | 'padrao' | 'perigo'
+  const [modalAberto, setModalAberto] = useState(null); // null | 'padrao' | 'perigo' | 'grande'
 
   return (
     <main className="container vitrine">
@@ -308,6 +309,8 @@ export default function Componentes() {
             ]}
           />
           <Filtro rotulo="Filtrar por categoria" opcoes={CATEGORIAS} valor={categoria} aoMudar={setCategoria} />
+          <p className="vitrine__legenda-linha">Abas do admin (cada aba abre uma tela; a atual fica marcada)</p>
+          <AbasAdmin />
         </div>
       </Secao>
 
@@ -331,11 +334,15 @@ export default function Componentes() {
           <Botao variante="perigo" onClick={() => setModalAberto('perigo')}>
             Abrir modal de perigo
           </Botao>
+          <Botao variante="secundario" onClick={() => setModalAberto('grande')}>
+            Abrir modal grande (760 px)
+          </Botao>
         </div>
         <Modal
           aberto={modalAberto !== null}
           aoFechar={() => setModalAberto(null)}
           titulo="Título do modal"
+          largura={modalAberto === 'grande' ? 'grande' : 'normal'}
           acoes={
             <>
               <Botao variante="secundario" onClick={() => setModalAberto(null)}>

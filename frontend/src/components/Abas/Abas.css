@@ -28,11 +28,19 @@
   color: var(--cor-esmeralda-escuro);
 }
 
-.abas__aba[aria-selected='true'] {
+/* AbasAdmin: as abas são links */
+a.abas__aba {
+  text-decoration: none;
+}
+
+/* aria-selected: Abas (no painel da página); aria-current: AbasAdmin (rota atual) */
+.abas__aba[aria-selected='true'],
+.abas__aba[aria-current='page'] {
   color: var(--cor-esmeralda-escuro);
 }
 
-.abas__aba[aria-selected='true']::after {
+.abas__aba[aria-selected='true']::after,
+.abas__aba[aria-current='page']::after {
   background: var(--cor-esmeralda);
 }
 

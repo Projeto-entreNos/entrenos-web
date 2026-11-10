@@ -23,6 +23,10 @@
   box-shadow: var(--sombra-suave);
 }
 
+.modal--grande {
+  width: 760px;
+}
+
 .modal:focus {
   outline: none;
 }

@@ -9,8 +9,9 @@ const SELETOR_FOCAVEIS =
 /*
   aoFechar é chamado no Esc, no clique no fundo e no botão X.
   Enquanto aberto, o foco fica preso no modal; ao fechar, volta para quem o abriu.
+  largura: "normal" (560 px) | "grande" (760 px, para formulários em duas colunas)
 */
-export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
+export default function Modal({ aberto, aoFechar, titulo, children, acoes, largura = 'normal' }) {
   const idTitulo = useId();
   const refCaixa = useRef(null);
 
@@ -77,7 +78,7 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes }) {
     <div className="modal__fundo" onMouseDown={aoClicarNoFundo}>
       <div
         ref={refCaixa}
-        className="modal"
+        className={largura === 'grande' ? 'modal modal--grande' : 'modal'}
         role="dialog"
         aria-modal="true"
         aria-labelledby={idTitulo}
