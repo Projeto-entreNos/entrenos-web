@@ -1,4 +1,5 @@
 import {
+  ArrowLeft,
   Check,
   ChevronDown,
   Circle,
@@ -23,6 +24,7 @@ const ICONES = {
   ocultar: EyeOff,
   carregando: LoaderCircle,
   pendente: Circle,
+  voltar: ArrowLeft,
 };
 
 // Sem "rotulo", o ícone é decorativo e fica escondido dos leitores de tela

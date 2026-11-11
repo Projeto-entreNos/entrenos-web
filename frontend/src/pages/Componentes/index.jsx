@@ -20,6 +20,7 @@ import Logo from '../../components/Logo/Logo';
 import Modal from '../../components/Modal/Modal';
 import NavbarLogada from '../../components/NavbarLogada/NavbarLogada';
 import NavbarPublica from '../../components/NavbarPublica/NavbarPublica';
+import PainelMarca from '../../components/PainelMarca/PainelMarca';
 import Selo from '../../components/Selo/Selo';
 import Tabela from '../../components/Tabela/Tabela';
 import './Componentes.css';
@@ -274,6 +275,15 @@ export default function Componentes() {
             descricao="Sessões para aliviar dores na coluna causadas pela rotina de trabalho."
             motivo="Por que indicamos: combina com o que você descreveu."
             para="/servicos/serv-7"
+          />
+        </div>
+      </Secao>
+
+      <Secao titulo="Painel da marca (telas de acesso)">
+        <div className="vitrine__painel-marca">
+          <PainelMarca
+            titulo="Acesse os serviços das universidades parceiras."
+            texto="Ative sua conta para solicitar os serviços que a sua empresa oferece."
           />
         </div>
       </Secao>

@@ -45,7 +45,8 @@ function lerColaboradoresSalvos() {
   }
 }
 
-function salvarColaboradores() {
+// Também usada pela ativação de conta (services/auth.js) no modo mock
+export function salvarColaboradores() {
   try {
     localStorage.setItem(CHAVE_COLABORADORES, JSON.stringify(colaboradores));
   } catch {
@@ -60,7 +61,8 @@ if (salvos) {
 }
 
 // O convite vence 7 dias depois do envio. Datas "AAAA-MM-DD" podem ser comparadas como texto.
-function statusAtual(colaborador) {
+// Também usada pela ativação de conta (services/auth.js) no modo mock.
+export function statusAtual(colaborador) {
   if (colaborador.status === 'Ativo') return 'Ativo';
   const vencimento = somarDias(colaborador.conviteEnviadoEm, DIAS_VALIDADE_CONVITE);
   return vencimento < dataDeHoje() ? 'Convite expirado' : 'Convidado';
