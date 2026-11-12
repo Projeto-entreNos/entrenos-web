@@ -1,0 +1,50 @@
+/* Até 600 px de largura; encolhe em janelas menores para o formulário caber ao lado */
+.painel-marca {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 600px;
+  min-height: 100vh;
+  padding: var(--esp-64);
+  overflow: hidden;
+  background: var(--cor-azul-abissal);
+  color: var(--cor-branco);
+}
+
+.painel-marca__logo .logo {
+  width: 220px;
+  height: 78px;
+}
+
+/* margin-top auto empurra a mensagem e os cubos para baixo; assim os cubos nunca cobrem o texto */
+.painel-marca__mensagem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-20);
+  max-width: 472px;
+  margin-top: auto;
+}
+
+.painel-marca__titulo {
+  font: var(--peso-medio) 40px/1.2 var(--fonte);
+}
+
+.painel-marca__texto {
+  font: var(--peso-regular) 18px/1.5 var(--fonte);
+}
+
+/* Cubos no canto inferior direito: a coluna da direita passa 8 px da borda e é cortada */
+.painel-marca__cubos {
+  display: grid;
+  grid-template-columns: repeat(3, 64px);
+  grid-template-rows: repeat(4, 64px);
+  gap: var(--esp-12);
+  align-self: flex-end;
+  margin-top: var(--esp-40);
+  margin-right: calc(-1 * (var(--esp-64) + var(--esp-8)));
+  margin-bottom: calc(var(--esp-8) - var(--esp-64));
+}
+
+.painel-marca__cubo {
+  background: var(--cor-folha);
+  border-radius: 12px;
+}

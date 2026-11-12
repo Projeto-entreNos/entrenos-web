@@ -1,11 +1,19 @@
 /*
   DADOS DE EXEMPLO (fictícios). Pessoas inventadas, e-mails em domínio ".exemplo".
   Status: 'Convidado', 'Ativo', 'Convite expirado'. O convite vale 7 dias.
-  Referência de "hoje" nos dados: 2026-11-07.
+  Os convites em aberto da Alfa são contados a partir de hoje, para os status
+  (e os links de ativação de teste) não mudarem com o passar dos dias.
   - Alfa (emp-1, contrato Ativo, 10 vagas): 7 colaboradores, 7 vagas ocupadas
   - Gama (emp-3, contrato Encerrado): 3 colaboradores
   - Beta (emp-2, aguardando pagamento): nenhum, porque ainda não pode convidar
+  tokenConvite: código do link de ativação (/ativar/:token), só nos convites em aberto.
 */
+
+import { dataDeHoje, somarDias } from '../utils/datas';
+
+function diasAtras(dias) {
+  return somarDias(dataDeHoje(), -dias);
+}
 
 export const colaboradores = [
   {
@@ -50,7 +58,8 @@ export const colaboradores = [
     email: 'gabriela@alfa.exemplo.com',
     empresaId: 'emp-1',
     status: 'Convidado',
-    conviteEnviadoEm: '2026-11-04', // ainda dentro dos 7 dias
+    conviteEnviadoEm: diasAtras(1),
+    tokenConvite: 'convite-gabriela',
     ativadoEm: null,
   },
   {
@@ -59,7 +68,8 @@ export const colaboradores = [
     email: 'heitor@alfa.exemplo.com',
     empresaId: 'emp-1',
     status: 'Convidado',
-    conviteEnviadoEm: '2026-11-06',
+    conviteEnviadoEm: diasAtras(2),
+    tokenConvite: 'convite-heitor',
     ativadoEm: null,
   },
   {
@@ -68,7 +78,8 @@ export const colaboradores = [
     email: 'iris@alfa.exemplo.com',
     empresaId: 'emp-1',
     status: 'Convite expirado',
-    conviteEnviadoEm: '2026-10-20', // mais de 7 dias
+    conviteEnviadoEm: diasAtras(10), // mais de 7 dias
+    tokenConvite: 'convite-iris',
     ativadoEm: null,
   },
   {

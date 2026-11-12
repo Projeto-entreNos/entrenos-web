@@ -171,6 +171,19 @@
   border: 1px solid var(--cor-borda);
 }
 
+/* Mostra o painel no tamanho das telas de acesso (600 x 900) */
+.vitrine__painel-marca {
+  display: flex;
+  width: 600px;
+  height: 900px;
+  overflow: hidden;
+  border-radius: var(--raio-card);
+}
+
+.vitrine__painel-marca .painel-marca {
+  min-height: 0;
+}
+
 .vitrine__esqueletos {
   width: 380px;
 }

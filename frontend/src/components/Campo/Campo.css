@@ -38,7 +38,9 @@
   box-shadow: 0 0 0 1px var(--cor-esmeralda);
 }
 
-.campo--erro .campo__entrada {
+/* aria-invalid sem "erro": campo inválido cuja explicação fica fora do rodapé (ex.: regras da senha) */
+.campo--erro .campo__entrada,
+.campo__entrada[aria-invalid='true'] {
   border-color: var(--cor-erro-texto);
   box-shadow: 0 0 0 1px var(--cor-erro-texto);
 }
