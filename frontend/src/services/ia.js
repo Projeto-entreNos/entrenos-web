@@ -43,8 +43,8 @@ export async function recomendarServicos(texto, empresaId) {
     .map((servico) => ({ servico, pontos: contarPalavrasEmComum(palavras, servico) }));
   const maiorPontuacao = Math.max(0, ...pontuados.map((item) => item.pontos));
 
-  // Só os mais parecidos com a busca: em "dor de dente", odontologia (2 palavras)
-  // ganha de fisioterapia (só "dor")
+  // Só os mais parecidos com a busca: em "dívida no cartão e contrato", educação financeira
+  // (2 palavras) ganha de assessoria jurídica (só "contrato")
   const recomendacoes = pontuados
     .filter((item) => item.pontos > 0 && item.pontos === maiorPontuacao)
     .slice(0, 3)
@@ -63,24 +63,30 @@ const PALAVRAS_IGNORADAS = new Set([
   'minha', 'meu', 'meus', 'minhas', 'estou', 'tenho', 'sobre', 'mais', 'muito', 'muita', 'algum',
   'alguma', 'alguem', 'fazer', 'trabalho', 'melhorar', 'como', 'esta', 'isso', 'pelo', 'pela',
   'sem', 'nao', 'por', 'dos', 'das', 'nos', 'nas', 'ter', 'ser', 'seu', 'sua', 'tem', 'bem', 'mal',
+  'aula', 'aulas', 'curso', 'cursos', 'aprender',
 ]);
 
 // Palavras ligadas a cada categoria, além das que já aparecem no texto do serviço.
-// Sem isso, buscas comuns como "dor nas costas" ou "dente" não achariam nada.
+// Sem isso, buscas comuns como "Excel" ou "advogado" não achariam nada.
 const PALAVRAS_DA_CATEGORIA = {
-  'Assessoria jurídica': 'juridico direito advogado contrato divida cobranca consumidor pensao guarda divorcio processo',
-  Psicologia: 'ansiedade estresse emocional tristeza terapia conversar desabafar sono cansaco mental',
-  'Nutrição': 'alimentacao dieta comer comida peso emagrecer nutricionista marmita disposicao',
-  Fisioterapia: 'postura dor dores costas coluna pescoco punho alongamento sentado lombar',
-  Odontologia: 'dente dentes dor gengiva boca sorriso dentista carie limpeza',
+  'Apoio contábil e financeiro':
+    'divida dividas orcamento imposto renda declaracao dinheiro conta contas gasto gastos economizar poupar financas juros emprestimo cartao',
+  'Consultoria em gestão e negócios':
+    'negocio negocios empresa empreender empreendedor mei vendas vender marketing cliente clientes loja divulgar redes',
+  'Apoio educacional e idiomas':
+    'ingles espanhol idioma idiomas reforco escola escolar filho filhos estudar tarefa matematica portugues redacao',
+  'Capacitação em tecnologia básica':
+    'computador informatica planilha planilhas excel internet celular email aplicativo digital senha golpe',
+  'Assessoria jurídica':
+    'juridico direito direitos advogado contrato contratos trabalhista cobranca consumidor pensao guarda divorcio processo rescisao',
 };
 
 const MOTIVO_POR_CATEGORIA = {
+  'Apoio contábil e financeiro': 'ajuda a organizar o orçamento, sair das dívidas e tirar dúvidas sobre impostos.',
+  'Consultoria em gestão e negócios': 'orienta quem quer abrir, organizar ou divulgar um pequeno negócio.',
+  'Apoio educacional e idiomas': 'oferece aulas de idiomas e reforço escolar, como você descreveu.',
+  'Capacitação em tecnologia básica': 'ensina o básico de computador, planilhas e internet para o dia a dia.',
   'Assessoria jurídica': 'orienta sobre dúvidas jurídicas do dia a dia, como a que você descreveu.',
-  Psicologia: 'oferece escuta e apoio para lidar com o que você descreveu.',
-  'Nutrição': 'ajuda a ajustar a alimentação à sua rotina.',
-  Fisioterapia: 'cuida de postura e dores comuns de quem passa horas trabalhando.',
-  Odontologia: 'cuida da saúde dos dentes com avaliação e tratamento.',
 };
 
 function normalizar(texto) {

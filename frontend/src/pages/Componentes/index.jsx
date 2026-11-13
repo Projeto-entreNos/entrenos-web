@@ -62,9 +62,11 @@ const OPCOES_STATUS = [
 
 const CATEGORIAS = [
   { valor: 'todos', rotulo: 'Todos' },
+  { valor: 'contabil', rotulo: 'Apoio contábil e financeiro' },
+  { valor: 'negocios', rotulo: 'Consultoria em gestão e negócios' },
+  { valor: 'educacional', rotulo: 'Apoio educacional e idiomas' },
+  { valor: 'tecnologia', rotulo: 'Capacitação em tecnologia básica' },
   { valor: 'juridica', rotulo: 'Assessoria jurídica' },
-  { valor: 'psicologia', rotulo: 'Psicologia' },
-  { valor: 'nutricao', rotulo: 'Nutrição' },
 ];
 
 const COLUNAS_TABELA = [
@@ -210,7 +212,7 @@ export default function Componentes() {
           <CampoSenha rotulo="Senha" ajuda="Texto de ajuda" defaultValue="senha123" desabilitado />
           <CampoTextoLongo
             rotulo="Mensagem"
-            ajuda="Não escreva diagnósticos nem dados pessoais."
+            ajuda="Não escreva documentos, dados bancários ou informações pessoais dos seus filhos."
             placeholder="Digite aqui"
             value={textoLongo}
             onChange={(evento) => setTextoLongo(evento.target.value)}
@@ -261,20 +263,20 @@ export default function Componentes() {
         <div className="vitrine__grade-cards">
           <CardResumo numero="7" legenda="Vagas ocupadas de 10" />
           <CardServico
-            categoria="Psicologia"
-            titulo="Atendimento psicológico individual"
-            universidade="Universidade Horizonte Exemplo"
-            descricao="Sessões semanais com estudantes de Psicologia, com supervisão de professores."
+            categoria="Consultoria em gestão e negócios"
+            titulo="Consultoria de negócios"
+            universidade="Faculdade Ipê"
+            descricao="Para quem quer abrir um pequeno negócio: planejamento, marketing digital e organização de caixa."
             para="/servicos/serv-1"
           />
           <CardServico
-            categoria="Fisioterapia"
+            categoria="Apoio contábil e financeiro"
             novo
-            titulo="Fisioterapia para dor nas costas"
-            universidade="Faculdade Modelo do Sul"
-            descricao="Sessões para aliviar dores na coluna causadas pela rotina de trabalho."
-            motivo="Por que indicamos: combina com o que você descreveu."
-            para="/servicos/serv-7"
+            titulo="Educação financeira"
+            universidade="Instituto Atlântico"
+            descricao="Orçamento doméstico, saída das dívidas e dúvidas fiscais básicas, com estudantes de contábeis."
+            motivo="Por que indicamos: ajuda a organizar o orçamento, sair das dívidas e tirar dúvidas sobre impostos."
+            para="/servicos/serv-4"
           />
         </div>
       </Secao>
