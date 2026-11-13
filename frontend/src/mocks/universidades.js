@@ -6,22 +6,22 @@
 export const universidades = [
   {
     id: 'uni-1',
-    nome: 'Universidade Horizonte Exemplo',
-    emailContato: 'clinicas@horizonte.exemplo.edu.br',
+    nome: 'Faculdade Horizonte',
+    emailContato: 'extensao@horizonte.exemplo.edu.br',
   },
   {
     id: 'uni-2',
-    nome: 'Centro Universitário Vale Exemplo',
-    emailContato: 'atendimento@valeexemplo.exemplo.edu.br',
+    nome: 'Instituto Atlântico',
+    emailContato: 'naf@atlantico.exemplo.edu.br',
   },
   {
     id: 'uni-3',
-    nome: 'Faculdade Modelo do Sul',
-    emailContato: 'extensao@modelosul.exemplo.edu.br',
+    nome: 'Faculdade Ipê',
+    emailContato: 'administracao@ipe.exemplo.edu.br',
   },
   {
     id: 'uni-4',
-    nome: 'Universidade Ponte Nova Exemplo',
-    emailContato: 'projetos@pontenova.exemplo.edu.br',
+    nome: 'Faculdade Lumen',
+    emailContato: 'letras@lumen.exemplo.edu.br',
   },
 ];

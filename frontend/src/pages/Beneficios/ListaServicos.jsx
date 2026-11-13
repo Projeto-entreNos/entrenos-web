@@ -7,7 +7,13 @@ import SelosDoServico from './SelosDoServico';
 const TODOS = 'todos';
 
 // Ordem das categorias na landing. Categoria fora desta lista vai para o fim, em ordem alfabética.
-const ORDEM_CATEGORIAS = ['Assessoria jurídica', 'Psicologia', 'Nutrição', 'Fisioterapia', 'Odontologia'];
+const ORDEM_CATEGORIAS = [
+  'Apoio contábil e financeiro',
+  'Consultoria em gestão e negócios',
+  'Apoio educacional e idiomas',
+  'Capacitação em tecnologia básica',
+  'Assessoria jurídica',
+];
 
 function posicao(categoria) {
   const indice = ORDEM_CATEGORIAS.indexOf(categoria);

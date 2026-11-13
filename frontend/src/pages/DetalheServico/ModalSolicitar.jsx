@@ -56,7 +56,7 @@ export default function ModalSolicitar({ aberto, aoFechar, aoEnviar }) {
         <CampoTextoLongo
           rotulo="Mensagem (opcional)"
           placeholder="Escreva uma mensagem para a universidade"
-          ajuda="Não escreva diagnósticos ou detalhes de saúde. A universidade conversa com você diretamente."
+          ajuda="Não escreva documentos, dados bancários ou informações pessoais dos seus filhos. A universidade conversa com você diretamente."
           limite={LIMITE_MENSAGEM}
           value={mensagem}
           onChange={(evento) => setMensagem(evento.target.value)}

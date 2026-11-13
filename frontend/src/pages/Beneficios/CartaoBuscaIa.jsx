@@ -37,8 +37,8 @@ export default function CartaoBuscaIa({ texto, aoMudarTexto, aoBuscar, buscando,
         <CampoTextoLongo
           sobreEscuro
           rotulo="O que você procura?"
-          ajuda="Descreva o que você procura de forma geral. Não inclua nome, documentos ou diagnósticos."
-          placeholder="Ex.: quero ajuda para melhorar minha postura no trabalho"
+          ajuda="Descreva o que você procura de forma geral. Não inclua nome, documentos, dados bancários ou informações dos seus filhos."
+          placeholder="Ex.: quero organizar meu orçamento e sair das dívidas"
           limite={LIMITE_CARACTERES}
           value={texto}
           onChange={(evento) => aoMudarTexto(evento.target.value)}

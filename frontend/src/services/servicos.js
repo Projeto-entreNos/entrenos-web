@@ -49,7 +49,7 @@ export async function listarServicosDoPacote(empresaId) {
 
 /**
  * Lista os serviços do pacote da empresa do colaborador.
- * API: GET /servicos?categoria=Psicologia&busca=texto
+ * API: GET /servicos?categoria=Assessoria%20jur%C3%ADdica&busca=texto
  * Resposta esperada: [
  *   { id, nome, categoria, descricaoCurta, modalidade, status: "Ativo"|"Sem vagas"|"Pausado",
  *     previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean,
@@ -107,7 +107,8 @@ export async function buscarServico(id, empresaId) {
 /**
  * Lista as categorias do catálogo (para o filtro em pílulas).
  * API: GET /servicos/categorias
- * Resposta esperada: ["Assessoria jurídica", "Psicologia", "Nutrição", "Fisioterapia", "Odontologia"]
+ * Resposta esperada: ["Apoio contábil e financeiro", "Consultoria em gestão e negócios",
+ *   "Apoio educacional e idiomas", "Capacitação em tecnologia básica", "Assessoria jurídica"]
  */
 export async function listarCategorias() {
   throw new Error('listarCategorias ainda não foi implementada.');
