@@ -1,0 +1,45 @@
+.tabela__moldura {
+  overflow: hidden;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cor-branco);
+  text-align: left;
+}
+
+.tabela th,
+.tabela td {
+  padding: var(--esp-16) var(--esp-24);
+  border-bottom: 1px solid var(--cor-borda);
+  vertical-align: middle;
+}
+
+.tabela th {
+  height: 48px;
+  background: var(--cor-fundo-pagina);
+  font: var(--texto-rotulo);
+  color: var(--cor-cinza-asfalto);
+}
+
+.tabela td {
+  height: 64px;
+  font: var(--texto-corpo);
+  color: var(--cor-cinza-asfalto);
+}
+
+.tabela td:first-child {
+  color: var(--cor-azul-abissal);
+}
+
+/* A moldura já fecha a última linha */
+.tabela tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.tabela__celula--direita {
+  text-align: right;
+}

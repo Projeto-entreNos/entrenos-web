@@ -1,0 +1,104 @@
+.minhas-solicitacoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.minhas-solicitacoes__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
+.minhas-solicitacoes__regiao-viva:empty {
+  margin-top: calc(-1 * var(--esp-32));
+}
+
+.minhas-solicitacoes__sucesso:focus {
+  outline: none;
+}
+
+.minhas-solicitacoes__sucesso:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+  border-radius: var(--raio-card);
+}
+
+/* Data e Status com largura fixa; Serviço e Universidade em %; Ações fica com o resto */
+.minhas-solicitacoes .tabela {
+  table-layout: fixed;
+}
+
+.minhas-solicitacoes .tabela th,
+.minhas-solicitacoes .tabela td {
+  padding-inline: var(--esp-8);
+}
+
+.minhas-solicitacoes .tabela th:first-child,
+.minhas-solicitacoes .tabela td:first-child {
+  padding-left: var(--esp-24);
+}
+
+.minhas-solicitacoes .tabela th:nth-child(1) {
+  width: calc(90px + var(--esp-24) + var(--esp-8));
+}
+
+.minhas-solicitacoes .tabela th:nth-child(4) {
+  width: calc(110px + var(--esp-16));
+}
+
+.minhas-solicitacoes .tabela th:nth-child(2),
+.minhas-solicitacoes .tabela th:nth-child(3) {
+  width: 26.1%;
+}
+
+.minhas-solicitacoes .tabela th:last-child,
+.minhas-solicitacoes .tabela td:last-child {
+  padding-right: var(--esp-24);
+}
+
+.minhas-solicitacoes .tabela td {
+  font: var(--texto-legenda);
+}
+
+/* Sublinhado indica que o nome do serviço é clicável */
+.minhas-solicitacoes__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.minhas-solicitacoes__link:hover {
+  color: var(--cor-esmeralda-escuro);
+}
+
+.minhas-solicitacoes__cancelar {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda);
+  cursor: pointer;
+}
+
+.minhas-solicitacoes__cancelar:hover {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+}
+
+.minhas-solicitacoes__total {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.minhas-solicitacoes__esqueleto {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+.minhas-solicitacoes__modal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}

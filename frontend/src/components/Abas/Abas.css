@@ -1,0 +1,53 @@
+.abas__lista {
+  display: flex;
+  gap: var(--esp-32);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.abas__aba {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  padding: var(--esp-8) 0 0;
+  background: transparent;
+  border: none;
+  font: var(--texto-botao);
+  color: var(--cor-cinza-asfalto);
+  white-space: nowrap;
+}
+
+.abas__aba::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: transparent;
+}
+
+.abas__aba:hover {
+  color: var(--cor-esmeralda-escuro);
+}
+
+/* AbasAdmin: as abas são links */
+a.abas__aba {
+  text-decoration: none;
+}
+
+/* aria-selected: Abas (no painel da página); aria-current: AbasAdmin (rota atual) */
+.abas__aba[aria-selected='true'],
+.abas__aba[aria-current='page'] {
+  color: var(--cor-esmeralda-escuro);
+}
+
+.abas__aba[aria-selected='true']::after,
+.abas__aba[aria-current='page']::after {
+  background: var(--cor-esmeralda);
+}
+
+.abas__painel {
+  padding-top: var(--esp-24);
+}
+
+.abas__painel:focus-visible {
+  outline-offset: 4px;
+}

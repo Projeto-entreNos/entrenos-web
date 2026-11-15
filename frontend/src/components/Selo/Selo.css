@@ -1,0 +1,34 @@
+.selo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--esp-4);
+  padding: var(--esp-4) var(--esp-12);
+  border-radius: var(--raio-pilula);
+  font: var(--texto-rotulo);
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.selo svg {
+  flex-shrink: 0;
+}
+
+.selo--sucesso {
+  background: var(--cor-esmeralda-10);
+  color: var(--cor-esmeralda-escuro);
+}
+
+.selo--aviso {
+  background: var(--cor-aviso-fundo);
+  color: var(--cor-aviso-texto);
+}
+
+.selo--erro {
+  background: var(--cor-erro-fundo);
+  color: var(--cor-erro-texto);
+}
+
+.selo--neutro {
+  background: var(--cor-azul-20);
+  color: var(--cor-azul-abissal);
+}

@@ -1,0 +1,111 @@
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--esp-8);
+  height: var(--altura-botao);
+  padding: 0 var(--esp-32);
+  border: 2px solid transparent;
+  border-radius: var(--raio-botao);
+  font: var(--texto-botao);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color var(--duracao-rapida),
+    border-color var(--duracao-rapida),
+    color var(--duracao-rapida);
+}
+
+.botao--grande {
+  height: var(--altura-botao-grande);
+}
+
+.botao--largura-total {
+  width: 100%;
+}
+
+.botao--principal {
+  background: var(--cor-esmeralda);
+  color: var(--cor-branco);
+}
+
+.botao--principal:hover:not(:disabled) {
+  background: var(--cor-esmeralda-escuro);
+}
+
+.botao--secundario {
+  background: transparent;
+  border-color: var(--cor-esmeralda);
+  color: var(--cor-esmeralda);
+}
+
+.botao--secundario:hover:not(:disabled) {
+  background: var(--cor-esmeralda-10);
+  color: var(--cor-esmeralda-escuro);
+}
+
+.botao--perigo {
+  background: var(--cor-erro-texto);
+  color: var(--cor-branco);
+}
+
+.botao--perigo:hover:not(:disabled) {
+  background: var(--cor-erro-fundo);
+  border-color: var(--cor-erro-texto);
+  color: var(--cor-erro-texto);
+}
+
+.botao--texto {
+  background: transparent;
+  padding: 0 var(--esp-16);
+  color: var(--cor-esmeralda-escuro);
+}
+
+.botao--texto:hover:not(:disabled) {
+  background: var(--cor-esmeralda-10);
+}
+
+.botao--principal-escuro {
+  background: var(--cor-folha);
+  color: var(--cor-azul-abissal);
+}
+
+.botao--principal-escuro:hover:not(:disabled) {
+  background: var(--cor-folha-40);
+}
+
+/* "Carregando" também usa disabled, mas mantém as cores: por isso o :not([aria-busy]) */
+.botao:disabled {
+  cursor: not-allowed;
+}
+
+.botao--principal:disabled:not([aria-busy]),
+.botao--perigo:disabled:not([aria-busy]),
+.botao--principal-escuro:disabled:not([aria-busy]) {
+  background: var(--cor-azul-20);
+  color: var(--cor-cinza-asfalto);
+}
+
+.botao--secundario:disabled:not([aria-busy]) {
+  border-color: var(--cor-azul-20);
+  color: var(--cor-cinza-asfalto);
+}
+
+.botao--texto:disabled:not([aria-busy]) {
+  color: var(--cor-cinza-asfalto);
+  opacity: 0.6;
+}
+
+.botao[aria-busy] {
+  cursor: progress;
+}
+
+.botao__indicador {
+  animation: botao-girar 1s linear infinite;
+}
+
+@keyframes botao-girar {
+  to {
+    transform: rotate(360deg);
+  }
+}

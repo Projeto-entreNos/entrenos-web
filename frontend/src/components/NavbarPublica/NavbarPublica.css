@@ -1,0 +1,42 @@
+.navbar-publica {
+  height: var(--altura-navbar);
+  background: var(--cor-fundo-pagina);
+}
+
+.navbar-publica__conteudo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--esp-32);
+  height: 100%;
+}
+
+.navbar-publica__logo {
+  display: block;
+  flex-shrink: 0;
+  border-radius: var(--raio-botao);
+}
+
+.navbar-publica__links {
+  display: flex;
+  gap: 50px; /* não há variável de espaçamento de 50 px */
+}
+
+.navbar-publica__link {
+  font: var(--texto-menu);
+  color: var(--cor-cinza-asfalto);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navbar-publica__link:hover {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+
+@media (max-width: 1280px) {
+  .navbar-publica__links {
+    gap: var(--esp-24);
+  }
+}

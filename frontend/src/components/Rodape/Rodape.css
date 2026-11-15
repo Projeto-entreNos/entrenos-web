@@ -1,0 +1,10 @@
+.rodape {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 53px;
+  padding: var(--esp-16);
+  background: var(--cor-azul-abissal);
+  font: var(--texto-legenda);
+  color: var(--cor-branco-80);
+}

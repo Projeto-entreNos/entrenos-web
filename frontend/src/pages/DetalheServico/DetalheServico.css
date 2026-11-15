@@ -1,0 +1,121 @@
+.detalhe {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.detalhe--nao-encontrado {
+  padding-top: var(--esp-32);
+}
+
+.detalhe__cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-12);
+}
+
+.detalhe__selos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--esp-8);
+}
+
+.detalhe__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+.detalhe__universidade {
+  font: var(--texto-titulo-3);
+  color: var(--cor-esmeralda-escuro);
+}
+
+.detalhe__colunas {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: var(--esp-32);
+  align-items: start;
+}
+
+.detalhe__coluna {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-24);
+}
+
+.detalhe__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.detalhe__card-titulo {
+  font: var(--texto-titulo-3);
+}
+
+.detalhe__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+  margin: 0;
+}
+
+.detalhe__lista div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-4);
+}
+
+.detalhe__lista dt {
+  font: var(--texto-legenda);
+}
+
+.detalhe__lista dd {
+  margin: 0;
+  color: var(--cor-azul-abissal);
+}
+
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
+.detalhe__regiao-viva:empty {
+  margin-top: calc(-1 * var(--esp-16));
+}
+
+.detalhe__sucesso:focus {
+  outline: none;
+}
+
+.detalhe__sucesso:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+  border-radius: var(--raio-card);
+}
+
+.detalhe__passos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.detalhe__passos li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--esp-12);
+}
+
+.detalhe__passo-numero {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--cor-esmeralda-10);
+  border-radius: var(--raio-pilula);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda-escuro);
+}
+
+.detalhe__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}

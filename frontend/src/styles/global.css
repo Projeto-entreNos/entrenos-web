@@ -1,0 +1,117 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Campos e botões herdam a fonte da página (o navegador não faz isso sozinho) */
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+html {
+  scroll-behavior: smooth; /* rolagem suave nos links das seções da landing */
+}
+
+body {
+  min-width: 1024px; /* projeto só desktop: abaixo disso a página rola de lado */
+  background: var(--cor-fundo-pagina);
+  color: var(--cor-cinza-asfalto);
+  font: var(--texto-corpo);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1 {
+  font: var(--texto-titulo-1);
+  letter-spacing: var(--espaco-letras-titulo-1);
+  color: var(--cor-azul-abissal);
+}
+
+h2 {
+  font: var(--texto-titulo-2);
+  color: var(--cor-azul-abissal);
+}
+
+h3 {
+  font: var(--texto-titulo-3);
+  color: var(--cor-azul-abissal);
+}
+
+a {
+  color: var(--cor-esmeralda-escuro);
+}
+
+:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+}
+
+/* O padding lateral garante uma margem mínima em janelas menores */
+.container {
+  width: 100%;
+  max-width: calc(var(--largura-conteudo) + 2 * var(--esp-32));
+  margin-inline: auto;
+  padding-inline: var(--esp-32);
+}
+
+/* Esconde da tela, mas mantém para leitores de tela */
+.somente-leitor-tela {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Quem pede menos movimento no sistema não vê animações */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
