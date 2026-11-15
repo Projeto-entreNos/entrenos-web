@@ -1,14 +1,25 @@
 import {
+  AppWindow,
   ArrowLeft,
+  Briefcase,
   Check,
   ChevronDown,
   Circle,
   CircleX,
+  Coins,
   Eye,
   EyeOff,
   Info,
+  Languages,
   LoaderCircle,
+  Lock,
+  Mail,
+  MailCheck,
+  Monitor,
+  Package,
+  Scale,
   TriangleAlert,
+  Wallet,
   X,
 } from 'lucide-react';
 
@@ -25,6 +36,18 @@ const ICONES = {
   carregando: LoaderCircle,
   pendente: Circle,
   voltar: ArrowLeft,
+  email: Mail,
+  'email-enviado': MailCheck,
+  cadeado: Lock,
+  // Landing
+  janela: AppWindow,
+  pacote: Package,
+  moedas: Coins,
+  carteira: Wallet,
+  maleta: Briefcase,
+  idiomas: Languages,
+  monitor: Monitor,
+  balanca: Scale,
 };
 
 // Sem "rotulo", o ícone é decorativo e fica escondido dos leitores de tela

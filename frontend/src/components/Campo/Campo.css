@@ -61,6 +61,24 @@
   padding-right: var(--esp-48);
 }
 
+/* Ícone à esquerda do texto (ex.: e-mail e cadeado no login) */
+.campo__entrada--com-icone {
+  padding-left: var(--esp-48);
+}
+
+.campo__icone {
+  position: absolute;
+  top: 50%;
+  left: var(--esp-16);
+  transform: translateY(-50%);
+  color: var(--cor-cinza-asfalto);
+  pointer-events: none; /* o clique passa para o campo */
+}
+
+.campo__caixa:has(.campo__entrada[aria-invalid='true']) .campo__icone {
+  color: var(--cor-erro-texto);
+}
+
 .campo__botao-icone {
   position: absolute;
   top: 50%;

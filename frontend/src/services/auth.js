@@ -5,13 +5,14 @@ import { dataDeHoje } from '../utils/datas';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 import { salvarColaboradores, statusAtual } from './empresa';
 
-// TODO: implementar recuperarSenha (modo mock e API).
-
 // true: simula erro ao abrir o link de ativação (modo mock)
 export const SIMULAR_FALHA_CONVITE = false;
 
 // true: simula erro ao clicar em "Ativar conta" (modo mock)
 export const SIMULAR_FALHA_ATIVACAO = false;
+
+// true: simula erro ao pedir o link de recuperação de senha (modo mock)
+export const SIMULAR_FALHA_RECUPERACAO = false;
 
 // Links de teste no modo mock: /ativar/convite-gabriela e /ativar/convite-heitor (válidos),
 // /ativar/convite-iris (expirado). Os tokens ficam em mocks/colaboradores.js.
@@ -123,7 +124,18 @@ export async function ativarConta(token, { senha, aceitouTermos }) {
  * API: POST /auth/recuperar-senha  corpo: { email }
  * Resposta esperada: { mensagem: "Se o e-mail estiver cadastrado, você vai receber um link." }
  */
-// eslint-disable-next-line no-unused-vars
 export async function recuperarSenha(email) {
-  throw new Error('recuperarSenha ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/auth/recuperar-senha', { metodo: 'POST', corpo: { email } });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_RECUPERACAO) {
+    throw new Error('Não foi possível enviar o link agora. Tente de novo em alguns minutos.');
+  }
+
+  // Mesma resposta para e-mail cadastrado ou não: assim ninguém descobre quem tem conta.
+  // No modo mock nenhum e-mail é enviado de verdade.
+  return { mensagem: 'Se o e-mail estiver cadastrado, você vai receber um link.' };
 }
