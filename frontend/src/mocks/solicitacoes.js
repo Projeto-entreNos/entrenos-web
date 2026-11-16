@@ -3,6 +3,8 @@
   Status: 'Enviada', 'Em contato', 'Atendida', 'Cancelada'.
   Privacidade (LGPD): a mensagem do colaborador vai só para a universidade,
   por isso ela NÃO fica guardada aqui (o admin não pode ver o conteúdo).
+  "temMensagem" diz só se o colaborador escreveu uma mensagem (o admin vê "Mensagem enviada
+  à universidade" ou "Sem mensagem"); "atendidaEm" é a data em que virou "Atendida".
   Regras respeitadas nos dados:
   - só há solicitação aberta (Enviada / Em contato) de serviços Ativos;
   - nenhum colaborador tem duas solicitações abertas do mesmo serviço;
@@ -20,6 +22,7 @@ export const solicitacoes = [
   },
   {
     id: 'sol-2',
+    temMensagem: true,
     colaboradorId: 'col-1',
     servicoId: 'serv-4',
     status: 'Enviada',
@@ -44,6 +47,7 @@ export const solicitacoes = [
   },
   {
     id: 'sol-5',
+    temMensagem: true,
     colaboradorId: 'col-2',
     servicoId: 'serv-7',
     status: 'Enviada',
@@ -52,6 +56,7 @@ export const solicitacoes = [
   },
   {
     id: 'sol-6',
+    temMensagem: true,
     colaboradorId: 'col-3',
     servicoId: 'serv-11',
     status: 'Atendida',
@@ -60,6 +65,7 @@ export const solicitacoes = [
   },
   {
     id: 'sol-7',
+    temMensagem: true,
     colaboradorId: 'col-4',
     servicoId: 'serv-3',
     status: 'Em contato',

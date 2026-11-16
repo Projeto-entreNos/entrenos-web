@@ -1,0 +1,163 @@
+.admin-solicitacoes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.admin-solicitacoes__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-solicitacoes__resumo {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--esp-24);
+}
+
+.admin-solicitacoes__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-16);
+}
+
+/* 220 px no Figma */
+.admin-solicitacoes__filtro {
+  flex-shrink: 0;
+  width: 220px;
+}
+
+/* 220 px no Figma; um pouco mais para "Universidade: todas" caber ao lado da seta */
+.admin-solicitacoes__filtro--largo {
+  width: 240px;
+}
+
+.admin-solicitacoes__busca {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A busca não tem rótulo visível: o label fica só para leitores de tela */
+.admin-solicitacoes__busca .campo__rotulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.admin-solicitacoes__barra .campo {
+  gap: 0;
+}
+
+.admin-solicitacoes__barra .botao--texto {
+  flex-shrink: 0;
+}
+
+.admin-solicitacoes .tabela td {
+  font: var(--texto-legenda);
+}
+
+.admin-solicitacoes__acao {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.admin-solicitacoes__acao:hover {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+}
+
+.admin-solicitacoes__total {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-solicitacoes__esqueleto {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+/* Em janelas menores, os filtros encolhem para a barra caber */
+@media (max-width: 1279px) {
+  .admin-solicitacoes__filtro {
+    width: 180px;
+  }
+
+  .admin-solicitacoes__filtro--largo {
+    width: 200px;
+  }
+
+  /* "Ver detalhes" quebra em duas linhas para a tabela caber */
+  .admin-solicitacoes__acao {
+    white-space: normal;
+    text-align: left;
+  }
+}
+
+/* Painel lateral e modal (abrem fora de .admin-solicitacoes, no fim do body) */
+.admin-solicitacoes__painel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
+
+.admin-solicitacoes__dados {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+  margin: 0;
+}
+
+.admin-solicitacoes__dados > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+}
+
+.admin-solicitacoes__dados dt {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-solicitacoes__dados dd {
+  margin: 0;
+  font: var(--texto-corpo);
+  color: var(--cor-azul-abissal);
+  overflow-wrap: anywhere;
+}
+
+.admin-solicitacoes__mensagem {
+  padding: var(--esp-12) var(--esp-16);
+  background: var(--cor-fundo-pagina);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-botao);
+}
+
+.admin-solicitacoes__datas {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-2);
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-solicitacoes__retorno:focus {
+  outline: none;
+}
+
+.admin-solicitacoes__retorno:empty {
+  display: none;
+}
+
+.admin-solicitacoes__confirmacao {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-16);
+}
