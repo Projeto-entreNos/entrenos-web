@@ -275,7 +275,6 @@ export default function Componentes() {
             titulo="Educação financeira"
             universidade="Instituto Atlântico"
             descricao="Orçamento doméstico, saída das dívidas e dúvidas fiscais básicas, com estudantes de contábeis."
-            motivo="Por que indicamos: ajuda a organizar o orçamento, sair das dívidas e tirar dúvidas sobre impostos."
             para="/servicos/serv-4"
           />
         </div>

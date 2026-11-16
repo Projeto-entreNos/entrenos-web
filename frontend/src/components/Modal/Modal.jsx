@@ -10,8 +10,9 @@ const SELETOR_FOCAVEIS =
   aoFechar é chamado no Esc, no clique no fundo e no botão X.
   Enquanto aberto, o foco fica preso no modal; ao fechar, volta para quem o abriu.
   largura: "normal" (560 px) | "grande" (760 px, para formulários em duas colunas)
+  posicao: "centro" | "lateral" (painel de 480 px, à direita e na altura toda da tela; ignora a largura)
 */
-export default function Modal({ aberto, aoFechar, titulo, children, acoes, largura = 'normal' }) {
+export default function Modal({ aberto, aoFechar, titulo, children, acoes, largura = 'normal', posicao = 'centro' }) {
   const idTitulo = useId();
   const refCaixa = useRef(null);
 
@@ -69,16 +70,21 @@ export default function Modal({ aberto, aoFechar, titulo, children, acoes, largu
 
   if (!aberto) return null;
 
+  const lateral = posicao === 'lateral';
+  let classeCaixa = 'modal';
+  if (lateral) classeCaixa = 'modal modal--lateral';
+  else if (largura === 'grande') classeCaixa = 'modal modal--grande';
+
   // Só fecha quando o clique começa no próprio fundo, não dentro da caixa
   function aoClicarNoFundo(evento) {
     if (evento.target === evento.currentTarget) aoFechar();
   }
 
   return createPortal(
-    <div className="modal__fundo" onMouseDown={aoClicarNoFundo}>
+    <div className={lateral ? 'modal__fundo modal__fundo--lateral' : 'modal__fundo'} onMouseDown={aoClicarNoFundo}>
       <div
         ref={refCaixa}
-        className={largura === 'grande' ? 'modal modal--grande' : 'modal'}
+        className={classeCaixa}
         role="dialog"
         aria-modal="true"
         aria-labelledby={idTitulo}

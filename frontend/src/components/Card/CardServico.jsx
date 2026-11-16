@@ -3,7 +3,6 @@ import Selo from '../Selo/Selo';
 import Card from './Card';
 
 /**
- * - motivo: motivo da indicação da IA (opcional)
  * - seloStatus: <Selo> extra, ex.: "Sem vagas" (opcional)
  */
 export default function CardServico({
@@ -12,7 +11,6 @@ export default function CardServico({
   universidade,
   descricao,
   novo = false,
-  motivo,
   para,
   seloStatus,
   textoBotao = 'Ver detalhes',
@@ -28,8 +26,6 @@ export default function CardServico({
       <h3 className="card-servico__titulo">{titulo}</h3>
       <p className="card-servico__universidade">{universidade}</p>
       <p className="card-servico__descricao">{descricao}</p>
-
-      {motivo && <p className="card-servico__motivo">{motivo}</p>}
 
       <Botao variante="secundario" larguraTotal para={para} aria-label={`${textoBotao}: ${titulo}`}>
         {textoBotao}

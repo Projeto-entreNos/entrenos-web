@@ -1,0 +1,142 @@
+.admin-servicos {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+}
+
+.admin-servicos__titulo {
+  color: var(--cor-cinza-asfalto);
+}
+
+/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
+.admin-servicos__regiao-viva:empty {
+  margin-top: calc(-1 * var(--esp-32));
+}
+
+.admin-servicos__mensagem:focus {
+  outline: none;
+}
+
+.admin-servicos__mensagem:focus-visible {
+  outline: 3px solid var(--cor-esmeralda);
+  outline-offset: 2px;
+  border-radius: var(--raio-card);
+}
+
+.admin-servicos__barra {
+  display: flex;
+  align-items: center;
+  gap: var(--esp-16);
+}
+
+.admin-servicos__busca {
+  flex: 1;
+  min-width: 0;
+}
+
+/* A busca não tem rótulo visível: o label fica só para leitores de tela */
+.admin-servicos__busca .campo__rotulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.admin-servicos__barra .campo {
+  gap: 0;
+}
+
+/* 220 px no Figma */
+.admin-servicos__filtro {
+  flex-shrink: 0;
+  width: 220px;
+}
+
+/* Colunas iguais, menos Status, com 208 px no Figma */
+.admin-servicos .tabela {
+  table-layout: fixed;
+}
+
+.admin-servicos .tabela th:nth-child(5) {
+  width: calc(208px + var(--esp-24));
+}
+
+.admin-servicos .tabela td {
+  font: var(--texto-legenda);
+}
+
+.admin-servicos__nome {
+  color: var(--cor-azul-abissal);
+}
+
+.admin-servicos__acao {
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--raio-botao);
+  font: var(--texto-rotulo);
+  color: var(--cor-esmeralda);
+  cursor: pointer;
+}
+
+.admin-servicos__acao:hover {
+  color: var(--cor-esmeralda-escuro);
+  text-decoration: underline;
+}
+
+/* Em janelas menores que 1280 px a coluna fixa de Status não cabe */
+@media (max-width: 1279px) {
+  .admin-servicos .tabela th:nth-child(5) {
+    width: auto;
+  }
+}
+
+.admin-servicos__total {
+  font: var(--texto-legenda);
+  color: var(--cor-cinza-asfalto);
+}
+
+.admin-servicos__esqueleto {
+  background: var(--cor-branco);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio-card);
+}
+
+/* Modal (abre fora de .admin-servicos, no fim do body) */
+.admin-servicos__formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-20);
+}
+
+.admin-servicos__linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--esp-16);
+  align-items: start;
+}
+
+.admin-servicos__linha--tres {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.admin-servicos__pacotes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* Com erro, as duas caixas ficam com a borda vermelha (a mensagem aparece só na primeira) */
+.admin-servicos__pacotes--erro .caixa-selecao__marca {
+  border-color: var(--cor-erro-texto);
+}
+
+.admin-servicos__nota {
+  font: var(--texto-legenda);
+  color: var(--cor-azul-abissal);
+}

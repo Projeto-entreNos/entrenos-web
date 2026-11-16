@@ -17,10 +17,10 @@ const LIMITE_MENSAGEM = 300;
 const STATUS_ABERTOS = ['Enviada', 'Em contato'];
 
 /*
-  Modo mock: as solicitações criadas pelo colaborador ficam no localStorage,
-  para continuarem lá depois de recarregar a página. Ao carregar este arquivo,
-  elas entram na lista de mocks, e assim contam no limite do mês e aparecem
-  em Minhas solicitações.
+  Modo mock: as solicitações criadas pelo colaborador e as mudanças de status feitas
+  no Admin Solicitações ficam no localStorage, para continuarem lá depois de recarregar
+  a página. Ao carregar este arquivo, a lista salva atualiza a lista de mocks (pelo id),
+  e assim conta no limite do mês e aparece em Minhas solicitações.
   LGPD: o campo "mensagem" simula o que é enviado à universidade.
   As telas de admin NUNCA podem ler esse campo.
 */
@@ -43,9 +43,17 @@ function salvarSolicitacoes(lista) {
   }
 }
 
+// Usada pelo Admin Solicitações (services/admin.js) no modo mock, depois de mudar um status
+export function salvarTodasSolicitacoes() {
+  salvarSolicitacoes(solicitacoes);
+}
+
 // Confere o id para não duplicar quando o Vite recarrega este arquivo
 for (const salva of lerSolicitacoesSalvas()) {
-  if (!solicitacoes.some((item) => item.id === salva.id)) {
+  const existente = solicitacoes.find((item) => item.id === salva.id);
+  if (existente) {
+    Object.assign(existente, salva);
+  } else {
     solicitacoes.push(salva);
   }
 }

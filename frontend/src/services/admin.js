@@ -1,11 +1,15 @@
-/* eslint-disable no-unused-vars */
 import { colaboradores } from '../mocks/colaboradores';
 import { empresas } from '../mocks/empresas';
 import { pacotes } from '../mocks/pacotes';
+import { categorias, servicos } from '../mocks/servicos';
+import { solicitacoes } from '../mocks/solicitacoes';
+import { universidades } from '../mocks/universidades';
+import { dataDeHoje } from '../utils/datas';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
+import { salvarServicos, servicoNovo } from './servicos';
+import { salvarTodasSolicitacoes } from './solicitacoes';
 
 // LGPD: o admin nunca recebe o conteúdo da mensagem do colaborador.
-// TODO: implementar as funções de serviços, universidades e solicitações deste arquivo (modo mock e API).
 
 // true: simula erro ao carregar a tela Admin Empresas (modo mock)
 export const SIMULAR_FALHA_EMPRESAS = false;
@@ -15,6 +19,27 @@ export const SIMULAR_EMPRESAS_VAZIA = false;
 
 // true: simula erro ao salvar uma empresa ou confirmar o pagamento (modo mock)
 export const SIMULAR_FALHA_SALVAR_EMPRESA = false;
+
+// true: simula erro ao carregar a tela Admin Serviços (modo mock)
+export const SIMULAR_FALHA_SERVICOS = false;
+
+// true: simula a lista de serviços vazia (modo mock)
+export const SIMULAR_SERVICOS_VAZIA = false;
+
+// true: simula erro ao criar ou editar um serviço (modo mock)
+export const SIMULAR_FALHA_SALVAR_SERVICO = false;
+
+// true: simula erro ao carregar a tela Admin Solicitações (modo mock)
+export const SIMULAR_FALHA_SOLICITACOES = false;
+
+// true: simula a lista de solicitações vazia (modo mock)
+export const SIMULAR_SOLICITACOES_VAZIA = false;
+
+// true: simula erro ao salvar o status de uma solicitação (modo mock)
+export const SIMULAR_FALHA_STATUS_SOLICITACAO = false;
+
+const STATUS_SERVICO = ['Ativo', 'Sem vagas', 'Pausado'];
+const MODALIDADES = ['Presencial', 'Online', 'Híbrido'];
 
 /*
   Modo mock: depois da primeira mudança (criar, editar ou confirmar pagamento), a lista de
@@ -217,30 +242,137 @@ export async function listarPacotes() {
   }));
 }
 
+function paraRespostaServico(servico) {
+  const universidade = universidades.find((item) => item.id === servico.universidadeId);
+  return {
+    id: servico.id,
+    nome: servico.nome,
+    categoria: servico.categoria,
+    universidade: { id: universidade?.id ?? null, nome: universidade?.nome ?? '-' },
+    modalidade: servico.modalidade,
+    local: servico.local,
+    descricaoCurta: servico.descricaoCurta,
+    descricaoCompleta: servico.descricaoCompleta,
+    pacotes: servico.pacotes,
+    status: servico.status,
+    previsaoRetorno: servico.previsaoRetorno,
+    novo: servicoNovo(servico),
+  };
+}
+
+// O back-end confere de novo: campos obrigatórios, universidade e pacotes existentes
+function conferirServico(dados) {
+  if (!dados.nome?.trim()) {
+    throw new Error('Informe o nome do serviço.');
+  }
+  if (!categorias.includes(dados.categoria)) {
+    throw new Error('Selecione a categoria.');
+  }
+  if (!universidades.some((item) => item.id === dados.universidadeId)) {
+    throw new Error('Selecione a universidade.');
+  }
+  if (!dados.pacotes?.length || !dados.pacotes.every((id) => pacotes.some((item) => item.id === id))) {
+    throw new Error('Marque pelo menos um pacote.');
+  }
+  if (!STATUS_SERVICO.includes(dados.status)) {
+    throw new Error('Status inválido.');
+  }
+  if (dados.modalidade && !MODALIDADES.includes(dados.modalidade)) {
+    throw new Error('Modalidade inválida.');
+  }
+}
+
+// A previsão de retorno só vale para serviço "Pausado"
+function camposDoServico(dados) {
+  return {
+    nome: dados.nome.trim(),
+    universidadeId: dados.universidadeId,
+    categoria: dados.categoria,
+    descricaoCurta: dados.descricaoCurta?.trim() ?? '',
+    descricaoCompleta: dados.descricaoCompleta?.trim() ?? '',
+    modalidade: dados.modalidade ?? '',
+    local: dados.local?.trim() ?? '',
+    pacotes: dados.pacotes,
+    status: dados.status,
+    previsaoRetorno: dados.status === 'Pausado' ? dados.previsaoRetorno || null : null,
+  };
+}
+
 /**
+ * Lista todos os serviços do catálogo, em todos os status.
  * API: GET /admin/servicos
- * Resposta esperada: [ { id, nome, categoria, universidade: { id, nome }, modalidade, pacotes: ["essencial"],
- *   status, previsaoRetorno, novo } ]
+ * Resposta esperada: [ { id, nome, categoria, universidade: { id, nome },
+ *   modalidade: "Presencial"|"Online"|"Híbrido", local: "texto"|"", descricaoCurta, descricaoCompleta,
+ *   pacotes: ["essencial", "completo"], status: "Ativo"|"Sem vagas"|"Pausado",
+ *   previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean } ]
+ * "novo": o back-end calcula (serviço criado há até 30 dias).
  */
 export async function listarServicosAdmin() {
-  throw new Error('listarServicosAdmin ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/servicos');
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SERVICOS) {
+    throw new Error('Falha simulada ao carregar os serviços.');
+  }
+  if (SIMULAR_SERVICOS_VAZIA) return [];
+
+  return servicos.map(paraRespostaServico);
 }
 
 /**
  * API: POST /admin/servicos  corpo: { nome, universidadeId, categoria, descricaoCurta, descricaoCompleta,
- *   modalidade, pacotes, status, previsaoRetorno, novo }
- * Resposta esperada: o serviço criado
+ *   modalidade, local, pacotes: ["essencial"], status, previsaoRetorno: "AAAA-MM-01"|null }
+ * O back-end grava a data de cadastro (criadoEm), usada no selo "Novo".
+ * Resposta esperada: o serviço criado, no mesmo formato de listarServicosAdmin
+ * Erros (400): { mensagem: "Selecione a universidade." }
  */
 export async function criarServico(dados) {
-  throw new Error('criarServico ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/servicos', { metodo: 'POST', corpo: dados });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SALVAR_SERVICO) {
+    throw new Error('Falha simulada ao salvar o serviço.');
+  }
+  conferirServico(dados);
+
+  const novo = { id: `serv-${Date.now()}`, ...camposDoServico(dados), criadoEm: dataDeHoje() };
+  servicos.push(novo);
+  salvarServicos();
+
+  return paraRespostaServico(novo);
 }
 
 /**
  * API: PUT /admin/servicos/:id  corpo: mesmos campos de criarServico
- * Resposta esperada: o serviço atualizado
+ * Resposta esperada: o serviço atualizado, no mesmo formato de listarServicosAdmin
+ * Erros (404): { mensagem: "Serviço não encontrado." }
  */
 export async function editarServico(id, dados) {
-  throw new Error('editarServico ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao(`/admin/servicos/${id}`, { metodo: 'PUT', corpo: dados });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SALVAR_SERVICO) {
+    throw new Error('Falha simulada ao salvar o serviço.');
+  }
+
+  const servico = servicos.find((item) => item.id === id);
+  if (!servico) {
+    throw new Error('Serviço não encontrado.');
+  }
+  conferirServico(dados);
+
+  Object.assign(servico, camposDoServico(dados));
+  salvarServicos();
+  return paraRespostaServico(servico);
 }
 
 /**
@@ -249,22 +381,124 @@ export async function editarServico(id, dados) {
  * Resposta esperada: [ { id, nome } ]
  */
 export async function listarUniversidades() {
-  throw new Error('listarUniversidades ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/universidades');
+  }
+
+  await esperarMock();
+
+  return universidades.map((universidade) => ({ id: universidade.id, nome: universidade.nome }));
+}
+
+// Para onde cada status pode ir. Atendida e Cancelada são finais.
+const TRANSICOES_SOLICITACAO = {
+  Enviada: ['Em contato', 'Atendida', 'Cancelada'],
+  'Em contato': ['Atendida', 'Cancelada'],
+};
+
+export function proximosStatus(status) {
+  return TRANSICOES_SOLICITACAO[status] ?? [];
+}
+
+// As solicitações de exemplo atendidas antes deste campo existir usam a data da última mudança
+function dataDeAtendimento(solicitacao) {
+  if (solicitacao.status !== 'Atendida') return null;
+  return solicitacao.atendidaEm ?? solicitacao.atualizadaEm;
+}
+
+// LGPD: monta a resposta campo a campo, sem copiar a solicitação, para a mensagem nunca sair daqui
+function paraRespostaSolicitacao(solicitacao) {
+  const colaborador = colaboradores.find((item) => item.id === solicitacao.colaboradorId);
+  const empresa = empresas.find((item) => item.id === (solicitacao.empresaId ?? colaborador?.empresaId));
+  const servico = servicos.find((item) => item.id === solicitacao.servicoId);
+  const universidade = universidades.find(
+    (item) => item.id === (solicitacao.universidadeId ?? servico?.universidadeId)
+  );
+
+  return {
+    id: solicitacao.id,
+    status: solicitacao.status,
+    criadaEm: solicitacao.criadaEm,
+    atualizadaEm: solicitacao.atualizadaEm,
+    atendidaEm: dataDeAtendimento(solicitacao),
+    temMensagem: Boolean(solicitacao.temMensagem || solicitacao.mensagem),
+    colaborador: { nome: colaborador?.nome ?? 'Colaborador removido', email: colaborador?.email ?? '-' },
+    empresa: { id: empresa?.id ?? null, nome: empresa?.nome ?? '-' },
+    servico: { nome: servico?.nome ?? 'Serviço removido' },
+    universidade: {
+      id: universidade?.id ?? null,
+      nome: universidade?.nome ?? '-',
+      email: universidade?.emailContato ?? '-',
+    },
+  };
 }
 
 /**
- * API: GET /admin/solicitacoes?status=Enviada
- * Resposta esperada: [ { id, status, criadaEm, atualizadaEm, colaborador: { nome }, empresa: { nome },
- *   servico: { nome }, universidade: { nome } } ]   (sem a mensagem)
+ * Lista as solicitações de todas as empresas, da mais recente para a mais antiga.
+ * LGPD: nunca traz o texto da mensagem, só "temMensagem" (se o colaborador escreveu uma).
+ * API: GET /admin/solicitacoes?status=Enviada   (status é opcional)
+ * Resposta esperada: [ { id, status: "Enviada"|"Em contato"|"Atendida"|"Cancelada",
+ *   criadaEm: "AAAA-MM-DD", atualizadaEm: "AAAA-MM-DD", atendidaEm: "AAAA-MM-DD"|null, temMensagem: boolean,
+ *   colaborador: { nome, email }, empresa: { id, nome }, servico: { nome },
+ *   universidade: { id, nome, email } } ]
  */
 export async function listarSolicitacoesAdmin({ status } = {}) {
-  throw new Error('listarSolicitacoesAdmin ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    const filtro = status ? `?status=${encodeURIComponent(status)}` : '';
+    return requisicao(`/admin/solicitacoes${filtro}`);
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SOLICITACOES) {
+    throw new Error('Falha simulada ao carregar as solicitações.');
+  }
+  if (SIMULAR_SOLICITACOES_VAZIA) return [];
+
+  return solicitacoes
+    .filter((item) => !status || item.status === status)
+    .map(paraRespostaSolicitacao)
+    // Datas "AAAA-MM-DD" podem ser comparadas como texto
+    .sort((a, b) => b.criadaEm.localeCompare(a.criadaEm));
 }
 
 /**
+ * Atualiza o status de uma solicitação (o admin registra o que a universidade informou).
+ * Regras: Enviada -> Em contato, Atendida ou Cancelada; Em contato -> Atendida ou Cancelada;
+ * Atendida e Cancelada não mudam mais. Cancelada deixa de contar no limite do mês do colaborador.
  * API: POST /admin/solicitacoes/:id/status  corpo: { status: "Em contato"|"Atendida"|"Cancelada" }
- * Resposta esperada: { id, status, atualizadaEm }
+ * Resposta esperada: { id, status, atualizadaEm: "AAAA-MM-DD", atendidaEm: "AAAA-MM-DD"|null }
+ * Erros (409): { mensagem: "Esta solicitação não pode mais mudar para este status." }
  */
 export async function alterarStatusSolicitacao(id, status) {
-  throw new Error('alterarStatusSolicitacao ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao(`/admin/solicitacoes/${id}/status`, { metodo: 'POST', corpo: { status } });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_STATUS_SOLICITACAO) {
+    throw new Error('Falha simulada ao salvar o status.');
+  }
+
+  const solicitacao = solicitacoes.find((item) => item.id === id);
+  if (!solicitacao) {
+    throw new Error('Solicitação não encontrada.');
+  }
+  if (!proximosStatus(solicitacao.status).includes(status)) {
+    throw new Error('Esta solicitação não pode mais mudar para este status.');
+  }
+
+  const hoje = dataDeHoje();
+  solicitacao.status = status;
+  solicitacao.atualizadaEm = hoje;
+  if (status === 'Atendida') solicitacao.atendidaEm = hoje;
+  salvarTodasSolicitacoes();
+
+  return {
+    id: solicitacao.id,
+    status: solicitacao.status,
+    atualizadaEm: solicitacao.atualizadaEm,
+    atendidaEm: dataDeAtendimento(solicitacao),
+  };
 }
