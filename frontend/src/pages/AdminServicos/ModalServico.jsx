@@ -194,7 +194,7 @@ export default function ModalServico({ servico, categorias, universidades, pacot
         <CampoTextoLongo
           rotulo="Sobre o serviço"
           placeholder="Descreva o que o serviço oferece, como funciona e para quem é indicado."
-          ajuda="A busca com IA usa esta descrição. Escreva de forma clara o que o serviço oferece."
+          ajuda="Aparece no detalhe do serviço. Escreva de forma clara o que o serviço oferece."
           limite={LIMITE_SOBRE}
           {...ligar('descricaoCompleta')}
         />

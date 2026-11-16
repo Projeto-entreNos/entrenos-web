@@ -47,14 +47,6 @@
   min-height: 72px;
 }
 
-.card-servico__motivo {
-  padding: var(--esp-12);
-  background: var(--cor-esmeralda-10);
-  border-radius: var(--raio-botao);
-  font: var(--texto-legenda);
-  color: var(--cor-azul-abissal);
-}
-
 /* Mantém o botão no fim do card, mesmo com textos de tamanhos diferentes */
 .card-servico .botao {
   margin-top: auto;

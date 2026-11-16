@@ -16,6 +16,7 @@ import {
 import { listarCategorias } from '../../services/servicos';
 import ModalServico from './ModalServico';
 import TabelaServicos from './TabelaServicos';
+import { combinaComBusca } from '../../utils/busca';
 import { STATUS_SERVICO } from './validarServico';
 import './AdminServicos.css';
 
@@ -23,10 +24,6 @@ function plural(quantidade, singular, varios) {
   return quantidade === 1 ? singular : varios;
 }
 
-// Busca sem diferenciar maiúsculas e acentos: "educacao" encontra "Educação financeira"
-function normalizar(texto) {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
-}
 
 export default function AdminServicos() {
   const [lista, setLista] = useState([]);
@@ -152,12 +149,11 @@ export default function AdminServicos() {
       );
     }
 
-    const termo = normalizar(busca);
     const filtrados = lista.filter(
       (servico) =>
         (filtroCategoria === 'todas' || servico.categoria === filtroCategoria) &&
         (filtroStatus === 'todos' || servico.status === filtroStatus) &&
-        normalizar(servico.nome).includes(termo)
+        combinaComBusca(busca, [servico.nome])
     );
 
     let resultado;

@@ -15,6 +15,7 @@ import {
 } from '../../services/admin';
 import ModalConfirmarCancelamento from './ModalConfirmarCancelamento';
 import PainelSolicitacao from './PainelSolicitacao';
+import { combinaComBusca } from '../../utils/busca';
 import { STATUS_SOLICITACAO } from './status';
 import TabelaSolicitacoes from './TabelaSolicitacoes';
 import './AdminSolicitacoes.css';
@@ -23,10 +24,6 @@ function plural(quantidade, singular, varios) {
   return quantidade === 1 ? singular : varios;
 }
 
-// Busca sem diferenciar maiúsculas e acentos
-function normalizar(texto) {
-  return texto.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
-}
 
 function contar(lista, status) {
   return lista.filter((item) => item.status === status).length;
@@ -149,13 +146,12 @@ export default function AdminSolicitacoes() {
       );
     }
 
-    const termo = normalizar(busca);
     const filtradas = lista.filter(
       (item) =>
         (filtroStatus === 'todos' || item.status === filtroStatus) &&
         (filtroUniversidade === 'todas' || item.universidade.id === filtroUniversidade) &&
         (filtroEmpresa === 'todas' || item.empresa.id === filtroEmpresa) &&
-        (normalizar(item.colaborador.nome).includes(termo) || normalizar(item.servico.nome).includes(termo))
+        combinaComBusca(busca, [item.colaborador.nome, item.servico.nome])
     );
 
     return (

@@ -12,8 +12,7 @@ const DIAS_SELO_NOVO = 30;
 
 /*
   Modo mock: depois da primeira mudança feita no Admin Serviços (criar ou editar),
-  o catálogo fica no localStorage. Assim Benefícios, Detalhe e a busca com IA
-  mostram as mudanças. Apagar a chave restaura os dados de exemplo.
+  o catálogo fica no localStorage. Assim Benefícios e Detalhe mostram as mudanças. Apagar a chave restaura os dados de exemplo.
 */
 const CHAVE_SERVICOS = 'entrenos:servicos';
 

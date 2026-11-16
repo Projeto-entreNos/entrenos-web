@@ -18,70 +18,23 @@
   color: var(--cor-esmeralda);
 }
 
-.beneficios__busca {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-16);
-  padding: var(--esp-32) var(--esp-40);
-  background: var(--cor-azul-abissal);
-  border-radius: var(--raio-destaque);
-}
-
-.beneficios__busca-titulo {
-  color: var(--cor-branco);
-}
-
-.beneficios__destaque-folha {
-  color: var(--cor-folha);
-}
-
-.beneficios__busca-formulario {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-16);
-}
-
-.beneficios__busca-acao {
-  display: flex;
-  align-items: center;
-  gap: var(--esp-16);
-}
-
-.beneficios__busca-cota {
-  font: var(--texto-legenda);
-  color: var(--cor-azul-20);
-}
-
-/* Foco em verde-folha: contrasta com o fundo escuro */
-.beneficios__busca :focus-visible {
-  outline-color: var(--cor-folha);
-}
-
-.beneficios__resultado-ia {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-16);
-}
-
-/* Vazia, a região aria-live continua na página; a margem negativa evita somar o espaço do gap */
-.beneficios__resultado-ia:empty {
-  margin-top: calc(-1 * var(--esp-32));
-}
-
-.beneficios__sugestoes {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-12);
-}
-
-.beneficios__sugestoes-aviso {
-  font: var(--texto-legenda);
-}
-
 .beneficios__lista {
   display: flex;
   flex-direction: column;
   gap: var(--esp-32);
+}
+
+/* A busca não tem rótulo visível (como no Figma): o label fica só para leitores de tela */
+.beneficios__busca .campo__rotulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.beneficios__busca .campo {
+  gap: 0;
 }
 
 .beneficios__grade {

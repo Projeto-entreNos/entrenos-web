@@ -18,6 +18,7 @@ import {
   Monitor,
   Package,
   Scale,
+  Search,
   TriangleAlert,
   Wallet,
   X,
@@ -39,6 +40,7 @@ const ICONES = {
   email: Mail,
   'email-enviado': MailCheck,
   cadeado: Lock,
+  busca: Search,
   // Landing
   janela: AppWindow,
   pacote: Package,
