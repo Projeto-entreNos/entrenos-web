@@ -3,8 +3,16 @@
   Categorias iguais às da landing page.
   Os dois pacotes dão acesso ao catálogo completo: todo serviço tem pacotes ['essencial', 'completo'].
   Status possíveis: 'Ativo', 'Sem vagas', 'Pausado'. Só 'Ativo' pode ser solicitado.
-  "novo" é só um selo visual.
+  Modalidade: 'Presencial', 'Online' ou 'Híbrido'; "local" é o detalhe opcional (texto curto).
+  O selo "Novo" é calculado no service: serviço criado há até 30 dias (criadoEm).
+  Os serviços "novos" são contados a partir de hoje, para o selo não sumir com o passar dos dias.
 */
+
+import { dataDeHoje, somarDias } from '../utils/datas';
+
+function diasAtras(dias) {
+  return somarDias(dataDeHoje(), -dias);
+}
 
 export const categorias = [
   'Apoio contábil e financeiro',
@@ -25,11 +33,12 @@ export const servicos = [
     descricaoCurta: 'Para quem quer abrir um pequeno negócio: planejamento, marketing digital e organização de caixa.',
     descricaoCompleta:
       'Consultoria com estudantes de Administração, com supervisão de professores. Ajuda a tirar a ideia do papel: plano de negócio, preço de venda, divulgação nas redes e controle do caixa.',
-    modalidade: 'Presencial ou online',
+    modalidade: 'Híbrido',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-2',
@@ -40,10 +49,11 @@ export const servicos = [
     descricaoCompleta:
       'Atendimento no Núcleo de Apoio Contábil e Fiscal com estudantes de Ciências Contábeis, com supervisão de professores. Explica quem precisa declarar, quais documentos separar e como evitar a malha fina.',
     modalidade: 'Presencial',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Sem vagas',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-3',
@@ -54,10 +64,11 @@ export const servicos = [
     descricaoCompleta:
       'Turmas pequenas, separadas por nível, conduzidas por estudantes de Letras, com supervisão de professores. Os encontros são semanais e focam em situações reais, como reuniões, e-mails e viagens.',
     modalidade: 'Online',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: true,
+    criadoEm: diasAtras(10),
   },
   {
     id: 'serv-4',
@@ -67,11 +78,12 @@ export const servicos = [
     descricaoCurta: 'Orçamento doméstico, saída das dívidas e dúvidas fiscais básicas, com estudantes de contábeis.',
     descricaoCompleta:
       'Educação financeira pessoal com estudantes de ciências contábeis do NAF (Núcleo de Apoio Contábil e Fiscal), com supervisão de professores. Indicado para organizar o orçamento doméstico, planejar a saída das dívidas e tirar dúvidas fiscais básicas, como a declaração do Imposto de Renda.',
-    modalidade: 'Presencial, no Núcleo de Apoio Contábil e Fiscal',
+    modalidade: 'Presencial',
+    local: 'Núcleo de Apoio Contábil e Fiscal',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: true,
+    criadoEm: diasAtras(10),
   },
   {
     id: 'serv-5',
@@ -82,10 +94,11 @@ export const servicos = [
     descricaoCompleta:
       'Orientação com estudantes de Administração, com supervisão de professores, para quem trabalha por conta própria. Explica as vantagens do MEI, como fazer o cadastro, emitir nota fiscal e pagar a guia mensal.',
     modalidade: 'Online',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-6',
@@ -95,11 +108,12 @@ export const servicos = [
     descricaoCurta: 'Oficinas de inglês e espanhol básico e reforço escolar para os filhos, com estudantes de Letras.',
     descricaoCompleta:
       'Oficinas de inglês e espanhol para iniciantes e reforço escolar para os filhos em português e redação. As aulas são dadas por estudantes de Letras e das licenciaturas, com supervisão de professores.',
-    modalidade: 'Presencial ou online',
+    modalidade: 'Híbrido',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: true,
+    criadoEm: diasAtras(10),
   },
   {
     id: 'serv-7',
@@ -110,10 +124,11 @@ export const servicos = [
     descricaoCompleta:
       'Oficina prática com estudantes de Administração, com supervisão de professores. Ensina a montar um perfil comercial, planejar postagens e atender clientes pelo WhatsApp para aumentar as vendas.',
     modalidade: 'Online',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: true,
+    criadoEm: diasAtras(10),
   },
   {
     id: 'serv-8',
@@ -124,10 +139,11 @@ export const servicos = [
     descricaoCompleta:
       'Aulas em pequenos grupos com estudantes das licenciaturas, com supervisão de professores, para revisar a matéria da escola e ajudar nas tarefas de casa.',
     modalidade: 'Presencial',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Pausado',
     previsaoRetorno: null, // pausado sem data de retorno
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-9',
@@ -137,11 +153,12 @@ export const servicos = [
     descricaoCurta: 'Primeiros passos no computador, uso de planilhas e introdução ao mundo digital.',
     descricaoCompleta:
       'Oficinas de informática com estudantes dos cursos de tecnologia, com supervisão de professores. Inclui uso do computador, planilhas e serviços digitais do dia a dia, como e-mail e aplicativos. Turmas pequenas, separadas por nível.',
-    modalidade: 'Presencial, no laboratório de informática',
+    modalidade: 'Presencial',
+    local: 'Laboratório de informática',
     pacotes: TODOS_OS_PACOTES,
     status: 'Sem vagas',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-10',
@@ -152,10 +169,11 @@ export const servicos = [
     descricaoCompleta:
       'Oficina com estudantes dos cursos de tecnologia, com supervisão de professores. Mostra como proteger contas, identificar golpes por mensagem e e-mail e fazer compras e pagamentos pela internet com segurança.',
     modalidade: 'Online',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-11',
@@ -165,11 +183,12 @@ export const servicos = [
     descricaoCurta: 'Orientação sobre dúvidas do dia a dia, como contratos, consumo e família.',
     descricaoCompleta:
       'Orientação jurídica feita por estudantes do Núcleo de Prática Jurídica, com supervisão de professores. Ajuda com dúvidas do dia a dia, como contratos, direitos do consumidor e questões de família.',
-    modalidade: 'Híbrido: online ou no Núcleo de Prática Jurídica',
+    modalidade: 'Híbrido',
+    local: 'Online ou no Núcleo de Prática Jurídica',
     pacotes: TODOS_OS_PACOTES,
     status: 'Pausado',
     previsaoRetorno: '2027-02-01', // data no formato AAAA-MM-DD
-    novo: false,
+    criadoEm: '2026-03-02',
   },
   {
     id: 'serv-12',
@@ -179,10 +198,11 @@ export const servicos = [
     descricaoCurta: 'Dúvidas sobre carteira assinada, férias, rescisão e outros direitos do trabalhador.',
     descricaoCompleta:
       'Primeira orientação sobre direito do trabalho no Núcleo de Prática Jurídica, com estudantes de Direito e supervisão de professores. Explica direitos, prazos e os caminhos possíveis em cada caso.',
-    modalidade: 'Presencial ou online',
+    modalidade: 'Híbrido',
+    local: '',
     pacotes: TODOS_OS_PACOTES,
     status: 'Ativo',
     previsaoRetorno: null,
-    novo: false,
+    criadoEm: '2026-03-02',
   },
 ];

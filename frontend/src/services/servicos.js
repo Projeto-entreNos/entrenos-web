@@ -1,20 +1,61 @@
 /* eslint-disable no-unused-vars */
 import { empresas } from '../mocks/empresas';
-import { servicos } from '../mocks/servicos';
+import { categorias, servicos } from '../mocks/servicos';
 import { universidades } from '../mocks/universidades';
+import { dataDeHoje, somarDias } from '../utils/datas';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
 
-// TODO: implementar listarServicos e listarCategorias (modo mock e API).
+// TODO: implementar listarServicos (modo mock e API).
+
+// O selo "Novo" aparece nos 30 dias depois do cadastro do serviço
+const DIAS_SELO_NOVO = 30;
+
+/*
+  Modo mock: depois da primeira mudança feita no Admin Serviços (criar ou editar),
+  o catálogo fica no localStorage. Assim Benefícios, Detalhe e a busca com IA
+  mostram as mudanças. Apagar a chave restaura os dados de exemplo.
+*/
+const CHAVE_SERVICOS = 'entrenos:servicos';
+
+function lerServicosSalvos() {
+  try {
+    const texto = localStorage.getItem(CHAVE_SERVICOS);
+    return texto ? JSON.parse(texto) : null;
+  } catch {
+    return null;
+  }
+}
+
+// Usada pelo Admin Serviços (services/admin.js) no modo mock
+export function salvarServicos() {
+  try {
+    localStorage.setItem(CHAVE_SERVICOS, JSON.stringify(servicos));
+  } catch {
+    // Sem localStorage as mudanças valem só até recarregar a página
+  }
+}
+
+// Altera o próprio array para que todos os módulos que importam o mock vejam a mesma lista
+const salvos = lerServicosSalvos();
+if (salvos) {
+  servicos.splice(0, servicos.length, ...salvos);
+}
+
+// Datas "AAAA-MM-DD" podem ser comparadas como texto. Também usada pelo Admin Serviços.
+export function servicoNovo(servico) {
+  return somarDias(servico.criadoEm, DIAS_SELO_NOVO) >= dataDeHoje();
+}
 
 /**
  * Serviços do pacote da empresa, em TODOS os status (a lista mostra os selos
  * "Sem vagas no momento" e "Pausado").
  * API: GET /empresas/:empresaId/servicos
  * Resposta esperada: [
- *   { id, nome, categoria, descricaoCurta, modalidade,
+ *   { id, nome, categoria, descricaoCurta, modalidade: "Presencial"|"Online"|"Híbrido", local: "texto"|"",
  *     status: "Ativo"|"Sem vagas"|"Pausado", previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean,
  *     universidade: { id, nome } }
  * ]
+ * "novo": o back-end calcula (serviço criado há até 30 dias).
  */
 export async function listarServicosDoPacote(empresaId) {
   if (!USAR_MOCK) {
@@ -39,9 +80,10 @@ export async function listarServicosDoPacote(empresaId) {
         categoria: servico.categoria,
         descricaoCurta: servico.descricaoCurta,
         modalidade: servico.modalidade,
+        local: servico.local,
         status: servico.status,
         previsaoRetorno: servico.previsaoRetorno,
-        novo: servico.novo,
+        novo: servicoNovo(servico),
         universidade: { id: universidade.id, nome: universidade.nome },
       };
     });
@@ -68,7 +110,7 @@ const OBSERVACOES_PADRAO = 'As vagas dependem da disponibilidade da universidade
  * Devolve null se o serviço não existir OU não fizer parte do pacote da empresa
  * (para o colaborador, os dois casos são "Serviço não encontrado").
  * API: GET /empresas/:empresaId/servicos/:id
- * Resposta esperada: { id, nome, categoria, descricaoCurta, descricaoCompleta, modalidade, observacoes,
+ * Resposta esperada: { id, nome, categoria, descricaoCurta, descricaoCompleta, modalidade, local, observacoes,
  *   status: "Ativo"|"Sem vagas"|"Pausado", previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean,
  *   universidade: { id, nome } }
  * Erro (404): { mensagem: "Serviço não encontrado." }
@@ -96,10 +138,11 @@ export async function buscarServico(id, empresaId) {
     descricaoCurta: servico.descricaoCurta,
     descricaoCompleta: servico.descricaoCompleta,
     modalidade: servico.modalidade,
+    local: servico.local,
     observacoes: OBSERVACOES_PADRAO,
     status: servico.status,
     previsaoRetorno: servico.previsaoRetorno,
-    novo: servico.novo,
+    novo: servicoNovo(servico),
     universidade: { id: universidade.id, nome: universidade.nome },
   };
 }
@@ -111,5 +154,10 @@ export async function buscarServico(id, empresaId) {
  *   "Apoio educacional e idiomas", "Capacitação em tecnologia básica", "Assessoria jurídica"]
  */
 export async function listarCategorias() {
-  throw new Error('listarCategorias ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/servicos/categorias');
+  }
+
+  await esperarMock();
+  return [...categorias];
 }

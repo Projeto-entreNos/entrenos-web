@@ -2,10 +2,14 @@
 import { colaboradores } from '../mocks/colaboradores';
 import { empresas } from '../mocks/empresas';
 import { pacotes } from '../mocks/pacotes';
+import { categorias, servicos } from '../mocks/servicos';
+import { universidades } from '../mocks/universidades';
+import { dataDeHoje } from '../utils/datas';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
+import { salvarServicos, servicoNovo } from './servicos';
 
 // LGPD: o admin nunca recebe o conteúdo da mensagem do colaborador.
-// TODO: implementar as funções de serviços, universidades e solicitações deste arquivo (modo mock e API).
+// TODO: implementar as funções de solicitações deste arquivo (modo mock e API).
 
 // true: simula erro ao carregar a tela Admin Empresas (modo mock)
 export const SIMULAR_FALHA_EMPRESAS = false;
@@ -15,6 +19,18 @@ export const SIMULAR_EMPRESAS_VAZIA = false;
 
 // true: simula erro ao salvar uma empresa ou confirmar o pagamento (modo mock)
 export const SIMULAR_FALHA_SALVAR_EMPRESA = false;
+
+// true: simula erro ao carregar a tela Admin Serviços (modo mock)
+export const SIMULAR_FALHA_SERVICOS = false;
+
+// true: simula a lista de serviços vazia (modo mock)
+export const SIMULAR_SERVICOS_VAZIA = false;
+
+// true: simula erro ao criar ou editar um serviço (modo mock)
+export const SIMULAR_FALHA_SALVAR_SERVICO = false;
+
+const STATUS_SERVICO = ['Ativo', 'Sem vagas', 'Pausado'];
+const MODALIDADES = ['Presencial', 'Online', 'Híbrido'];
 
 /*
   Modo mock: depois da primeira mudança (criar, editar ou confirmar pagamento), a lista de
@@ -217,30 +233,137 @@ export async function listarPacotes() {
   }));
 }
 
+function paraRespostaServico(servico) {
+  const universidade = universidades.find((item) => item.id === servico.universidadeId);
+  return {
+    id: servico.id,
+    nome: servico.nome,
+    categoria: servico.categoria,
+    universidade: { id: universidade?.id ?? null, nome: universidade?.nome ?? '-' },
+    modalidade: servico.modalidade,
+    local: servico.local,
+    descricaoCurta: servico.descricaoCurta,
+    descricaoCompleta: servico.descricaoCompleta,
+    pacotes: servico.pacotes,
+    status: servico.status,
+    previsaoRetorno: servico.previsaoRetorno,
+    novo: servicoNovo(servico),
+  };
+}
+
+// O back-end confere de novo: campos obrigatórios, universidade e pacotes existentes
+function conferirServico(dados) {
+  if (!dados.nome?.trim()) {
+    throw new Error('Informe o nome do serviço.');
+  }
+  if (!categorias.includes(dados.categoria)) {
+    throw new Error('Selecione a categoria.');
+  }
+  if (!universidades.some((item) => item.id === dados.universidadeId)) {
+    throw new Error('Selecione a universidade.');
+  }
+  if (!dados.pacotes?.length || !dados.pacotes.every((id) => pacotes.some((item) => item.id === id))) {
+    throw new Error('Marque pelo menos um pacote.');
+  }
+  if (!STATUS_SERVICO.includes(dados.status)) {
+    throw new Error('Status inválido.');
+  }
+  if (dados.modalidade && !MODALIDADES.includes(dados.modalidade)) {
+    throw new Error('Modalidade inválida.');
+  }
+}
+
+// A previsão de retorno só vale para serviço "Pausado"
+function camposDoServico(dados) {
+  return {
+    nome: dados.nome.trim(),
+    universidadeId: dados.universidadeId,
+    categoria: dados.categoria,
+    descricaoCurta: dados.descricaoCurta?.trim() ?? '',
+    descricaoCompleta: dados.descricaoCompleta?.trim() ?? '',
+    modalidade: dados.modalidade ?? '',
+    local: dados.local?.trim() ?? '',
+    pacotes: dados.pacotes,
+    status: dados.status,
+    previsaoRetorno: dados.status === 'Pausado' ? dados.previsaoRetorno || null : null,
+  };
+}
+
 /**
+ * Lista todos os serviços do catálogo, em todos os status.
  * API: GET /admin/servicos
- * Resposta esperada: [ { id, nome, categoria, universidade: { id, nome }, modalidade, pacotes: ["essencial"],
- *   status, previsaoRetorno, novo } ]
+ * Resposta esperada: [ { id, nome, categoria, universidade: { id, nome },
+ *   modalidade: "Presencial"|"Online"|"Híbrido", local: "texto"|"", descricaoCurta, descricaoCompleta,
+ *   pacotes: ["essencial", "completo"], status: "Ativo"|"Sem vagas"|"Pausado",
+ *   previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean } ]
+ * "novo": o back-end calcula (serviço criado há até 30 dias).
  */
 export async function listarServicosAdmin() {
-  throw new Error('listarServicosAdmin ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/servicos');
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SERVICOS) {
+    throw new Error('Falha simulada ao carregar os serviços.');
+  }
+  if (SIMULAR_SERVICOS_VAZIA) return [];
+
+  return servicos.map(paraRespostaServico);
 }
 
 /**
  * API: POST /admin/servicos  corpo: { nome, universidadeId, categoria, descricaoCurta, descricaoCompleta,
- *   modalidade, pacotes, status, previsaoRetorno, novo }
- * Resposta esperada: o serviço criado
+ *   modalidade, local, pacotes: ["essencial"], status, previsaoRetorno: "AAAA-MM-01"|null }
+ * O back-end grava a data de cadastro (criadoEm), usada no selo "Novo".
+ * Resposta esperada: o serviço criado, no mesmo formato de listarServicosAdmin
+ * Erros (400): { mensagem: "Selecione a universidade." }
  */
 export async function criarServico(dados) {
-  throw new Error('criarServico ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/servicos', { metodo: 'POST', corpo: dados });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SALVAR_SERVICO) {
+    throw new Error('Falha simulada ao salvar o serviço.');
+  }
+  conferirServico(dados);
+
+  const novo = { id: `serv-${Date.now()}`, ...camposDoServico(dados), criadoEm: dataDeHoje() };
+  servicos.push(novo);
+  salvarServicos();
+
+  return paraRespostaServico(novo);
 }
 
 /**
  * API: PUT /admin/servicos/:id  corpo: mesmos campos de criarServico
- * Resposta esperada: o serviço atualizado
+ * Resposta esperada: o serviço atualizado, no mesmo formato de listarServicosAdmin
+ * Erros (404): { mensagem: "Serviço não encontrado." }
  */
 export async function editarServico(id, dados) {
-  throw new Error('editarServico ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao(`/admin/servicos/${id}`, { metodo: 'PUT', corpo: dados });
+  }
+
+  await esperarMock();
+
+  if (SIMULAR_FALHA_SALVAR_SERVICO) {
+    throw new Error('Falha simulada ao salvar o serviço.');
+  }
+
+  const servico = servicos.find((item) => item.id === id);
+  if (!servico) {
+    throw new Error('Serviço não encontrado.');
+  }
+  conferirServico(dados);
+
+  Object.assign(servico, camposDoServico(dados));
+  salvarServicos();
+  return paraRespostaServico(servico);
 }
 
 /**
@@ -249,7 +372,13 @@ export async function editarServico(id, dados) {
  * Resposta esperada: [ { id, nome } ]
  */
 export async function listarUniversidades() {
-  throw new Error('listarUniversidades ainda não foi implementada.');
+  if (!USAR_MOCK) {
+    return requisicao('/admin/universidades');
+  }
+
+  await esperarMock();
+
+  return universidades.map((universidade) => ({ id: universidade.id, nome: universidade.nome }));
 }
 
 /**

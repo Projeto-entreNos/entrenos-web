@@ -166,7 +166,7 @@ export default function DetalheServico() {
             <dl className="detalhe__lista">
               <div>
                 <dt>Modalidade</dt>
-                <dd>{servico.modalidade}</dd>
+                <dd>{[servico.modalidade, servico.local].filter(Boolean).join(' · ') || '-'}</dd>
               </div>
               <div>
                 <dt>Observações</dt>
