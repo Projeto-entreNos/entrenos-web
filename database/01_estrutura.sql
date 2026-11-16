@@ -1,10 +1,4 @@
-﻿/*
-  EntreNós: estrutura do banco (SQL Server).
-  Pode ser rodado mais de uma vez: apaga as tabelas e cria de novo (os dados são perdidos).
-*/
-
-SET NOCOUNT ON;
--- Obrigatórias para os índices filtrados (no SSMS já vêm ligadas; no sqlcmd, não)
+﻿SET NOCOUNT ON;
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 
@@ -24,11 +18,8 @@ CREATE TABLE Pacotes (
     Codigo                NVARCHAR(20)   NOT NULL,
     Nome                  NVARCHAR(50)   NOT NULL,
     Descricao             NVARCHAR(200)  NOT NULL,
-    -- Um benefício por linha, na ordem em que aparecem na landing
     Beneficios            NVARCHAR(1000) NOT NULL,
-    -- Em reais, por colaborador, por mês
     PrecoPorColaborador   DECIMAL(10,2)  NOT NULL,
-    -- Por colaborador; o limite renova no dia 1º de cada mês
     LimiteAtendimentosMes INT            NOT NULL,
     CONSTRAINT PK_Pacotes PRIMARY KEY (Id),
     CONSTRAINT UQ_Pacotes_Codigo UNIQUE (Codigo),
@@ -45,7 +36,6 @@ CREATE TABLE Categorias (
     CONSTRAINT UQ_Categorias_Nome UNIQUE (Nome)
 );
 
--- A universidade não tem login: recebe as solicitações no EmailContato
 CREATE TABLE Universidades (
     Id           INT IDENTITY(1,1) NOT NULL,
     Nome         NVARCHAR(120) NOT NULL,
@@ -62,17 +52,14 @@ CREATE TABLE Servicos (
     DescricaoCompleta NVARCHAR(1000) NULL,
     Modalidade        NVARCHAR(20)   NULL,
     Local             NVARCHAR(60)   NULL,
-    -- Só serviços "Ativo" podem ser solicitados
     Status            NVARCHAR(20)   NOT NULL CONSTRAINT DF_Servicos_Status DEFAULT N'Ativo',
     PrevisaoRetorno   DATE           NULL,
-    -- O selo "Novo" é calculado: serviço criado há até 30 dias
     CriadoEm          DATETIME2      NOT NULL CONSTRAINT DF_Servicos_CriadoEm DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_Servicos PRIMARY KEY (Id),
     CONSTRAINT FK_Servicos_Universidades FOREIGN KEY (UniversidadeId) REFERENCES Universidades (Id),
     CONSTRAINT FK_Servicos_Categorias FOREIGN KEY (CategoriaId) REFERENCES Categorias (Id),
     CONSTRAINT CK_Servicos_Status CHECK (Status IN (N'Ativo', N'Sem vagas', N'Pausado')),
     CONSTRAINT CK_Servicos_Modalidade CHECK (Modalidade IN (N'Presencial', N'Online', N'Híbrido')),
-    -- A previsão de retorno só vale para serviço pausado
     CONSTRAINT CK_Servicos_PrevisaoRetorno CHECK (PrevisaoRetorno IS NULL OR Status = N'Pausado')
 );
 
@@ -87,17 +74,12 @@ CREATE TABLE PacoteServicos (
 CREATE TABLE Empresas (
     Id               INT IDENTITY(1,1) NOT NULL,
     Nome             NVARCHAR(150) NOT NULL,
-    -- Formato 00.000.000/0000-00
     Cnpj             NVARCHAR(18)  NOT NULL,
     Responsavel      NVARCHAR(120) NOT NULL,
     EmailResponsavel NVARCHAR(254) NOT NULL,
-    -- Domínio dos e-mails da empresa, usado no aviso ao convidar alguém de outro domínio
     DominioEmail     NVARCHAR(100) NOT NULL,
     PacoteId         INT           NOT NULL,
-    -- Cada colaborador convidado ocupa uma vaga; não é possível convidar acima deste número
     VagasContratadas INT           NOT NULL,
-    -- Contrato e pagamento acontecem fora do sistema; o admin registra o resultado.
-    -- Só "Ativo" permite convidar colaboradores.
     StatusContrato   NVARCHAR(30)  NOT NULL CONSTRAINT DF_Empresas_StatusContrato DEFAULT N'Proposta enviada',
     VigenciaInicio   DATE          NOT NULL,
     VigenciaFim      DATE          NOT NULL,
@@ -110,17 +92,10 @@ CREATE TABLE Empresas (
     CONSTRAINT CK_Empresas_Vigencia CHECK (VigenciaFim > VigenciaInicio)
 );
 
-/*
-  Usuários dos três perfis. Os colaboradores convidados também ficam aqui.
-  "Convite expirado" não é guardado: é Status "Convidado" com ConviteEnviadoEm há mais de 7 dias.
-  Remover um colaborador não apaga a linha: preenche RemovidoEm (libera a vaga).
-*/
 CREATE TABLE Usuarios (
     Id               INT IDENTITY(1,1) NOT NULL,
-    -- O convite pode ser feito só com o e-mail; o nome fica vazio até a ativação
     Nome             NVARCHAR(120) NOT NULL CONSTRAINT DF_Usuarios_Nome DEFAULT N'',
     Email            NVARCHAR(254) NOT NULL,
-    -- Vazio enquanto o convidado não ativa a conta
     SenhaHash        NVARCHAR(255) NULL,
     Perfil           NVARCHAR(20)  NOT NULL,
     EmpresaId        INT           NULL,
@@ -128,7 +103,6 @@ CREATE TABLE Usuarios (
     TokenConvite     NVARCHAR(100) NULL,
     ConviteEnviadoEm DATETIME2     NULL,
     AtivadoEm        DATETIME2     NULL,
-    -- A ativação de conta registra o aceite dos termos
     TermosAceitosEm  DATETIME2     NULL,
     RemovidoEm       DATETIME2     NULL,
     CriadoEm         DATETIME2     NOT NULL CONSTRAINT DF_Usuarios_CriadoEm DEFAULT SYSUTCDATETIME(),
@@ -136,23 +110,17 @@ CREATE TABLE Usuarios (
     CONSTRAINT FK_Usuarios_Empresas FOREIGN KEY (EmpresaId) REFERENCES Empresas (Id),
     CONSTRAINT CK_Usuarios_Perfil CHECK (Perfil IN (N'colaborador', N'empresa', N'admin')),
     CONSTRAINT CK_Usuarios_Status CHECK (Status IN (N'Convidado', N'Ativo')),
-    -- O admin é da equipe EntreNós e não tem empresa; os outros perfis sempre têm
     CONSTRAINT CK_Usuarios_EmpresaPorPerfil CHECK (
         (Perfil = N'admin' AND EmpresaId IS NULL) OR (Perfil <> N'admin' AND EmpresaId IS NOT NULL)
     )
 );
 
--- O e-mail é único entre os usuários não removidos: quem foi removido pode ser convidado de novo
 CREATE UNIQUE INDEX UX_Usuarios_Email ON Usuarios (Email) WHERE RemovidoEm IS NULL;
 
 CREATE UNIQUE INDEX UX_Usuarios_TokenConvite ON Usuarios (TokenConvite) WHERE TokenConvite IS NOT NULL;
 
 CREATE INDEX IX_Usuarios_EmpresaId ON Usuarios (EmpresaId);
 
-/*
-  LGPD: a Mensagem vai só para a universidade. O admin nunca vê o conteúdo,
-  só se ela existe (temMensagem).
-*/
 CREATE TABLE Solicitacoes (
     Id           INT IDENTITY(1,1) NOT NULL,
     UsuarioId    INT           NOT NULL,
@@ -169,14 +137,12 @@ CREATE TABLE Solicitacoes (
     CONSTRAINT CK_Solicitacoes_AtendidaEm CHECK (AtendidaEm IS NULL OR Status = N'Atendida')
 );
 
--- Não é permitido solicitar de novo um serviço com solicitação "Enviada" ou "Em contato"
 CREATE UNIQUE INDEX UX_Solicitacoes_AbertaPorServico
     ON Solicitacoes (UsuarioId, ServicoId)
     WHERE Status IN (N'Enviada', N'Em contato');
 
 CREATE INDEX IX_Solicitacoes_UsuarioId_CriadaEm ON Solicitacoes (UsuarioId, CriadaEm);
 
--- Pedidos enviados pelo formulário da landing
 CREATE TABLE Propostas (
     Id                  INT IDENTITY(1,1) NOT NULL,
     Nome                NVARCHAR(120)  NOT NULL,
@@ -184,7 +150,6 @@ CREATE TABLE Propostas (
     Email               NVARCHAR(254)  NOT NULL,
     NumeroColaboradores INT            NOT NULL,
     Mensagem            NVARCHAR(1000) NULL,
-    -- Sem o aceite da política de privacidade a proposta não pode ser enviada
     AceitePrivacidade   BIT            NOT NULL,
     CriadaEm            DATETIME2      NOT NULL CONSTRAINT DF_Propostas_CriadaEm DEFAULT SYSUTCDATETIME(),
     CONSTRAINT PK_Propostas PRIMARY KEY (Id),

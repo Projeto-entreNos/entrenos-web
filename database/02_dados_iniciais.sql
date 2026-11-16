@@ -1,15 +1,8 @@
-﻿/*
-  EntreNós: dados de exemplo (fictícios), os mesmos de frontend/src/mocks.
-  Rode logo depois do 01_estrutura.sql (as tabelas precisam estar vazias).
-  Os ids são fixos e seguem os números dos mocks (emp-1 = 1, serv-4 = 4, col-1 = 1...).
-*/
-
+﻿
 SET NOCOUNT ON;
--- Obrigatórias para os índices filtrados (no SSMS já vêm ligadas; no sqlcmd, não)
 SET ANSI_NULLS ON;
 SET QUOTED_IDENTIFIER ON;
 
--- Nomes, preços e limites oficiais da landing page
 SET IDENTITY_INSERT Pacotes ON;
 INSERT INTO Pacotes (Id, Codigo, Nome, Descricao, Beneficios, PrecoPorColaborador, LimiteAtendimentosMes) VALUES
 (1, N'essencial', N'Essencial', N'Para começar a oferecer os atendimentos à equipe.',
@@ -44,7 +37,7 @@ INSERT INTO Universidades (Id, Nome, EmailContato) VALUES
 (4, N'Faculdade Lumen', N'letras@lumen.exemplo.edu.br');
 SET IDENTITY_INSERT Universidades OFF;
 
--- Os serviços 3, 4, 6 e 7 foram criados há 10 dias, para mostrarem o selo "Novo"
+
 SET IDENTITY_INSERT Servicos ON;
 INSERT INTO Servicos (Id, Nome, UniversidadeId, CategoriaId, DescricaoCurta, DescricaoCompleta, Modalidade, Local, Status, PrevisaoRetorno, CriadoEm) VALUES
 (1, N'Consultoria de negócios', 3, 2,
@@ -97,13 +90,11 @@ INSERT INTO Servicos (Id, Nome, UniversidadeId, CategoriaId, DescricaoCurta, Des
     N'Híbrido', NULL, N'Ativo', NULL, '2026-03-02');
 SET IDENTITY_INSERT Servicos OFF;
 
--- Os dois pacotes dão acesso ao catálogo completo
 INSERT INTO PacoteServicos (PacoteId, ServicoId)
 SELECT Pacotes.Id, Servicos.Id
 FROM Pacotes
 CROSS JOIN Servicos;
 
--- CNPJs fictícios (não passam na conta dos dígitos verificadores)
 SET IDENTITY_INSERT Empresas ON;
 INSERT INTO Empresas (Id, Nome, Cnpj, Responsavel, EmailResponsavel, DominioEmail, PacoteId, VagasContratadas, StatusContrato, VigenciaInicio, VigenciaFim) VALUES
 (1, N'Alfa Exemplo Tecnologia Ltda.', N'00.000.000/0001-00', N'Bruno Exemplo', N'empresa@teste.entrenos', N'alfa.exemplo.com', 2, 10, N'Ativo', '2026-09-01', '2027-08-31'),
