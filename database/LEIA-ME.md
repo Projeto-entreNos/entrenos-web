@@ -99,3 +99,10 @@ Solicitacoes.ServicoId    -> Servicos.Id
 - A API devolve a categoria pelo nome; o banco guarda `CategoriaId`.
 - A API usa `local: ""` quando não há local; o banco guarda `NULL`.
 - A API devolve datas no formato `AAAA-MM-DD`; o banco guarda data e hora em UTC.
+
+## Para o back-end
+
+- **Horário:** as datas são gravadas em UTC (`SYSUTCDATETIME()`), mas as regras de mês e de prazo usam o horário de Brasília: a contagem de atendimentos do mês (renova no dia 1º à meia-noite de Brasília), o selo "Novo" (30 dias) e o convite expirado (7 dias). Converta com `AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time'` antes de comparar, como no `03_consultas_exemplo.sql`.
+- **Usuários de teste:** o hash de "teste123" precisa ser gerado para `colaborador@teste.entrenos`, `empresa@teste.entrenos` e `admin@teste.entrenos` (com o mesmo algoritmo do login) e gravado em `SenhaHash` antes do login funcionar.
+- **`SET QUOTED_IDENTIFIER ON`:** é necessário por causa dos índices filtrados (`UX_Usuarios_Email`, `UX_Usuarios_TokenConvite` e `UX_Solicitacoes_AbertaPorServico`). Sem ele, o SQL Server recusa criar os índices e também gravar nas tabelas Usuarios e Solicitacoes. Os scripts já ligam a opção; o SSMS e o driver do .NET também vêm com ela ligada.
+- **Limites de texto:** a mensagem da proposta tem até 1000 caracteres e a da solicitação até 300. O back-end deve validar e devolver erro 400 antes de gravar.

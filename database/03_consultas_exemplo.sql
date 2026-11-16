@@ -1,7 +1,10 @@
 ﻿/*
   EntreNós: consultas de exemplo para o back-end.
   Troque os valores das variáveis para testar com outros ids.
-  As datas são gravadas em UTC (SYSUTCDATETIME).
+  As datas são gravadas em UTC (SYSUTCDATETIME), mas as regras de mês e de prazo
+  usam o horário de Brasília: um pedido feito às 22h do dia 31 (Brasília) já é dia 1º
+  em UTC e não pode contar no mês seguinte. Por isso as datas são convertidas com
+  AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' antes de comparar.
 */
 
 SET NOCOUNT ON;
@@ -9,9 +12,12 @@ SET NOCOUNT ON;
 DECLARE @EmpresaId INT = 1;
 DECLARE @UsuarioId INT = 1;
 
+DECLARE @HojeBrasilia DATE = CAST(SYSUTCDATETIME() AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE);
+DECLARE @InicioDoMesBrasilia DATE = DATEFROMPARTS(YEAR(@HojeBrasilia), MONTH(@HojeBrasilia), 1);
+
 
 -- 1. Serviços do pacote de uma empresa (GET /empresas/:empresaId/servicos)
--- "Novo": serviço criado há até 30 dias
+-- "Novo": serviço criado há até 30 dias, contando pela data de Brasília
 SELECT
     Servicos.Id,
     Servicos.Nome,
@@ -21,7 +27,11 @@ SELECT
     Servicos.Local,
     Servicos.Status,
     Servicos.PrevisaoRetorno,
-    CAST(CASE WHEN Servicos.CriadoEm >= DATEADD(DAY, -30, SYSUTCDATETIME()) THEN 1 ELSE 0 END AS BIT) AS Novo,
+    CAST(CASE
+        WHEN CAST(Servicos.CriadoEm AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE)
+             >= DATEADD(DAY, -30, @HojeBrasilia) THEN 1
+        ELSE 0
+    END AS BIT) AS Novo,
     Universidades.Id AS UniversidadeId,
     Universidades.Nome AS UniversidadeNome
 FROM Empresas
@@ -34,12 +44,13 @@ ORDER BY Categorias.Ordem, Servicos.Nome;
 
 
 -- 2. Atendimentos do mês de um usuário (GET /usuarios/:usuarioId/atendimentos-do-mes)
--- Contam as solicitações criadas no mês atual, menos as canceladas (o limite renova no dia 1º)
+-- Contam as solicitações criadas no mês atual, menos as canceladas.
+-- O limite renova no dia 1º, à meia-noite de Brasília.
 SELECT COUNT(*) AS Usados
 FROM Solicitacoes
 WHERE UsuarioId = @UsuarioId
   AND Status <> N'Cancelada'
-  AND CriadaEm >= DATEFROMPARTS(YEAR(SYSUTCDATETIME()), MONTH(SYSUTCDATETIME()), 1);
+  AND CAST(CriadaEm AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE) >= @InicioDoMesBrasilia;
 
 
 -- 3. Solicitações para o admin (GET /admin/solicitacoes)
@@ -68,13 +79,16 @@ ORDER BY Solicitacoes.CriadaEm DESC;
 
 
 -- 4. Colaboradores de uma empresa (GET /empresas/:empresaId/colaboradores)
--- "Convite expirado": ainda Convidado e o convite foi enviado há mais de 7 dias
+-- "Convite expirado": ainda Convidado e já passaram os 7 dias de validade do convite.
+-- O convite vale até o fim do 7º dia depois do envio, pela data de Brasília.
 SELECT
     Id,
     Nome,
     Email,
     CASE
-        WHEN Status = N'Convidado' AND ConviteEnviadoEm < DATEADD(DAY, -7, SYSUTCDATETIME()) THEN N'Convite expirado'
+        WHEN Status = N'Convidado'
+             AND DATEADD(DAY, 7, CAST(ConviteEnviadoEm AT TIME ZONE 'UTC' AT TIME ZONE 'E. South America Standard Time' AS DATE))
+                 < @HojeBrasilia THEN N'Convite expirado'
         ELSE Status
     END AS Status,
     ConviteEnviadoEm
