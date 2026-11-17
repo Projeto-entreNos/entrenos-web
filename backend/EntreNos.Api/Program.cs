@@ -1,4 +1,6 @@
 using EntreNos.Api.Services;
+using EntreNos.Api.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddScoped<IEnvioEmail, EnvioEmailLog>();
+builder.Services.AddDbContext<EntreNosContext>(opt =>
+    opt.UseSqlServer(builder.Configuration.GetConnectionString("EntreNos")));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
