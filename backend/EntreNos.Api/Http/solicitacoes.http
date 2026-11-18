@@ -14,7 +14,7 @@ Content-Type: application/json
   "senha": "teste123"
 }
 
-### Minhas solicitações: 200, da mais recente para a mais antiga, sem a mensagem
+### Minhas solicitações: 200, da mais recente para a mais antiga, sem a mensagem e com atendidaEm (null se não foi atendida)
 GET {{EntreNos.Api_HostAddress}}/api/usuarios/1/solicitacoes
 Authorization: Bearer {{login.response.body.token}}
 

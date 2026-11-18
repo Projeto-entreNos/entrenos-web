@@ -55,6 +55,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             RoleClaimType = GeradorToken.ClaimPerfil,
             ClockSkew = TimeSpan.Zero,
         };
+
+        // O token vale 8 horas, mas quem foi removido pela empresa perde o acesso na hora:
+        // a cada pedido, a API confere no banco se o usuário continua ativo (senão, 401)
+        opt.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async contexto =>
+            {
+                var db = contexto.HttpContext.RequestServices.GetRequiredService<EntreNosContext>();
+                var usuarioId = contexto.Principal!.ObterUsuarioId();
+                var ativo = await db.Usuarios.AnyAsync(u =>
+                    u.Id == usuarioId && u.RemovidoEm == null && u.Status == "Ativo");
+                if (!ativo)
+                {
+                    contexto.Fail("Usuário removido ou inativo.");
+                }
+            },
+        };
     });
 builder.Services.AddAuthorization();
 
@@ -74,8 +91,11 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+// Só o front do EntreNós pode chamar a API pelo navegador.
+// Na máquina: http://localhost:5173 (appsettings.json). No Azure: o endereço publicado do front.
+var urlFront = builder.Configuration["UrlFront"] ?? "http://localhost:5173";
 builder.Services.AddCors(opt => opt.AddPolicy("front", p =>
-    p.WithOrigins("http://localhost:5173")
+    p.WithOrigins(urlFront)
      .AllowAnyHeader()
      .AllowAnyMethod()));
 
@@ -107,10 +127,16 @@ app.UseStatusCodePages(async contexto =>
     }
 });
 
+// O Swagger só existe na máquina de quem desenvolve. Publicada, a API não mostra a documentação.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    // Avisa o navegador para usar sempre HTTPS com a API publicada
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
