@@ -1,0 +1,158 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+# Endereços do admin (equipe EntreNós). Mande primeiro o login abaixo.
+# Atenção: criar e editar mudam o banco. Para voltar aos dados de exemplo, rode de novo os scripts 01, 02 e 04.
+
+### Login do admin
+# @name login
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@teste.entrenos",
+  "senha": "teste123"
+}
+
+############ Empresas
+
+### Lista de empresas: 200, na ordem de cadastro, com as vagas ocupadas
+GET {{EntreNos.Api_HostAddress}}/api/admin/empresas
+Authorization: Bearer {{login.response.body.token}}
+
+### Pacotes para o formulário: 200 com [ { id, nome, precoPorColaborador } ]
+GET {{EntreNos.Api_HostAddress}}/api/admin/pacotes
+Authorization: Bearer {{login.response.body.token}}
+
+### Nova empresa: 201 com a empresa criada (o CNPJ pode vir com ou sem pontuação)
+POST {{EntreNos.Api_HostAddress}}/api/admin/empresas
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Épsilon Exemplo Ltda.",
+  "cnpj": "00000000000500",
+  "responsavel": "Paula Exemplo",
+  "emailResponsavel": "paula@epsilon.exemplo.com",
+  "pacoteId": "essencial",
+  "vagasContratadas": 3,
+  "vigenciaInicio": "2026-12-01",
+  "vigenciaFim": "2027-11-30",
+  "statusContrato": "Proposta enviada"
+}
+
+### Editar com menos vagas do que as ocupadas: 409 "A empresa já tem 7 vagas ocupadas. Informe pelo menos 7."
+PUT {{EntreNos.Api_HostAddress}}/api/admin/empresas/1
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Alfa Exemplo Tecnologia Ltda.",
+  "cnpj": "00.000.000/0001-00",
+  "responsavel": "Bruno Exemplo",
+  "emailResponsavel": "empresa@teste.entrenos",
+  "pacoteId": "completo",
+  "vagasContratadas": 5,
+  "vigenciaInicio": "2026-09-01",
+  "vigenciaFim": "2027-08-31",
+  "statusContrato": "Ativo"
+}
+
+### Confirmar o pagamento da Beta (Aguardando pagamento -> Ativo): 200 com { id, statusContrato }
+POST {{EntreNos.Api_HostAddress}}/api/admin/empresas/2/status
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "statusContrato": "Ativo"
+}
+
+############ Serviços
+
+### Catálogo completo: 200, todos os status, com os pacotes de cada serviço
+GET {{EntreNos.Api_HostAddress}}/api/admin/servicos
+Authorization: Bearer {{login.response.body.token}}
+
+### Universidades para o formulário: 200 com [ { id, nome } ]
+GET {{EntreNos.Api_HostAddress}}/api/admin/universidades
+Authorization: Bearer {{login.response.body.token}}
+
+### Categorias (também para o colaborador): 200 com os 5 nomes, na ordem da landing
+GET {{EntreNos.Api_HostAddress}}/api/servicos/categorias
+Authorization: Bearer {{login.response.body.token}}
+
+### Novo serviço pausado: 201. A previsão é gravada como dia 1 do mês (2027-03-01).
+POST {{EntreNos.Api_HostAddress}}/api/admin/servicos
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Oficina de currículo",
+  "universidadeId": 2,
+  "categoria": "Apoio educacional e idiomas",
+  "descricaoCurta": "Ajuda para montar o currículo.",
+  "descricaoCompleta": "",
+  "modalidade": "Online",
+  "local": "",
+  "pacotes": ["essencial", "completo"],
+  "status": "Pausado",
+  "previsaoRetorno": "2027-03-15"
+}
+
+### Pausar o serviço 5: 200. Depois disso o colaborador recebe 409 ao solicitar.
+PUT {{EntreNos.Api_HostAddress}}/api/admin/servicos/5
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Formalização de MEI",
+  "universidadeId": 3,
+  "categoria": "Consultoria em gestão e negócios",
+  "descricaoCurta": "Passo a passo para abrir um MEI, emitir nota fiscal e manter as obrigações em dia.",
+  "descricaoCompleta": "Orientação com estudantes de Administração, com supervisão de professores, para quem trabalha por conta própria. Explica as vantagens do MEI, como fazer o cadastro, emitir nota fiscal e pagar a guia mensal.",
+  "modalidade": "Online",
+  "local": "",
+  "pacotes": ["essencial", "completo"],
+  "status": "Pausado",
+  "previsaoRetorno": "2027-01-01"
+}
+
+### Sem pacote: 400 "Marque pelo menos um pacote."
+POST {{EntreNos.Api_HostAddress}}/api/admin/servicos
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "nome": "Serviço sem pacote",
+  "universidadeId": 2,
+  "categoria": "Apoio educacional e idiomas",
+  "pacotes": [],
+  "status": "Ativo"
+}
+
+############ Solicitações
+
+### Todas as solicitações: 200, sem a mensagem (só temMensagem)
+GET {{EntreNos.Api_HostAddress}}/api/admin/solicitacoes
+Authorization: Bearer {{login.response.body.token}}
+
+### Só as Enviadas
+GET {{EntreNos.Api_HostAddress}}/api/admin/solicitacoes?status=Enviada
+Authorization: Bearer {{login.response.body.token}}
+
+### Marcar a solicitação 1 (Em contato) como Atendida: 200 com atendidaEm preenchido
+POST {{EntreNos.Api_HostAddress}}/api/admin/solicitacoes/1/status
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "status": "Atendida"
+}
+
+### Mudar uma Atendida (id 3): 409 "Esta solicitação não pode mais mudar para este status."
+POST {{EntreNos.Api_HostAddress}}/api/admin/solicitacoes/3/status
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "status": "Cancelada"
+}
