@@ -91,8 +91,11 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+// Só o front do EntreNós pode chamar a API pelo navegador.
+// Na máquina: http://localhost:5173 (appsettings.json). No Azure: o endereço publicado do front.
+var urlFront = builder.Configuration["UrlFront"] ?? "http://localhost:5173";
 builder.Services.AddCors(opt => opt.AddPolicy("front", p =>
-    p.WithOrigins("http://localhost:5173")
+    p.WithOrigins(urlFront)
      .AllowAnyHeader()
      .AllowAnyMethod()));
 
@@ -124,10 +127,16 @@ app.UseStatusCodePages(async contexto =>
     }
 });
 
+// O Swagger só existe na máquina de quem desenvolve. Publicada, a API não mostra a documentação.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+else
+{
+    // Avisa o navegador para usar sempre HTTPS com a API publicada
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
