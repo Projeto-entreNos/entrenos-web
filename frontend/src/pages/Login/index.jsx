@@ -3,31 +3,29 @@ import { Link } from 'react-router-dom';
 import Icone from '../../components/Icone/Icone';
 import PainelMarca from '../../components/PainelMarca/PainelMarca';
 import AtalhosTeste from './AtalhosTeste';
-import CartaoEmailEnviado from './CartaoEmailEnviado';
+import CartaoPedidoRecebido from './CartaoPedidoRecebido';
 import FormularioEntrar from './FormularioEntrar';
 import FormularioRecuperar from './FormularioRecuperar';
 import './Login.css';
 
 // Tela cheia, sem navbar: fica fora dos layouts.
-// etapa: "entrar" | "recuperar" (esqueci minha senha) | "enviado" (link de recuperação enviado)
+// etapa: "entrar" | "recuperar" (esqueci minha senha) | "enviado" (pedido de troca de senha recebido)
 export default function Login() {
   const [etapa, setEtapa] = useState('entrar');
-  const [emailRecuperacao, setEmailRecuperacao] = useState('');
 
   function voltarAoLogin() {
     setEtapa('entrar');
   }
 
-  function aoEnviarLink(email) {
-    setEmailRecuperacao(email);
+  function aoEnviarPedido() {
     setEtapa('enviado');
   }
 
   let conteudo;
   if (etapa === 'recuperar') {
-    conteudo = <FormularioRecuperar aoEnviar={aoEnviarLink} aoVoltar={voltarAoLogin} />;
+    conteudo = <FormularioRecuperar aoEnviar={aoEnviarPedido} aoVoltar={voltarAoLogin} />;
   } else if (etapa === 'enviado') {
-    conteudo = <CartaoEmailEnviado email={emailRecuperacao} aoVoltar={voltarAoLogin} />;
+    conteudo = <CartaoPedidoRecebido aoVoltar={voltarAoLogin} />;
   } else {
     conteudo = (
       <>

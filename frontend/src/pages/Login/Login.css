@@ -72,12 +72,6 @@
   outline: none;
 }
 
-.login__email {
-  font-weight: var(--peso-medio);
-  color: var(--cor-azul-abissal);
-  overflow-wrap: anywhere;
-}
-
 .login__formulario {
   display: flex;
   flex-direction: column;
@@ -127,23 +121,6 @@
   background: var(--cor-esmeralda-10);
   border-radius: var(--raio-pilula);
   color: var(--cor-esmeralda-escuro);
-}
-
-.login__reenviar {
-  display: flex;
-  flex-direction: column;
-  gap: var(--esp-12);
-  font: var(--texto-legenda);
-  text-align: center;
-}
-
-.login__reenviar .aviso {
-  text-align: left;
-}
-
-.login__dica {
-  font: var(--texto-legenda);
-  text-align: center;
 }
 
 /* Atalhos de teste (só em desenvolvimento) */
