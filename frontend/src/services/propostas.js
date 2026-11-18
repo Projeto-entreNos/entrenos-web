@@ -10,7 +10,7 @@ export const SIMULAR_FALHA_PROPOSTA = false;
  * Erro (400): { mensagem: "Confira os campos destacados.", erros: { email: "E-mail inválido." } }
  */
 export async function enviarProposta(dados) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.propostas) {
     return requisicao('/propostas', { metodo: 'POST', corpo: dados });
   }
 

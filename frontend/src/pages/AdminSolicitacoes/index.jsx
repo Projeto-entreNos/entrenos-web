@@ -149,8 +149,9 @@ export default function AdminSolicitacoes() {
     const filtradas = lista.filter(
       (item) =>
         (filtroStatus === 'todos' || item.status === filtroStatus) &&
-        (filtroUniversidade === 'todas' || item.universidade.id === filtroUniversidade) &&
-        (filtroEmpresa === 'todas' || item.empresa.id === filtroEmpresa) &&
+        // O select devolve texto e a API manda ids numéricos: compara os dois como texto
+        (filtroUniversidade === 'todas' || String(item.universidade.id) === filtroUniversidade) &&
+        (filtroEmpresa === 'todas' || String(item.empresa.id) === filtroEmpresa) &&
         combinaComBusca(busca, [item.colaborador.nome, item.servico.nome])
     );
 

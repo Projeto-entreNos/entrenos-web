@@ -1,11 +1,8 @@
-/* eslint-disable no-unused-vars */
 import { empresas } from '../mocks/empresas';
 import { categorias, servicos } from '../mocks/servicos';
 import { universidades } from '../mocks/universidades';
 import { dataDeHoje, somarDias } from '../utils/datas';
 import { USAR_MOCK, esperarMock, requisicao } from './api';
-
-// TODO: implementar listarServicos (modo mock e API).
 
 // O selo "Novo" aparece nos 30 dias depois do cadastro do serviço
 const DIAS_SELO_NOVO = 30;
@@ -57,8 +54,7 @@ export function servicoNovo(servico) {
  * "novo": o back-end calcula (serviço criado há até 30 dias).
  */
 export async function listarServicosDoPacote(empresaId) {
-  if (!USAR_MOCK) {
-    // TODO: enviar o token do usuário quando a API exigir autenticação
+  if (!USAR_MOCK.servicos) {
     return requisicao(`/empresas/${empresaId}/servicos`);
   }
 
@@ -88,19 +84,6 @@ export async function listarServicosDoPacote(empresaId) {
     });
 }
 
-/**
- * Lista os serviços do pacote da empresa do colaborador.
- * API: GET /servicos?categoria=Assessoria%20jur%C3%ADdica&busca=texto
- * Resposta esperada: [
- *   { id, nome, categoria, descricaoCurta, modalidade, status: "Ativo"|"Sem vagas"|"Pausado",
- *     previsaoRetorno: "AAAA-MM-DD"|null, novo: boolean,
- *     universidade: { id, nome } }
- * ]
- */
-export async function listarServicos({ categoria, busca } = {}) {
-  throw new Error('listarServicos ainda não foi implementada.');
-}
-
 // TODO: trocar pelo campo próprio de observações quando os serviços tiverem um
 const OBSERVACOES_PADRAO = 'As vagas dependem da disponibilidade da universidade.';
 
@@ -115,10 +98,13 @@ const OBSERVACOES_PADRAO = 'As vagas dependem da disponibilidade da universidade
  * Erro (404): { mensagem: "Serviço não encontrado." }
  */
 export async function buscarServico(id, empresaId) {
-  if (!USAR_MOCK) {
-    // TODO: quando a API estiver pronta, tratar o 404 devolvendo null
-    // (hoje "requisicao" lança um erro genérico e a tela mostra o aviso de erro)
-    return requisicao(`/empresas/${empresaId}/servicos/${id}`);
+  if (!USAR_MOCK.servicos) {
+    try {
+      return await requisicao(`/empresas/${empresaId}/servicos/${encodeURIComponent(id)}`);
+    } catch (falha) {
+      if (falha.status === 404) return null;
+      throw falha;
+    }
   }
 
   await esperarMock();
@@ -153,7 +139,7 @@ export async function buscarServico(id, empresaId) {
  *   "Apoio educacional e idiomas", "Capacitação em tecnologia básica", "Assessoria jurídica"]
  */
 export async function listarCategorias() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.servicos) {
     return requisicao('/servicos/categorias');
   }
 

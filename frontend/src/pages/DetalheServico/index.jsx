@@ -39,15 +39,23 @@ export default function DetalheServico() {
     // Evita atualizar a tela se a pessoa saiu dela antes da resposta chegar
     let ativo = true;
 
-    Promise.all([
-      buscarServico(id, usuario.empresaId),
-      buscarMinhaEmpresa(usuario.empresaId),
-      contarAtendimentosDoMes(usuario.id),
-      buscarSolicitacaoAberta(id, usuario.id),
-    ])
-      .then(([servico, empresa, atendimentosUsados, solicitacaoAberta]) => {
+    // Serviço inexistente ou fora do pacote: não precisa carregar o resto
+    async function carregar() {
+      const servico = await buscarServico(id, usuario.empresaId);
+      if (!servico) return { servico: null };
+
+      const [empresa, atendimentosUsados, solicitacaoAberta] = await Promise.all([
+        buscarMinhaEmpresa(usuario.empresaId),
+        contarAtendimentosDoMes(usuario.id),
+        buscarSolicitacaoAberta(servico.id, usuario.id),
+      ]);
+      return { servico, empresa, atendimentosUsados, solicitacaoAberta };
+    }
+
+    carregar()
+      .then((carregados) => {
         if (!ativo) return;
-        setDados({ servico, empresa, atendimentosUsados, solicitacaoAberta });
+        setDados(carregados);
         setErro('');
       })
       .catch((falha) => {
