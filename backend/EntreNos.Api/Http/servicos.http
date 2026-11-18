@@ -1,0 +1,33 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+# Endereços do colaborador. Mande primeiro o login abaixo: os outros pedidos usam o token dele.
+# Ana Exemplo (colaborador) tem id 1 e é da empresa 1 (Alfa, pacote Completo).
+
+### Login do colaborador
+# @name login
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Serviços do pacote da empresa: 200 com a lista (todos os status, com o campo "novo")
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1/servicos
+Authorization: Bearer {{login.response.body.token}}
+
+### Detalhe de um serviço: 200
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1/servicos/11
+Authorization: Bearer {{login.response.body.token}}
+
+### Serviço que não existe ou fora do pacote: 404 "Serviço não encontrado."
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1/servicos/999
+Authorization: Bearer {{login.response.body.token}}
+
+### Outra empresa: 403 "Você não tem permissão para acessar isto."
+GET {{EntreNos.Api_HostAddress}}/api/empresas/3/servicos
+Authorization: Bearer {{login.response.body.token}}
+
+### Sem token: 401 "Faça login para continuar."
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1/servicos

@@ -1,0 +1,91 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+# Endereços do colaborador. Mande primeiro o login abaixo: os outros pedidos usam o token dele.
+# Ana Exemplo (colaborador) tem id 1, pacote Completo (limite de 5 atendimentos por mês).
+# Atenção: criar e cancelar mudam o banco. Para voltar aos dados de exemplo, rode de novo os scripts 01, 02 e 04.
+
+### Login do colaborador
+# @name login
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Minhas solicitações: 200, da mais recente para a mais antiga, sem a mensagem
+GET {{EntreNos.Api_HostAddress}}/api/usuarios/1/solicitacoes
+Authorization: Bearer {{login.response.body.token}}
+
+### Atendimentos usados no mês: 200 com { usados }
+GET {{EntreNos.Api_HostAddress}}/api/usuarios/1/atendimentos-do-mes
+Authorization: Bearer {{login.response.body.token}}
+
+### Solicitação aberta de um serviço: 200 com { id, status, criadaEm }
+GET {{EntreNos.Api_HostAddress}}/api/usuarios/1/solicitacao-aberta?servicoId=4
+Authorization: Bearer {{login.response.body.token}}
+
+### Serviço sem solicitação aberta: 204 (sem corpo)
+GET {{EntreNos.Api_HostAddress}}/api/usuarios/1/solicitacao-aberta?servicoId=5
+Authorization: Bearer {{login.response.body.token}}
+
+### Dados de outro usuário: 403 "Você não tem permissão para acessar isto."
+GET {{EntreNos.Api_HostAddress}}/api/usuarios/2/solicitacoes
+Authorization: Bearer {{login.response.body.token}}
+
+### Nova solicitação: 201 com { id, status: "Enviada", criadaEm }
+# @name nova
+POST {{EntreNos.Api_HostAddress}}/api/solicitacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "servicoId": 5,
+  "mensagem": "Gostaria de ajuda para formalizar meu MEI."
+}
+
+### Cancelar a solicitação criada acima: 200 com { id, status: "Cancelada", atualizadaEm }
+PATCH {{EntreNos.Api_HostAddress}}/api/solicitacoes/{{nova.response.body.id}}/cancelar
+Authorization: Bearer {{login.response.body.token}}
+
+### Serviço "Sem vagas": 409 "Este serviço não está disponível para solicitação."
+POST {{EntreNos.Api_HostAddress}}/api/solicitacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "servicoId": 2
+}
+
+### Serviço que já tem pedido aberto: 409 "Você já tem uma solicitação em aberto para este serviço."
+POST {{EntreNos.Api_HostAddress}}/api/solicitacoes
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "servicoId": 4
+}
+
+### Cancelar uma solicitação "Em contato": 409 "Esta solicitação não pode mais ser cancelada."
+PATCH {{EntreNos.Api_HostAddress}}/api/solicitacoes/1/cancelar
+Authorization: Bearer {{login.response.body.token}}
+
+### Login da empresa, para testar o perfil errado
+# @name loginEmpresa
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "empresa@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Perfil empresa usando endereço do colaborador: 403
+POST {{EntreNos.Api_HostAddress}}/api/solicitacoes
+Content-Type: application/json
+Authorization: Bearer {{loginEmpresa.response.body.token}}
+
+{
+  "servicoId": 5
+}
