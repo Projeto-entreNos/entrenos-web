@@ -14,10 +14,6 @@ import { dataDeHoje, somarDias } from '../utils/datas';
 // true: simula erro ao carregar a tela Empresa (modo mock)
 export const SIMULAR_FALHA_EMPRESA = false;
 
-// Empresa exibida na tela Empresa no modo mock: 'emp-2' (Aguardando pagamento),
-// 'emp-3' (Encerrado), 'emp-4' (Proposta enviada) ou null (empresa do login).
-export const EMPRESA_DE_TESTE = null;
-
 // true: simula a lista de colaboradores vazia (modo mock)
 export const SIMULAR_LISTA_VAZIA = false;
 

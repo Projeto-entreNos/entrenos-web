@@ -49,7 +49,7 @@ export default function FormularioRecuperar({ aoEnviar, aoVoltar }) {
           <h1 className="login__titulo" tabIndex={-1} ref={refTitulo}>
             Esqueceu sua senha?
           </h1>
-          <p>Informe o e-mail cadastrado e enviaremos um link para você criar uma nova senha.</p>
+          <p>Informe seu e-mail e registramos seu pedido.</p>
         </header>
 
         <form className="login__formulario" onSubmit={enviar} noValidate>
@@ -69,7 +69,7 @@ export default function FormularioRecuperar({ aoEnviar, aoVoltar }) {
           {erroEnvio && <Aviso tipo="erro" titulo={erroEnvio} />}
 
           <Botao tipo="submit" tamanho="grande" larguraTotal carregando={enviando}>
-            Enviar link de recuperação
+            Enviar pedido
           </Botao>
         </form>
       </Card>

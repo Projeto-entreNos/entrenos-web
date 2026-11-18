@@ -11,7 +11,7 @@ export const SIMULAR_FALHA_CONVITE = false;
 // true: simula erro ao clicar em "Ativar conta" (modo mock)
 export const SIMULAR_FALHA_ATIVACAO = false;
 
-// true: simula erro ao pedir o link de recuperação de senha (modo mock)
+// true: simula erro ao enviar o pedido de troca de senha (modo mock)
 export const SIMULAR_FALHA_RECUPERACAO = false;
 
 // Links de teste no modo mock: /ativar/convite-gabriela e /ativar/convite-heitor (válidos),

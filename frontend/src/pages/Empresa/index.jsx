@@ -7,7 +7,6 @@ import Esqueleto from '../../components/Carregando/Esqueleto';
 import EstadoVazio from '../../components/EstadoVazio/EstadoVazio';
 import { useAuth } from '../../context/AuthContext';
 import {
-  EMPRESA_DE_TESTE,
   buscarMinhaEmpresa,
   listarColaboradores,
   reenviarConvite,
@@ -48,7 +47,7 @@ function plural(quantidade, singular, varios) {
 
 export default function Empresa() {
   const { usuario } = useAuth();
-  const empresaId = EMPRESA_DE_TESTE ?? usuario.empresaId;
+  const empresaId = usuario.empresaId;
 
   const [empresa, setEmpresa] = useState(null);
   const [lista, setLista] = useState([]);
