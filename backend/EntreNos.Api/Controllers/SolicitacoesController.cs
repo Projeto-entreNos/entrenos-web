@@ -41,13 +41,15 @@ public class SolicitacoesController : ControllerBase
             .ThenByDescending(s => s.Id)
             .ToListAsync();
 
-        // Formato: [{ id, status, criadaEm, atualizadaEm, servico: { id, nome }, universidade: { id, nome } }]
+        // Formato: [{ id, status, criadaEm, atualizadaEm, atendidaEm: "AAAA-MM-DD"|null,
+        //   servico: { id, nome }, universidade: { id, nome } }]
         var resposta = solicitacoes.Select(s => new
         {
             id = s.Id,
             status = s.Status,
             criadaEm = Datas.FormatarDia(s.CriadaEm),
             atualizadaEm = Datas.FormatarDia(s.AtualizadaEm),
+            atendidaEm = Datas.FormatarDia(s.AtendidaEm),
             servico = new { id = s.Servico.Id, nome = s.Servico.Nome },
             universidade = new { id = s.Servico.Universidade.Id, nome = s.Servico.Universidade.Nome },
         });
