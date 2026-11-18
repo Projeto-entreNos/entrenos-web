@@ -27,6 +27,15 @@ public static class Datas
         return DiaEmBrasilia(dataUtc).ToString("yyyy-MM-dd");
     }
 
+    public static string? FormatarDia(DateTime? dataUtc)
+    {
+        if (dataUtc == null)
+        {
+            return null;
+        }
+        return FormatarDia(dataUtc.Value);
+    }
+
     public static string? FormatarDia(DateOnly? dia)
     {
         return dia?.ToString("yyyy-MM-dd");

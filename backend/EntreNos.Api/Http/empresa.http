@@ -1,0 +1,68 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+# Endereços da tela Empresa (perfil empresa). Mande primeiro o login abaixo.
+# Bruno Exemplo (empresa) é da empresa 1: Alfa, contrato Ativo, 10 vagas.
+# Atenção: convidar, reenviar e remover mudam o banco. Para voltar aos dados de exemplo,
+# rode de novo os scripts 01, 02 e 04.
+
+### Login da empresa
+# @name login
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "empresa@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Dados da empresa: 200 com contrato, pacote e vagas (o colaborador da empresa também pode)
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1
+Authorization: Bearer {{login.response.body.token}}
+
+### Outra empresa: 403
+GET {{EntreNos.Api_HostAddress}}/api/empresas/3
+Authorization: Bearer {{login.response.body.token}}
+
+### Colaboradores: 200, sem os removidos, com "Convite expirado" calculado (Íris)
+GET {{EntreNos.Api_HostAddress}}/api/empresas/1/colaboradores
+Authorization: Bearer {{login.response.body.token}}
+
+### Convidar: 200 com { convidados, ignorados }. Aqui um entra e três são ignorados.
+POST {{EntreNos.Api_HostAddress}}/api/empresas/1/convites
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "convites": [
+    { "email": "nova.pessoa@alfa.exemplo.com", "nome": "Nova Pessoa" },
+    { "email": "sem-arroba", "nome": "" },
+    { "email": "diego@alfa.exemplo.com", "nome": "" },
+    { "email": "joao@gama.exemplo.com", "nome": "" }
+  ]
+}
+
+### Lista vazia: 400 "Informe pelo menos um e-mail."
+POST {{EntreNos.Api_HostAddress}}/api/empresas/1/convites
+Content-Type: application/json
+Authorization: Bearer {{login.response.body.token}}
+
+{
+  "convites": []
+}
+
+### Reenviar o convite expirado da Íris (id 7): 200, volta para "Convidado" com a data de hoje
+POST {{EntreNos.Api_HostAddress}}/api/colaboradores/7/reenviar-convite
+Authorization: Bearer {{login.response.body.token}}
+
+### Reenviar para quem já ativou (Ana, id 1): 409 "Esta pessoa já ativou a conta."
+POST {{EntreNos.Api_HostAddress}}/api/colaboradores/1/reenviar-convite
+Authorization: Bearer {{login.response.body.token}}
+
+### Remover a Ana (id 1): 200 com { vagasOcupadas, solicitacoesCanceladas }
+# Ela tem 2 solicitações abertas, que são canceladas. Depois disso o login dela não funciona mais.
+DELETE {{EntreNos.Api_HostAddress}}/api/colaboradores/1
+Authorization: Bearer {{login.response.body.token}}
+
+### Colaborador de outra empresa (id 8): 404 "Colaborador não encontrado."
+DELETE {{EntreNos.Api_HostAddress}}/api/colaboradores/8
+Authorization: Bearer {{login.response.body.token}}

@@ -31,6 +31,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddScoped<IEnvioEmail, EnvioEmailLog>();
 builder.Services.AddScoped<SolicitacoesService>();
+builder.Services.AddScoped<ColaboradoresService>();
 builder.Services.AddDbContext<EntreNosContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("EntreNos")));
 
