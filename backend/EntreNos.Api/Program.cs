@@ -55,6 +55,23 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             RoleClaimType = GeradorToken.ClaimPerfil,
             ClockSkew = TimeSpan.Zero,
         };
+
+        // O token vale 8 horas, mas quem foi removido pela empresa perde o acesso na hora:
+        // a cada pedido, a API confere no banco se o usuário continua ativo (senão, 401)
+        opt.Events = new JwtBearerEvents
+        {
+            OnTokenValidated = async contexto =>
+            {
+                var db = contexto.HttpContext.RequestServices.GetRequiredService<EntreNosContext>();
+                var usuarioId = contexto.Principal!.ObterUsuarioId();
+                var ativo = await db.Usuarios.AnyAsync(u =>
+                    u.Id == usuarioId && u.RemovidoEm == null && u.Status == "Ativo");
+                if (!ativo)
+                {
+                    contexto.Fail("Usuário removido ou inativo.");
+                }
+            },
+        };
     });
 builder.Services.AddAuthorization();
 

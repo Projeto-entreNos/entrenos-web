@@ -59,8 +59,8 @@ public class SolicitacoesService
             .ThenInclude(e => e!.Pacote)
             .FirstOrDefaultAsync(u => u.Id == usuarioId);
 
-        // O token pode continuar válido por algumas horas depois que a empresa remove a pessoa
-        if (usuario == null || usuario.RemovidoEm != null || usuario.Empresa == null)
+        // Usuário removido já recebe 401 antes de chegar aqui (Program.cs, OnTokenValidated)
+        if (usuario == null || usuario.Empresa == null)
         {
             return Resultado.Erro(403, "Você não tem permissão para acessar isto.");
         }
