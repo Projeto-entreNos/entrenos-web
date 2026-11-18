@@ -158,6 +158,49 @@ public class SolicitacoesService
         });
     }
 
+    // O admin registra o que a universidade informou. Atendida e Cancelada são finais.
+    // Cancelada deixa de contar no limite do mês do colaborador.
+    private static readonly Dictionary<string, string[]> ProximosStatus = new()
+    {
+        ["Enviada"] = new[] { "Em contato", "Atendida", "Cancelada" },
+        ["Em contato"] = new[] { "Atendida", "Cancelada" },
+    };
+
+    public async Task<Resultado> AlterarStatus(int solicitacaoId, string? novoStatus)
+    {
+        var solicitacao = await _db.Solicitacoes.FirstOrDefaultAsync(s => s.Id == solicitacaoId);
+        if (solicitacao == null)
+        {
+            return Resultado.Erro(404, "Solicitação não encontrada.");
+        }
+
+        var permitido = ProximosStatus.ContainsKey(solicitacao.Status)
+            && novoStatus != null
+            && ProximosStatus[solicitacao.Status].Contains(novoStatus);
+        if (!permitido)
+        {
+            return Resultado.Erro(409, "Esta solicitação não pode mais mudar para este status.");
+        }
+
+        var agora = DateTime.UtcNow;
+        solicitacao.Status = novoStatus!;
+        solicitacao.AtualizadaEm = agora;
+        if (novoStatus == "Atendida")
+        {
+            solicitacao.AtendidaEm = agora;
+        }
+        await _db.SaveChangesAsync();
+
+        // Formato: { id, status, atualizadaEm: "AAAA-MM-DD", atendidaEm: "AAAA-MM-DD"|null }
+        return Resultado.Sucesso(200, new
+        {
+            id = solicitacao.Id,
+            status = solicitacao.Status,
+            atualizadaEm = Datas.FormatarDia(solicitacao.AtualizadaEm),
+            atendidaEm = Datas.FormatarDia(solicitacao.AtendidaEm),
+        });
+    }
+
     private static string MontarEmailUniversidade(Usuario usuario, Empresa empresa, Servico servico, string mensagem)
     {
         var textoMensagem = mensagem == "" ? "(o colaborador não escreveu mensagem)" : mensagem;

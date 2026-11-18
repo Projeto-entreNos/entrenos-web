@@ -1,5 +1,6 @@
 using EntreNos.Api.Auth;
 using EntreNos.Api.Models;
+using EntreNos.Api.Services;
 using EntreNos.Api.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,6 @@ namespace EntreNos.Api.Controllers;
 [Route("api")]
 public class ServicosController : ControllerBase
 {
-    // O selo "Novo" aparece nos 30 dias depois do cadastro do serviço
-    private const int DiasSeloNovo = 30;
-
     private const string ObservacoesPadrao = "As vagas dependem da disponibilidade da universidade.";
 
     private readonly EntreNosContext _db;
@@ -59,7 +57,7 @@ public class ServicosController : ControllerBase
             local = s.Local ?? "",
             status = s.Status,
             previsaoRetorno = Datas.FormatarDia(s.PrevisaoRetorno),
-            novo = ServicoNovo(s),
+            novo = RegrasServico.ServicoNovo(s),
             universidade = new { id = s.Universidade.Id, nome = s.Universidade.Nome },
         });
 
@@ -107,14 +105,22 @@ public class ServicosController : ControllerBase
             observacoes = ObservacoesPadrao,
             status = servico.Status,
             previsaoRetorno = Datas.FormatarDia(servico.PrevisaoRetorno),
-            novo = ServicoNovo(servico),
+            novo = RegrasServico.ServicoNovo(servico),
             universidade = new { id = servico.Universidade.Id, nome = servico.Universidade.Nome },
         });
     }
 
-    public static bool ServicoNovo(Servico servico)
+    // Ordem da landing page. Usada no filtro de Benefícios e no formulário do Admin Serviços.
+    [HttpGet("servicos/categorias")]
+    [Authorize]
+    public async Task<IActionResult> Categorias()
     {
-        var diaDoCadastro = Datas.DiaEmBrasilia(servico.CriadoEm);
-        return diaDoCadastro.AddDays(DiasSeloNovo) >= Datas.HojeEmBrasilia();
+        var nomes = await _db.Categorias
+            .OrderBy(c => c.Ordem)
+            .Select(c => c.Nome)
+            .ToListAsync();
+
+        // Formato: ["Apoio contábil e financeiro", "Consultoria em gestão e negócios", ...]
+        return Ok(nomes);
     }
 }
