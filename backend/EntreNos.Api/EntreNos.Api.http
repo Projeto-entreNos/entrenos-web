@@ -1,0 +1,6 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+GET {{EntreNos.Api_HostAddress}}/api/pacotes
+Accept: application/json
+
+###
