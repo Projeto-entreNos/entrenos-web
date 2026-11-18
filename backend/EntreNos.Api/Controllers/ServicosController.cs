@@ -65,7 +65,7 @@ public class ServicosController : ControllerBase
     }
 
     // Serviço fora do pacote da empresa responde igual a serviço inexistente
-    [HttpGet("empresas/{empresaId}/servicos/{id}")]
+    [HttpGet("empresas/{empresaId}/servicos/{id:int}")]
     [Authorize(Roles = "colaborador")]
     public async Task<IActionResult> Detalhe(int empresaId, int id)
     {
