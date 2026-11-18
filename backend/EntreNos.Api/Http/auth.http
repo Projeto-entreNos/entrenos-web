@@ -40,3 +40,48 @@ Content-Type: application/json
 
 ### Método errado: 405 "Método não permitido."
 GET {{EntreNos.Api_HostAddress}}/api/auth/login
+
+### Convite válido (Gabriela, dado de exemplo): 200 com { nome, email, empresa, status: "Convidado" }
+# Para um convite novo, pegue o token no banco: SELECT Email, TokenConvite FROM Usuarios WHERE TokenConvite IS NOT NULL
+GET {{EntreNos.Api_HostAddress}}/api/auth/convites/convite-gabriela
+
+### Convite vencido (Íris, enviado há 10 dias): 200 com tudo null e status "Convite expirado"
+GET {{EntreNos.Api_HostAddress}}/api/auth/convites/convite-iris
+
+### Ativar sem aceitar os termos: 400 "Aceite os termos para continuar."
+POST {{EntreNos.Api_HostAddress}}/api/auth/ativar
+Content-Type: application/json
+
+{
+  "token": "convite-gabriela",
+  "senha": "senha1234",
+  "aceitouTermos": false
+}
+
+### Ativar com convite vencido: 410 "Este convite expirou."
+POST {{EntreNos.Api_HostAddress}}/api/auth/ativar
+Content-Type: application/json
+
+{
+  "token": "convite-iris",
+  "senha": "senha1234",
+  "aceitouTermos": true
+}
+
+### Ativar a conta da Gabriela: 200 { mensagem: "Conta ativada." }. Depois disso ela entra com gabriela@alfa.exemplo.com e senha1234.
+POST {{EntreNos.Api_HostAddress}}/api/auth/ativar
+Content-Type: application/json
+
+{
+  "token": "convite-gabriela",
+  "senha": "senha1234",
+  "aceitouTermos": true
+}
+
+### Esqueci minha senha: sempre a mesma resposta, exista o e-mail ou não
+POST {{EntreNos.Api_HostAddress}}/api/auth/recuperar-senha
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos"
+}
