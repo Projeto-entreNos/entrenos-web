@@ -58,10 +58,37 @@ Authorization: Bearer {{login.response.body.token}}
 POST {{EntreNos.Api_HostAddress}}/api/colaboradores/1/reenviar-convite
 Authorization: Bearer {{login.response.body.token}}
 
+### Login da Ana (colaborador), ANTES de removê-la: guarda o token dela para o teste abaixo
+# @name loginAna
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Com o token da Ana, antes da remoção: 200
+GET {{EntreNos.Api_HostAddress}}/api/auth/eu
+Authorization: Bearer {{loginAna.response.body.token}}
+
 ### Remover a Ana (id 1): 200 com { vagasOcupadas, solicitacoesCanceladas }
-# Ela tem 2 solicitações abertas, que são canceladas. Depois disso o login dela não funciona mais.
+# Ela tem 2 solicitações abertas, que são canceladas.
 DELETE {{EntreNos.Api_HostAddress}}/api/colaboradores/1
 Authorization: Bearer {{login.response.body.token}}
+
+### Depois da remoção, o MESMO token da Ana (ainda dentro das 8 horas): 401 "Faça login para continuar."
+GET {{EntreNos.Api_HostAddress}}/api/auth/eu
+Authorization: Bearer {{loginAna.response.body.token}}
+
+### E o login dela também não funciona mais: 401 "E-mail ou senha incorretos."
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "teste123"
+}
 
 ### Colaborador de outra empresa (id 8): 404 "Colaborador não encontrado."
 DELETE {{EntreNos.Api_HostAddress}}/api/colaboradores/8
