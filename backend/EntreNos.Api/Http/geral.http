@@ -1,0 +1,5 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+### Endereço que não existe: deve voltar 404 com { "mensagem" }
+GET {{EntreNos.Api_HostAddress}}/api/nao-existe
+Accept: application/json

@@ -36,6 +36,16 @@ app.UseExceptionHandler(erro => erro.Run(async ctx =>
     await ctx.Response.WriteAsJsonAsync(new { mensagem = "Erro interno. Tente novamente." });
 }));
 
+app.UseStatusCodePages(async contexto =>
+{
+    var resposta = contexto.HttpContext.Response;
+    if (resposta.StatusCode == 404)
+    {
+        resposta.ContentType = "application/json";
+        await resposta.WriteAsJsonAsync(new { mensagem = "Endereço não encontrado." });
+    }
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
