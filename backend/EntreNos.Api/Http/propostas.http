@@ -1,0 +1,32 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+### Proposta certa: 201 com { id, mensagem }
+POST {{EntreNos.Api_HostAddress}}/api/propostas
+Content-Type: application/json
+
+{
+  "nome": "Pessoa Exemplo",
+  "empresa": "Empresa Exemplo Ltda",
+  "email": "pessoa@empresa.exemplo.com",
+  "numeroColaboradores": 40,
+  "mensagem": "Queremos saber mais sobre o pacote Completo.",
+  "aceitouPrivacidade": true
+}
+
+### Campos com erro: 400 com { mensagem, erros: { campo: "texto" } }
+POST {{EntreNos.Api_HostAddress}}/api/propostas
+Content-Type: application/json
+
+{
+  "nome": "",
+  "empresa": "Empresa Exemplo Ltda",
+  "email": "email-sem-arroba",
+  "numeroColaboradores": 0,
+  "aceitouPrivacidade": false
+}
+
+### Corpo que não é JSON válido: 400 "Confira os dados enviados."
+POST {{EntreNos.Api_HostAddress}}/api/propostas
+Content-Type: application/json
+
+{ "numeroColaboradores": "muitos" }

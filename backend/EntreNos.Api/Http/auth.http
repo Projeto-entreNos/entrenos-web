@@ -1,0 +1,42 @@
+@EntreNos.Api_HostAddress = http://localhost:5153
+
+# Usuários de teste (senha fictícia "teste123", criada pelo database/04_senhas_teste.sql):
+# colaborador@teste.entrenos, empresa@teste.entrenos e admin@teste.entrenos
+
+### Login certo: 200 com { token, usuario }
+# @name login
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "teste123"
+}
+
+### Quem está logado: 200 com { id, perfil, empresaId }, usando o token do login acima
+GET {{EntreNos.Api_HostAddress}}/api/auth/eu
+Authorization: Bearer {{login.response.body.token}}
+
+### Sem token: 401 "Faça login para continuar."
+GET {{EntreNos.Api_HostAddress}}/api/auth/eu
+
+### Senha errada: 401 "E-mail ou senha incorretos."
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "colaborador@teste.entrenos",
+  "senha": "errada"
+}
+
+### Convidado (ainda não ativou a conta): 401 "E-mail ou senha incorretos."
+POST {{EntreNos.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "gabriela@alfa.exemplo.com",
+  "senha": "teste123"
+}
+
+### Método errado: 405 "Método não permitido."
+GET {{EntreNos.Api_HostAddress}}/api/auth/login

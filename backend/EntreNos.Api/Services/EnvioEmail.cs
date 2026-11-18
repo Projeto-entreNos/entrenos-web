@@ -5,8 +5,8 @@ public interface IEnvioEmail
     Task Enviar(string para, string assunto, string corpo);
 }
 
-// MVP: só registra no log. O corpo nunca vai para o log,
-// porque tem a mensagem do colaborador (LGPD).
+// MVP: só registra no log que um e-mail saiu. O destinatário e o corpo nunca vão
+// para o log, porque têm dados pessoais e a mensagem do colaborador (LGPD).
 public class EnvioEmailLog : IEnvioEmail
 {
     private readonly ILogger<EnvioEmailLog> _log;
@@ -18,8 +18,8 @@ public class EnvioEmailLog : IEnvioEmail
 
     public Task Enviar(string para, string assunto, string corpo)
     {
-        _log.LogInformation("E-mail para {Para} | assunto: {Assunto} | data: {Data:O}",
-            para, assunto, DateTime.UtcNow);
+        _log.LogInformation("E-mail enviado | assunto: {Assunto} | data: {Data:O}",
+            assunto, DateTime.UtcNow);
         return Task.CompletedTask;
     }
 }
