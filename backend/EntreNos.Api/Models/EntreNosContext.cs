@@ -6,10 +6,6 @@ namespace EntreNos.Api.Models;
 
 public partial class EntreNosContext : DbContext
 {
-    public EntreNosContext()
-    {
-    }
-
     public EntreNosContext(DbContextOptions<EntreNosContext> options)
         : base(options)
     {
@@ -25,14 +21,11 @@ public partial class EntreNosContext : DbContext
 
     public virtual DbSet<Servico> Servicos { get; set; }
 
-    public virtual DbSet<Solicitaco> Solicitacoes { get; set; }
+    public virtual DbSet<Solicitacao> Solicitacoes { get; set; }
 
     public virtual DbSet<Universidade> Universidades { get; set; }
 
     public virtual DbSet<Usuario> Usuarios { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:EntreNos");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -122,7 +115,7 @@ public partial class EntreNosContext : DbContext
                 .HasConstraintName("FK_Servicos_Universidades");
         });
 
-        modelBuilder.Entity<Solicitaco>(entity =>
+        modelBuilder.Entity<Solicitacao>(entity =>
         {
             entity.HasIndex(e => new { e.UsuarioId, e.CriadaEm }, "IX_Solicitacoes_UsuarioId_CriadaEm");
 
@@ -137,12 +130,12 @@ public partial class EntreNosContext : DbContext
                 .HasMaxLength(20)
                 .HasDefaultValue("Enviada", "DF_Solicitacoes_Status");
 
-            entity.HasOne(d => d.Servico).WithMany(p => p.Solicitacos)
+            entity.HasOne(d => d.Servico).WithMany(p => p.Solicitacoes)
                 .HasForeignKey(d => d.ServicoId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Solicitacoes_Servicos");
 
-            entity.HasOne(d => d.Usuario).WithMany(p => p.Solicitacos)
+            entity.HasOne(d => d.Usuario).WithMany(p => p.Solicitacoes)
                 .HasForeignKey(d => d.UsuarioId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Solicitacoes_Usuarios");

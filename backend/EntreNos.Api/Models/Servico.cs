@@ -29,7 +29,7 @@ public partial class Servico
 
     public virtual Categoria Categoria { get; set; } = null!;
 
-    public virtual ICollection<Solicitaco> Solicitacos { get; set; } = new List<Solicitaco>();
+    public virtual ICollection<Solicitacao> Solicitacoes { get; set; } = new List<Solicitacao>();
 
     public virtual Universidade Universidade { get; set; } = null!;
 

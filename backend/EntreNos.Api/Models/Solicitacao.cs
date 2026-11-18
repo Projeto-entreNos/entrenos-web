@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EntreNos.Api.Models;
 
-public partial class Solicitaco
+public partial class Solicitacao
 {
     public int Id { get; set; }
 

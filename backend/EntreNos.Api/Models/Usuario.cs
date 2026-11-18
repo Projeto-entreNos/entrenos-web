@@ -33,5 +33,5 @@ public partial class Usuario
 
     public virtual Empresa? Empresa { get; set; }
 
-    public virtual ICollection<Solicitaco> Solicitacos { get; set; } = new List<Solicitaco>();
+    public virtual ICollection<Solicitacao> Solicitacoes { get; set; } = new List<Solicitacao>();
 }

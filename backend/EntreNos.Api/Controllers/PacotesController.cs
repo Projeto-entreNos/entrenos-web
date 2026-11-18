@@ -20,13 +20,12 @@ public class PacotesController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Listar()
     {
-        // 1. Busca do banco (a coluna Beneficios vem como um texto só)
+        // A coluna Beneficios vem do banco como um texto só, com um benefício por linha
         var pacotes = await _db.Pacotes
             .AsNoTracking()
             .OrderBy(p => p.PrecoPorColaborador)
             .ToListAsync();
 
-        // 2. Monta a resposta na memória, separando os benefícios por linha
         var resposta = pacotes.Select(p => new
         {
             id = p.Codigo,
