@@ -1,4 +1,4 @@
-using EntreNos.Api.Auth;
+﻿using EntreNos.Api.Auth;
 using EntreNos.Api.Services;
 using EntreNos.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -92,7 +92,8 @@ builder.Services.AddSwaggerGen(opt =>
 });
 
 // Só o front do EntreNós pode chamar a API pelo navegador.
-// Na máquina: http://localhost:5173 (appsettings.json). No Azure: o endereço publicado do front.
+// Na máquina, o front roda em http://localhost:5173 (appsettings.json), em outro endereço, e precisa do CORS.
+// No Azure, o front é servido pela própria API (wwwroot), no mesmo endereço, e o CORS não entra em ação.
 var urlFront = builder.Configuration["UrlFront"] ?? "http://localhost:5173";
 builder.Services.AddCors(opt => opt.AddPolicy("front", p =>
     p.WithOrigins(urlFront)
@@ -141,11 +142,23 @@ else
 
 app.UseHttpsRedirection();
 
+// Arquivos do front (o build do React), copiados para wwwroot na publicação.
+// Em "/", entrega o index.html.
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors("front");
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Endereço /api que não existe: 404 com { mensagem } (preenchida pelo UseStatusCodePages)
+app.MapFallback("/api/{**caminho}", () => Results.NotFound());
+
+// Qualquer outro endereço é uma rota do React (ex.: /beneficios ao recarregar a página):
+// devolve o index.html e o react-router mostra a tela certa
+app.MapFallbackToFile("index.html");
 
 app.Run();
