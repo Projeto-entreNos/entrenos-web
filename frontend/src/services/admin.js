@@ -125,7 +125,7 @@ function conferirDados(dados, empresaId) {
  *   vigenciaInicio: "AAAA-MM-DD", vigenciaFim: "AAAA-MM-DD" } ]
  */
 export async function listarEmpresas() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/empresas');
   }
 
@@ -146,7 +146,7 @@ export async function listarEmpresas() {
  * Erros (409): { mensagem: "Já existe uma empresa com este CNPJ." }
  */
 export async function criarEmpresa(dados) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/empresas', { metodo: 'POST', corpo: dados });
   }
 
@@ -176,7 +176,7 @@ export async function criarEmpresa(dados) {
  *              { mensagem: "A empresa já tem 7 vagas ocupadas. Informe pelo menos 7." }
  */
 export async function editarEmpresa(id, dados) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao(`/admin/empresas/${id}`, { metodo: 'PUT', corpo: dados });
   }
 
@@ -203,7 +203,7 @@ export async function editarEmpresa(id, dados) {
  * Resposta esperada: { id, statusContrato }
  */
 export async function alterarStatusContrato(id, statusContrato) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao(`/admin/empresas/${id}/status`, { metodo: 'POST', corpo: { statusContrato } });
   }
 
@@ -229,7 +229,7 @@ export async function alterarStatusContrato(id, statusContrato) {
  * Resposta esperada: [ { id: "essencial", nome: "Essencial", precoPorColaborador: 29 } ]
  */
 export async function listarPacotes() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/pacotes');
   }
 
@@ -308,7 +308,7 @@ function camposDoServico(dados) {
  * "novo": o back-end calcula (serviço criado há até 30 dias).
  */
 export async function listarServicosAdmin() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/servicos');
   }
 
@@ -330,7 +330,7 @@ export async function listarServicosAdmin() {
  * Erros (400): { mensagem: "Selecione a universidade." }
  */
 export async function criarServico(dados) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/servicos', { metodo: 'POST', corpo: dados });
   }
 
@@ -354,7 +354,7 @@ export async function criarServico(dados) {
  * Erros (404): { mensagem: "Serviço não encontrado." }
  */
 export async function editarServico(id, dados) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao(`/admin/servicos/${id}`, { metodo: 'PUT', corpo: dados });
   }
 
@@ -381,7 +381,7 @@ export async function editarServico(id, dados) {
  * Resposta esperada: [ { id, nome } ]
  */
 export async function listarUniversidades() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao('/admin/universidades');
   }
 
@@ -443,7 +443,7 @@ function paraRespostaSolicitacao(solicitacao) {
  *   universidade: { id, nome, email } } ]
  */
 export async function listarSolicitacoesAdmin({ status } = {}) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     const filtro = status ? `?status=${encodeURIComponent(status)}` : '';
     return requisicao(`/admin/solicitacoes${filtro}`);
   }
@@ -471,7 +471,7 @@ export async function listarSolicitacoesAdmin({ status } = {}) {
  * Erros (409): { mensagem: "Esta solicitação não pode mais mudar para este status." }
  */
 export async function alterarStatusSolicitacao(id, status) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.admin) {
     return requisicao(`/admin/solicitacoes/${id}/status`, { metodo: 'POST', corpo: { status } });
   }
 

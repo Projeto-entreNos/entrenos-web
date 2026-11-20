@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { definirAoExpirarSessao, definirToken } from '../services/api';
 import * as servicoAuth from '../services/auth';
 
 /*
@@ -36,24 +37,45 @@ function apagarSessao() {
 }
 
 export function AuthProvider({ children }) {
-  const [sessao, setSessao] = useState(lerSessaoSalva);
+  const [sessao, setSessao] = useState(() => {
+    const salva = lerSessaoSalva();
+    definirToken(salva?.token ?? null);
+    return salva;
+  });
+  // true quando a API recusou o token: a tela de login avisa que é preciso entrar de novo
+  const [sessaoExpirada, setSessaoExpirada] = useState(false);
+
+  // Token vencido ou usuário removido: a API responde 401 e a sessão termina.
+  // Sem usuário, as rotas protegidas levam para /login.
+  useEffect(() => {
+    definirAoExpirarSessao(() => {
+      definirToken(null);
+      setSessao(null);
+      apagarSessao();
+      setSessaoExpirada(true);
+    });
+  }, []);
 
   async function login(email, senha) {
     const resposta = await servicoAuth.login(email, senha);
     const novaSessao = { usuario: resposta.usuario, token: resposta.token };
+    definirToken(novaSessao.token);
     setSessao(novaSessao);
     salvarSessao(novaSessao);
+    setSessaoExpirada(false);
     return resposta.usuario;
   }
 
   function logout() {
+    definirToken(null);
     setSessao(null);
     apagarSessao();
+    setSessaoExpirada(false);
   }
 
   const valor = {
     usuario: sessao?.usuario ?? null, // { id, nome, email, perfil, empresaId }
-    token: sessao?.token ?? null,
+    sessaoExpirada,
     login,
     logout,
   };

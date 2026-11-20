@@ -13,7 +13,7 @@ export const SIMULAR_FALHA_PACOTES = false;
  * ]
  */
 export async function listarPacotesPublicos() {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.pacotes) {
     return requisicao('/pacotes');
   }
 

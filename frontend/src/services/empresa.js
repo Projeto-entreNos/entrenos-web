@@ -14,10 +14,6 @@ import { dataDeHoje, somarDias } from '../utils/datas';
 // true: simula erro ao carregar a tela Empresa (modo mock)
 export const SIMULAR_FALHA_EMPRESA = false;
 
-// Empresa exibida na tela Empresa no modo mock: 'emp-2' (Aguardando pagamento),
-// 'emp-3' (Encerrado), 'emp-4' (Proposta enviada) ou null (empresa do login).
-export const EMPRESA_DE_TESTE = null;
-
 // true: simula a lista de colaboradores vazia (modo mock)
 export const SIMULAR_LISTA_VAZIA = false;
 
@@ -87,7 +83,7 @@ function paraResposta(colaborador) {
  *   vagasContratadas, vagasOcupadas, vigenciaInicio: "AAAA-MM-DD", vigenciaFim: "AAAA-MM-DD" }
  */
 export async function buscarMinhaEmpresa(empresaId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.empresa) {
     return requisicao(`/empresas/${empresaId}`);
   }
 
@@ -128,7 +124,7 @@ export async function buscarMinhaEmpresa(empresaId) {
  * O back-end calcula "Convite expirado" (convite com mais de 7 dias e não ativado).
  */
 export async function listarColaboradores(empresaId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.empresa) {
     return requisicao(`/empresas/${empresaId}/colaboradores`);
   }
 
@@ -155,7 +151,7 @@ export async function listarColaboradores(empresaId) {
  *              { mensagem: "Vagas insuficientes." }
  */
 export async function convidarColaboradores(empresaId, lista) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.empresa) {
     return requisicao(`/empresas/${empresaId}/convites`, { metodo: 'POST', corpo: { convites: lista } });
   }
 
@@ -213,7 +209,7 @@ export async function convidarColaboradores(empresaId, lista) {
  *              { mensagem: "Os convites só ficam liberados com o contrato ativo." }
  */
 export async function reenviarConvite(colaboradorId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.empresa) {
     return requisicao(`/colaboradores/${colaboradorId}/reenviar-convite`, { metodo: 'POST' });
   }
 
@@ -244,7 +240,7 @@ export async function reenviarConvite(colaboradorId) {
  * Resposta esperada: { vagasOcupadas: 6, solicitacoesCanceladas: 1 }
  */
 export async function removerColaborador(colaboradorId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.empresa) {
     return requisicao(`/colaboradores/${colaboradorId}`, { metodo: 'DELETE' });
   }
 

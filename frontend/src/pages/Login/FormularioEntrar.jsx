@@ -23,7 +23,7 @@ function validarLogin({ email, senha }) {
 }
 
 export default function FormularioEntrar({ aoEsquecerSenha }) {
-  const { login } = useAuth();
+  const { login, sessaoExpirada } = useAuth();
   const navegar = useNavigate();
   const local = useLocation();
 
@@ -72,6 +72,7 @@ export default function FormularioEntrar({ aoEsquecerSenha }) {
 
         {/* O Aviso de erro tem role="alert": o leitor de tela anuncia quando ele aparece */}
         {erroEnvio && <Aviso tipo="erro" titulo={erroEnvio} />}
+        {sessaoExpirada && !erroEnvio && <Aviso tipo="aviso" titulo="Sua sessão terminou. Entre de novo para continuar." />}
 
         <form className="login__formulario" onSubmit={enviar} noValidate>
           <Campo

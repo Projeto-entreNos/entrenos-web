@@ -6,7 +6,8 @@ import { useAuth } from '../../context/AuthContext';
 import { paginaInicial } from '../../rotas/paginaInicial';
 
 // Só aparece em desenvolvimento (npm run dev): fica fora do build de produção.
-// Usuários de teste de mocks/usuarios.js (senha de todos: teste123)
+// Usuários de teste (senha de todos: teste123): na API, os do database/04_senhas_teste.sql;
+// no modo mock, os de mocks/usuarios.js
 const PERFIS_TESTE = [
   { perfil: 'colaborador', rotulo: 'Entrar como colaborador', email: 'colaborador@teste.entrenos' },
   { perfil: 'empresa', rotulo: 'Entrar como empresa', email: 'empresa@teste.entrenos' },

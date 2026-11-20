@@ -11,7 +11,7 @@ export const SIMULAR_FALHA_CONVITE = false;
 // true: simula erro ao clicar em "Ativar conta" (modo mock)
 export const SIMULAR_FALHA_ATIVACAO = false;
 
-// true: simula erro ao pedir o link de recuperação de senha (modo mock)
+// true: simula erro ao enviar o pedido de troca de senha (modo mock)
 export const SIMULAR_FALHA_RECUPERACAO = false;
 
 // Links de teste no modo mock: /ativar/convite-gabriela e /ativar/convite-heitor (válidos),
@@ -28,7 +28,7 @@ function buscarColaboradorPeloToken(token) {
  * Erro (401): { mensagem: "E-mail ou senha incorretos." }
  */
 export async function login(email, senha) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.auth) {
     return requisicao('/auth/login', { metodo: 'POST', corpo: { email, senha } });
   }
 
@@ -57,7 +57,7 @@ export async function login(email, senha) {
  * Token inexistente ou já usado: { nome: null, email: null, empresa: null, status: "Convite expirado" }
  */
 export async function buscarConvite(token) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.auth) {
     return requisicao(`/auth/convites/${encodeURIComponent(token)}`);
   }
 
@@ -90,7 +90,7 @@ export async function buscarConvite(token) {
  * Erro (400): { mensagem: "Aceite os termos para continuar." }
  */
 export async function ativarConta(token, { senha, aceitouTermos }) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.auth) {
     return requisicao('/auth/ativar', { metodo: 'POST', corpo: { token, senha, aceitouTermos } });
   }
 
@@ -125,7 +125,7 @@ export async function ativarConta(token, { senha, aceitouTermos }) {
  * Resposta esperada: { mensagem: "Se o e-mail estiver cadastrado, você vai receber um link." }
  */
 export async function recuperarSenha(email) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.auth) {
     return requisicao('/auth/recuperar-senha', { metodo: 'POST', corpo: { email } });
   }
 

@@ -112,11 +112,12 @@ function procurarAberta(colaboradorId, servicoId) {
  * API: GET /usuarios/:usuarioId/solicitacoes
  * Resposta esperada: [
  *   { id, status: "Enviada"|"Em contato"|"Atendida"|"Cancelada", criadaEm: "AAAA-MM-DD",
- *     atualizadaEm: "AAAA-MM-DD", servico: { id, nome }, universidade: { id, nome } }
+ *     atualizadaEm: "AAAA-MM-DD", atendidaEm: "AAAA-MM-DD"|null,
+ *     servico: { id, nome }, universidade: { id, nome } }
  * ]
  */
 export async function listarMinhasSolicitacoes(usuarioId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.solicitacoes) {
     return requisicao(`/usuarios/${usuarioId}/solicitacoes`);
   }
 
@@ -137,6 +138,7 @@ export async function listarMinhasSolicitacoes(usuarioId) {
         status: item.status,
         criadaEm: item.criadaEm,
         atualizadaEm: item.atualizadaEm,
+        atendidaEm: item.status === 'Atendida' ? (item.atendidaEm ?? item.atualizadaEm) : null,
         servico: { id: item.servicoId, nome: servico?.nome ?? 'Serviço removido' },
         universidade: { id: universidade?.id ?? null, nome: universidade?.nome ?? '-' },
       };
@@ -150,7 +152,8 @@ export async function listarMinhasSolicitacoes(usuarioId) {
  * "usuarioId" é usado SÓ no modo mock: na API, o usuário vem do token e não vai no corpo.
  * API: POST /solicitacoes  corpo: { servicoId, mensagem }
  * Resposta esperada: { id, status: "Enviada", criadaEm: "AAAA-MM-DD" }
- * Erros (409): { mensagem: "Este serviço não está disponível para solicitação." }
+ * Erros (409): { mensagem: "O contrato da sua empresa não está ativo. Fale com o RH." }
+ *              { mensagem: "Este serviço não está disponível para solicitação." }
  *              { mensagem: "Você já tem uma solicitação em aberto para este serviço." }
  *              { mensagem: "Você atingiu o limite de atendimentos deste mês." }
  */
@@ -160,8 +163,7 @@ export async function criarSolicitacao({ servicoId, mensagem = '', usuarioId }) 
     throw new Error(`A mensagem pode ter no máximo ${LIMITE_MENSAGEM} caracteres.`);
   }
 
-  if (!USAR_MOCK) {
-    // TODO: enviar o token do usuário quando a API exigir autenticação
+  if (!USAR_MOCK.solicitacoes) {
     return requisicao('/solicitacoes', { metodo: 'POST', corpo: { servicoId, mensagem: texto } });
   }
 
@@ -213,11 +215,12 @@ export async function criarSolicitacao({ servicoId, mensagem = '', usuarioId }) 
 /**
  * Solicitação em aberto ("Enviada" ou "Em contato") do usuário para um serviço, ou null.
  * Serve para bloquear um novo pedido do mesmo serviço.
- * API: GET /usuarios/:usuarioId/solicitacao-aberta?servicoId=serv-1
- * Resposta esperada: { id, status: "Enviada"|"Em contato", criadaEm: "AAAA-MM-DD" } ou null
+ * API: GET /usuarios/:usuarioId/solicitacao-aberta?servicoId=5
+ * Resposta esperada: { id, status: "Enviada"|"Em contato", criadaEm: "AAAA-MM-DD" },
+ *   ou resposta vazia (204), que vira null
  */
 export async function buscarSolicitacaoAberta(servicoId, usuarioId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.solicitacoes) {
     return requisicao(`/usuarios/${usuarioId}/solicitacao-aberta?servicoId=${encodeURIComponent(servicoId)}`);
   }
 
@@ -239,8 +242,7 @@ export async function buscarSolicitacaoAberta(servicoId, usuarioId) {
  * Erros (409): { mensagem: "Esta solicitação não pode mais ser cancelada." }
  */
 export async function cancelarSolicitacao(id, usuarioId) {
-  if (!USAR_MOCK) {
-    // TODO: enviar o token do usuário quando a API exigir autenticação
+  if (!USAR_MOCK.solicitacoes) {
     return requisicao(`/solicitacoes/${id}/cancelar`, { metodo: 'PATCH' });
   }
 
@@ -274,7 +276,7 @@ export async function cancelarSolicitacao(id, usuarioId) {
  * Resposta esperada: { usados: 2 }
  */
 export async function contarAtendimentosDoMes(usuarioId) {
-  if (!USAR_MOCK) {
+  if (!USAR_MOCK.solicitacoes) {
     const resposta = await requisicao(`/usuarios/${usuarioId}/atendimentos-do-mes`);
     return resposta.usados;
   }
@@ -315,14 +317,4 @@ export async function cancelarSolicitacoesAbertasDoColaborador(colaboradorId) {
   }
 
   return abertas.length;
-}
-
-/**
- * Uso do mês do colaborador logado ("X de Y atendimentos").
- * TODO: implementar (modo mock e API).
- * API: GET /solicitacoes/uso-do-mes
- * Resposta esperada: { usados: 2, limite: 5, pacote: "Completo" }
- */
-export async function buscarUsoDoMes() {
-  throw new Error('buscarUsoDoMes ainda não foi implementada.');
 }
