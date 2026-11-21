@@ -2,7 +2,7 @@
   USAR_MOCK: cada service pode usar os dados de src/mocks (true) ou a API em C# (false).
   Com "auth" em true, o login é fictício e a API recusa o token: nesse caso, ponha
   em true também os services das telas logadas que for testar.
-  Atenção: nos mocks os ids são textos ("emp-1") e na API são números (1).
+  Nos mocks os ids são textos ("emp-1"); na API, números (1).
 */
 export const USAR_MOCK = {
   pacotes: false,

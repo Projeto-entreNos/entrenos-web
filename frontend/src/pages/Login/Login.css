@@ -44,8 +44,6 @@
   padding: 0 var(--esp-40) var(--esp-72);
 }
 
-/* Cartão */
-
 .login__cartao {
   display: flex;
   flex-direction: column;
@@ -85,7 +83,6 @@
   margin-bottom: var(--esp-8);
 }
 
-/* Botões e links com aparência de link de texto */
 .login__link {
   padding: 0;
   background: none;
@@ -110,8 +107,6 @@
   text-align: center;
 }
 
-/* Cartão "Verifique seu e-mail" */
-
 .login__icone-status {
   display: flex;
   align-items: center;
@@ -122,8 +117,6 @@
   border-radius: var(--raio-pilula);
   color: var(--cor-esmeralda-escuro);
 }
-
-/* Atalhos de teste (só em desenvolvimento) */
 
 .login__atalhos {
   display: flex;

@@ -41,7 +41,6 @@ const ICONES = {
   'email-enviado': MailCheck,
   cadeado: Lock,
   busca: Search,
-  // Landing
   janela: AppWindow,
   pacote: Package,
   moedas: Coins,

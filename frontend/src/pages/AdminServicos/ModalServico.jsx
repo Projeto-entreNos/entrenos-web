@@ -71,7 +71,6 @@ export default function ModalServico({ servico, categorias, universidades, pacot
     setErroEnvio('');
   }
 
-  // Atalho para ligar valor, mudança e erro de um campo
   function ligar(campo) {
     return {
       value: valores[campo],

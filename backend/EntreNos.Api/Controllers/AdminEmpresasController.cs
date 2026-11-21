@@ -21,7 +21,6 @@ public class AdminEmpresasController : ControllerBase
         _empresas = empresas;
     }
 
-    // Na ordem de cadastro
     [HttpGet("empresas")]
     public async Task<IActionResult> Listar()
     {

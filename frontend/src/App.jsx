@@ -22,17 +22,14 @@ const Componentes = import.meta.env.DEV ? lazy(() => import('./pages/Componentes
 export default function App() {
   return (
     <Routes>
-      {/* Públicas com a navbar da landing */}
       <Route element={<LayoutPublico />}>
         <Route path="/" element={<Landing />} />
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
 
-      {/* Públicas sem navbar */}
       <Route path="/login" element={<Login />} />
       <Route path="/ativar/:token" element={<AtivarConta />} />
 
-      {/* Colaborador */}
       <Route element={<RotaProtegida perfis={['colaborador']} />}>
         <Route element={<LayoutLogado />}>
           <Route path="/beneficios" element={<Beneficios />} />
@@ -41,14 +38,12 @@ export default function App() {
         </Route>
       </Route>
 
-      {/* Empresa */}
       <Route element={<RotaProtegida perfis={['empresa']} />}>
         <Route element={<LayoutLogado />}>
           <Route path="/empresa" element={<Empresa />} />
         </Route>
       </Route>
 
-      {/* Admin */}
       <Route element={<RotaProtegida perfis={['admin']} />}>
         <Route element={<LayoutLogado />}>
           <Route path="/admin/empresas" element={<AdminEmpresas />} />

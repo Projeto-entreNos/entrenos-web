@@ -2,7 +2,6 @@ using System.Security.Claims;
 
 namespace EntreNos.Api.Auth;
 
-// Lê os dados de quem está logado, que vêm dentro do token
 public static class ClaimsExtensions
 {
     public static int ObterUsuarioId(this ClaimsPrincipal usuario)

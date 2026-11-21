@@ -289,7 +289,6 @@ public class ColaboradoresService
             .FirstOrDefaultAsync(u => u.TokenConvite == token && u.RemovidoEm == null);
     }
 
-    // 32 bytes aleatórios em hexadecimal: impossível de adivinhar
     private static string GerarTokenConvite()
     {
         return Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLower();

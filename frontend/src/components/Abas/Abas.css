@@ -28,7 +28,6 @@
   color: var(--cor-esmeralda-escuro);
 }
 
-/* AbasAdmin: as abas são links */
 a.abas__aba {
   text-decoration: none;
 }

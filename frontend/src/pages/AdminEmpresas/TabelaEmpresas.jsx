@@ -21,7 +21,6 @@ export default function TabelaEmpresas({ linhas, aoEditar, aoConfirmarPagamento 
       titulo: 'Contrato',
       renderizar: (linha) => <Selo tipo={TIPO_DO_SELO[linha.statusContrato]}>{linha.statusContrato}</Selo>,
     },
-    // Ocupadas/contratadas
     { chave: 'vagas', titulo: 'Vagas', renderizar: (linha) => `${linha.vagasOcupadas}/${linha.vagasContratadas}` },
     { chave: 'vigencia', titulo: 'Vigência', renderizar: (linha) => formatarVigencia(linha.vigenciaInicio, linha.vigenciaFim) },
     {

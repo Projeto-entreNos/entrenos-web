@@ -2,7 +2,7 @@
   DADOS DE EXEMPLO (fictícios).
   Status: 'Enviada', 'Em contato', 'Atendida', 'Cancelada'.
   Privacidade (LGPD): a mensagem do colaborador vai só para a universidade,
-  por isso ela NÃO fica guardada aqui (o admin não pode ver o conteúdo).
+  por isso ela não fica guardada aqui (o admin não pode ver o conteúdo).
   "temMensagem" diz só se o colaborador escreveu uma mensagem (o admin vê "Mensagem enviada
   à universidade" ou "Sem mensagem"); "atendidaEm" é a data em que virou "Atendida".
   Regras respeitadas nos dados:

@@ -22,7 +22,6 @@ public class ColaboradoresController : ControllerBase
         _colaboradores = colaboradores;
     }
 
-    // Do convite mais recente para o mais antigo, sem os removidos
     [HttpGet("empresas/{empresaId}/colaboradores")]
     public async Task<IActionResult> Listar(int empresaId)
     {

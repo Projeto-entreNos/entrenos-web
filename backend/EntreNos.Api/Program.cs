@@ -36,9 +36,8 @@ builder.Services.AddScoped<ColaboradoresService>();
 builder.Services.AddScoped<AdminEmpresasService>();
 builder.Services.AddScoped<AdminServicosService>();
 
-// O Azure SQL gratuito pausa quando fica parado e leva até 1 minuto para acordar.
-// Por isso a conexão espera até 60 segundos e, se falhar, o EF Core tenta de novo.
-// A connection string continua a mesma (User Secrets ou Azure); só o tempo de espera é ajustado aqui.
+// O Azure SQL gratuito pausa quando fica parado e leva até 1 minuto para acordar:
+// a conexão espera até 60 segundos e, se falhar, o EF Core tenta de novo.
 var conexaoBanco = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("EntreNos"))
 {
     ConnectTimeout = 60,
@@ -104,9 +103,8 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
-// Só o front do EntreNós pode chamar a API pelo navegador.
-// Na máquina, o front roda em http://localhost:5173 (appsettings.json), em outro endereço, e precisa do CORS.
-// No Azure, o front é servido pela própria API (wwwroot), no mesmo endereço, e o CORS não entra em ação.
+// Só o front do EntreNós pode chamar a API pelo navegador. Na máquina, ele roda em outro endereço
+// (UrlFront) e precisa do CORS; no Azure, sai do wwwroot, no mesmo endereço da API.
 var urlFront = builder.Configuration["UrlFront"] ?? "http://localhost:5173";
 builder.Services.AddCors(opt => opt.AddPolicy("front", p =>
     p.WithOrigins(urlFront)
@@ -141,7 +139,7 @@ app.UseStatusCodePages(async contexto =>
     }
 });
 
-// O Swagger só existe na máquina de quem desenvolve. Publicada, a API não mostra a documentação.
+// O Swagger só existe em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -149,14 +147,12 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // Avisa o navegador para usar sempre HTTPS com a API publicada
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-// Arquivos do front (o build do React), copiados para wwwroot na publicação.
-// Em "/", entrega o index.html.
+// Build do React, copiado para wwwroot na publicação
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
@@ -170,8 +166,7 @@ app.MapControllers();
 // Endereço /api que não existe: 404 com { mensagem } (preenchida pelo UseStatusCodePages)
 app.MapFallback("/api/{**caminho}", () => Results.NotFound());
 
-// Qualquer outro endereço é uma rota do React (ex.: /beneficios ao recarregar a página):
-// devolve o index.html e o react-router mostra a tela certa
+// Os outros endereços são rotas do React (ex.: /beneficios ao recarregar a página)
 app.MapFallbackToFile("index.html");
 
 app.Run();
