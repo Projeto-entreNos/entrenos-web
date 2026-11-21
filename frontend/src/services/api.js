@@ -14,7 +14,8 @@ export const USAR_MOCK = {
   admin: false,
 };
 
-// Endereço da API: variável VITE_API_URL, configurada no arquivo frontend/.env.local
+// Endereço da API: variável VITE_API_URL. Na máquina, vem do frontend/.env.local (http://localhost:5153/api).
+// Publicado, é /api: um endereço relativo, porque o front e a API ficam no mesmo domínio.
 export const URL_API = import.meta.env.VITE_API_URL;
 
 // Token de quem está logado e o que fazer quando a API recusa o token.
