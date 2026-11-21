@@ -4,6 +4,7 @@ using EntreNos.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
@@ -34,8 +35,20 @@ builder.Services.AddScoped<SolicitacoesService>();
 builder.Services.AddScoped<ColaboradoresService>();
 builder.Services.AddScoped<AdminEmpresasService>();
 builder.Services.AddScoped<AdminServicosService>();
+
+// O Azure SQL gratuito pausa quando fica parado e leva até 1 minuto para acordar.
+// Por isso a conexão espera até 60 segundos e, se falhar, o EF Core tenta de novo.
+// A connection string continua a mesma (User Secrets ou Azure); só o tempo de espera é ajustado aqui.
+var conexaoBanco = new SqlConnectionStringBuilder(builder.Configuration.GetConnectionString("EntreNos"))
+{
+    ConnectTimeout = 60,
+};
 builder.Services.AddDbContext<EntreNosContext>(opt =>
-    opt.UseSqlServer(builder.Configuration.GetConnectionString("EntreNos")));
+    opt.UseSqlServer(conexaoBanco.ConnectionString, sql =>
+        sql.EnableRetryOnFailure(
+            maxRetryCount: 3,
+            maxRetryDelay: TimeSpan.FromSeconds(10),
+            errorNumbersToAdd: null)));
 
 builder.Services.AddSingleton(new GeradorToken(chaveJwt));
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
