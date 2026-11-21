@@ -2,7 +2,6 @@ import Aviso from '../Aviso/Aviso';
 import './EmConstrucao.css';
 
 /**
- * Marcador de tela ainda não implementada.
  * - comMargem: para telas fora do LayoutLogado (landing, ativação)
  */
 export default function EmConstrucao({ nome, rota, comMargem = false }) {

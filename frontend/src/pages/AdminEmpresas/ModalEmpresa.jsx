@@ -100,7 +100,6 @@ export default function ModalEmpresa({ empresa, pacotes, aoFechar, aoSalvar }) {
     setErroEnvio('');
   }
 
-  // Atalho para ligar valor, mudança e erro de um campo
   function ligar(campo) {
     return {
       value: valores[campo],

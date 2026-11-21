@@ -187,7 +187,7 @@ export const servicos = [
     local: 'Online ou no Núcleo de Prática Jurídica',
     pacotes: TODOS_OS_PACOTES,
     status: 'Pausado',
-    previsaoRetorno: '2027-02-01', // data no formato AAAA-MM-DD
+    previsaoRetorno: '2027-02-01',
     criadoEm: '2026-03-02',
   },
   {

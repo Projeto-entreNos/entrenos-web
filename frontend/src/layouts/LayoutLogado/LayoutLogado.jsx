@@ -10,7 +10,6 @@ export default function LayoutLogado() {
   const navegar = useNavigate();
   const { pathname } = useLocation();
 
-  // Ao trocar de tela, volta ao topo
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);

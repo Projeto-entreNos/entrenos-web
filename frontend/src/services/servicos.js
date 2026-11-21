@@ -43,7 +43,7 @@ export function servicoNovo(servico) {
 }
 
 /**
- * Serviços do pacote da empresa, em TODOS os status (a lista mostra os selos
+ * Serviços do pacote da empresa, em todos os status (a lista mostra os selos
  * "Sem vagas no momento" e "Pausado").
  * API: GET /empresas/:empresaId/servicos
  * Resposta esperada: [
@@ -89,7 +89,7 @@ const OBSERVACOES_PADRAO = 'As vagas dependem da disponibilidade da universidade
 
 /**
  * Detalhe de um serviço do pacote da empresa.
- * Devolve null se o serviço não existir OU não fizer parte do pacote da empresa
+ * Devolve null se o serviço não existir ou não fizer parte do pacote da empresa
  * (para o colaborador, os dois casos são "Serviço não encontrado").
  * API: GET /empresas/:empresaId/servicos/:id
  * Resposta esperada: { id, nome, categoria, descricaoCurta, descricaoCompleta, modalidade, local, observacoes,

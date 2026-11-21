@@ -400,7 +400,7 @@ export function proximosStatus(status) {
   return TRANSICOES_SOLICITACAO[status] ?? [];
 }
 
-// As solicitações de exemplo atendidas antes deste campo existir usam a data da última mudança
+// Solicitação Atendida sem atendidaEm usa a data da última mudança
 function dataDeAtendimento(solicitacao) {
   if (solicitacao.status !== 'Atendida') return null;
   return solicitacao.atendidaEm ?? solicitacao.atualizadaEm;

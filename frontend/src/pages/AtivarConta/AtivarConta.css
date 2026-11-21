@@ -41,8 +41,6 @@
   padding: 0 var(--esp-40) var(--esp-16);
 }
 
-/* Cartão */
-
 .ativar-conta__cartao {
   display: flex;
   flex-direction: column;
@@ -80,8 +78,6 @@
   gap: var(--esp-16);
 }
 
-/* Dados do convite */
-
 .ativar-conta__convite {
   display: flex;
   flex-direction: column;
@@ -102,8 +98,6 @@
   color: var(--cor-azul-abissal);
 }
 
-/* Regras da senha */
-
 .ativar-conta__regras {
   display: flex;
   flex-direction: column;
@@ -120,8 +114,6 @@
   flex-wrap: wrap;
   gap: 6px var(--esp-16);
 }
-
-/* Ícone redondo dos cartões de resultado */
 
 .ativar-conta__icone {
   display: flex;

@@ -21,7 +21,6 @@ function buscarColaboradorPeloToken(token) {
 }
 
 /**
- * Entra no sistema.
  * API: POST /auth/login  corpo: { email, senha }
  * Resposta esperada:
  *   { token: "jwt...", usuario: { id, nome, email, perfil: "colaborador"|"empresa"|"admin", empresaId } }
@@ -108,7 +107,7 @@ export async function ativarConta(token, { senha, aceitouTermos }) {
     throw new Error('Este convite expirou.');
   }
 
-  // A senha não é guardada no mock: só o back-end guarda a senha (criptografada)
+  // O mock não guarda a senha: só o back-end guarda o hash dela.
   const hoje = dataDeHoje();
   colaborador.status = 'Ativo';
   colaborador.ativadoEm = hoje;
@@ -120,7 +119,6 @@ export async function ativarConta(token, { senha, aceitouTermos }) {
 }
 
 /**
- * Pede o e-mail de recuperação de senha.
  * API: POST /auth/recuperar-senha  corpo: { email }
  * Resposta esperada: { mensagem: "Se o e-mail estiver cadastrado, você vai receber um link." }
  */

@@ -21,7 +21,6 @@ public class AdminServicosController : ControllerBase
         _servicos = servicos;
     }
 
-    // Todos os serviços do catálogo, em todos os status
     [HttpGet("servicos")]
     public async Task<IActionResult> Listar()
     {

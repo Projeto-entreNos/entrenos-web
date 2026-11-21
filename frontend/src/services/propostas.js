@@ -4,7 +4,6 @@ import { USAR_MOCK, esperarMock, requisicao } from './api';
 export const SIMULAR_FALHA_PROPOSTA = false;
 
 /**
- * Envia uma proposta.
  * API: POST /propostas  corpo: { nome, empresa, email, numeroColaboradores, mensagem, aceitouPrivacidade: true }
  * Resposta esperada (201): { id, mensagem: "Recebemos o seu pedido. Nosso time entra em contato." }
  * Erro (400): { mensagem: "Confira os campos destacados.", erros: { email: "E-mail inválido." } }

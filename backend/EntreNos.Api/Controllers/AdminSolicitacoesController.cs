@@ -22,7 +22,6 @@ public class AdminSolicitacoesController : ControllerBase
         _solicitacoes = solicitacoes;
     }
 
-    // De todas as empresas, da mais recente para a mais antiga. O filtro ?status= é opcional.
     // LGPD: o texto da mensagem nem sai do banco; a consulta só pergunta se ela existe (temMensagem).
     [HttpGet]
     public async Task<IActionResult> Listar([FromQuery] string? status)

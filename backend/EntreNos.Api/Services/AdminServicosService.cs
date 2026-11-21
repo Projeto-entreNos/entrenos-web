@@ -87,7 +87,7 @@ public class AdminServicosService
         return Resultado.Sucesso(200, ParaResposta(servico));
     }
 
-    // Confere os dados e copia para o serviço. Devolve o texto do primeiro erro, ou null.
+    // Devolve o texto do primeiro erro, ou null
     private async Task<string?> CopiarCampos(ServicoRequisicao dados, Servico servico)
     {
         if (string.IsNullOrWhiteSpace(dados.Nome) || dados.Nome.Trim().Length > 120)

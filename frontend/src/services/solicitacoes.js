@@ -22,7 +22,7 @@ const STATUS_ABERTOS = ['Enviada', 'Em contato'];
   a página. Ao carregar este arquivo, a lista salva atualiza a lista de mocks (pelo id),
   e assim conta no limite do mês e aparece em Minhas solicitações.
   LGPD: o campo "mensagem" simula o que é enviado à universidade.
-  As telas de admin NUNCA podem ler esse campo.
+  As telas de admin nunca leem este campo.
 */
 const CHAVE_SOLICITACOES = 'entrenos:solicitacoes';
 
@@ -149,7 +149,7 @@ export async function listarMinhasSolicitacoes(usuarioId) {
 
 /**
  * Cria uma solicitação. A mensagem vai só para a universidade (LGPD).
- * "usuarioId" é usado SÓ no modo mock: na API, o usuário vem do token e não vai no corpo.
+ * "usuarioId" só é usado no modo mock: na API, o usuário vem do token e não vai no corpo.
  * API: POST /solicitacoes  corpo: { servicoId, mensagem }
  * Resposta esperada: { id, status: "Enviada", criadaEm: "AAAA-MM-DD" }
  * Erros (409): { mensagem: "O contrato da sua empresa não está ativo. Fale com o RH." }
@@ -236,7 +236,7 @@ export async function buscarSolicitacaoAberta(servicoId, usuarioId) {
 /**
  * Cancela uma solicitação. Só o próprio colaborador cancela, e só quando está "Enviada"
  * (depois disso a universidade já está em contato). Cancelada, deixa de contar no limite do mês.
- * "usuarioId" é usado SÓ no modo mock: na API, o usuário vem do token.
+ * "usuarioId" só é usado no modo mock: na API, o usuário vem do token.
  * API: PATCH /solicitacoes/:id/cancelar
  * Resposta esperada: { id, status: "Cancelada", atualizadaEm: "AAAA-MM-DD" }
  * Erros (409): { mensagem: "Esta solicitação não pode mais ser cancelada." }
@@ -299,7 +299,7 @@ export async function contarAtendimentosDoMes(usuarioId) {
 }
 
 /**
- * SÓ NO MODO MOCK: cancela as solicitações em aberto ("Enviada" ou "Em contato")
+ * Só no modo mock: cancela as solicitações em aberto ("Enviada" ou "Em contato")
  * de um colaborador removido pela empresa. Devolve quantas foram canceladas.
  * Na API real não existe este endereço: o DELETE /colaboradores/:id faz isso no back-end.
  * Quem chama (removerColaborador) já simulou a espera da rede.
