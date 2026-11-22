@@ -1,6 +1,4 @@
-import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Carregando from './components/Carregando/Carregando';
 import LayoutLogado from './layouts/LayoutLogado/LayoutLogado';
 import LayoutPublico from './layouts/LayoutPublico/LayoutPublico';
 import AdminEmpresas from './pages/AdminEmpresas';
@@ -17,9 +15,6 @@ import NaoEncontrada from './pages/NaoEncontrada';
 import Privacidade from './pages/Privacidade';
 import Termos from './pages/Termos';
 import RotaProtegida from './rotas/RotaProtegida';
-
-// Vitrine de componentes: só em desenvolvimento, fora do build de produção.
-const Componentes = import.meta.env.DEV ? lazy(() => import('./pages/Componentes')) : null;
 
 export default function App() {
   return (
@@ -55,17 +50,6 @@ export default function App() {
           <Route path="/admin/solicitacoes" element={<AdminSolicitacoes />} />
         </Route>
       </Route>
-
-      {Componentes && (
-        <Route
-          path="/componentes"
-          element={
-            <Suspense fallback={<Carregando />}>
-              <Componentes />
-            </Suspense>
-          }
-        />
-      )}
     </Routes>
   );
 }
