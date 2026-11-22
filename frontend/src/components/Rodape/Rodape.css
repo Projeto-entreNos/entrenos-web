@@ -2,9 +2,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--esp-24);
   min-height: 53px;
   padding: var(--esp-16);
   background: var(--cor-azul-abissal);
   font: var(--texto-legenda);
   color: var(--cor-branco-80);
+}
+
+.rodape__links {
+  display: flex;
+  gap: var(--esp-24);
+}
+
+.rodape__link {
+  color: var(--cor-branco);
+  text-underline-offset: 3px;
 }

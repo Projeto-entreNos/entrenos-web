@@ -1,6 +1,14 @@
 .navbar-publica {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   height: var(--altura-navbar);
   background: var(--cor-fundo-pagina);
+  transition: box-shadow 0.2s ease;
+}
+
+.navbar-publica--rolada {
+  box-shadow: var(--sombra-navbar);
 }
 
 .navbar-publica__conteudo {

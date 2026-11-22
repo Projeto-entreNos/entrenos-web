@@ -1,0 +1,53 @@
+.pagina-legal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--esp-32);
+  padding-top: var(--esp-64);
+  padding-bottom: var(--esp-100);
+}
+
+.pagina-legal__cabecalho {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+}
+
+.pagina-legal__titulo {
+  color: var(--cor-azul-abissal);
+}
+
+.pagina-legal__data {
+  font: var(--texto-legenda);
+}
+
+/* Linhas de até 800 px, mais confortáveis para ler texto corrido */
+.pagina-legal__texto {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-32);
+  max-width: 800px;
+}
+
+.pagina-legal__texto section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-12);
+}
+
+.pagina-legal__texto h2 {
+  font: var(--texto-titulo-3);
+  color: var(--cor-azul-abissal);
+}
+
+.pagina-legal__texto ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--esp-8);
+  padding-left: var(--esp-24);
+  list-style: disc;
+}
+
+.pagina-legal__texto a {
+  color: var(--cor-esmeralda-escuro);
+}

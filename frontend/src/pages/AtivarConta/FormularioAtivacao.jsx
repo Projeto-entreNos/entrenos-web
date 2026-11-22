@@ -100,7 +100,6 @@ export default function FormularioAtivacao({ token, convite, aoAtivar }) {
           </div>
         </div>
 
-        {/* TODO: apontar para as páginas de Termos de uso e Política de Privacidade quando existirem */}
         <CaixaSelecao
           id={ID_CAMPO.termos}
           ajuda="Obrigatório"
@@ -108,8 +107,14 @@ export default function FormularioAtivacao({ token, convite, aoAtivar }) {
           checked={aceitouTermos}
           onChange={(evento) => setAceitouTermos(evento.target.checked)}
         >
-          Li e aceito os <a href="#termos-de-uso">Termos de uso</a> e a{' '}
-          <a href="#politica-de-privacidade">Política de Privacidade</a>
+          Li e aceito os{' '}
+          <a href="/termos" target="_blank" rel="noreferrer">
+            Termos de uso<span className="somente-leitor-tela"> (abre em nova aba)</span>
+          </a>{' '}
+          e a{' '}
+          <a href="/privacidade" target="_blank" rel="noreferrer">
+            Política de privacidade<span className="somente-leitor-tela"> (abre em nova aba)</span>
+          </a>
         </CaixaSelecao>
 
         {erroEnvio && <Aviso tipo="erro" titulo={erroEnvio} />}

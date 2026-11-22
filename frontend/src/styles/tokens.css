@@ -67,6 +67,7 @@
   --raio-pilula: 999px;
 
   --sombra-suave: 0 16px 40px rgba(6, 33, 61, 0.2);
+  --sombra-navbar: 0 2px 12px rgba(6, 33, 61, 0.08);
 
   --largura-conteudo: 1220px;   /* 12 colunas */
   --margem-pagina: 110px;       /* margem lateral em 1440 px */

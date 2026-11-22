@@ -39,7 +39,7 @@ function validarProposta(dados) {
   } else if (!Number.isInteger(numero) || numero < 1) {
     erros.numeroColaboradores = 'Use um número inteiro, a partir de 1.';
   }
-  if (!dados.aceitouPrivacidade) erros.aceitouPrivacidade = 'Aceite a Política de Privacidade para continuar.';
+  if (!dados.aceitouPrivacidade) erros.aceitouPrivacidade = 'Aceite a Política de privacidade para continuar.';
   return erros;
 }
 
@@ -172,7 +172,6 @@ export default function FormularioProposta() {
           onChange={(evento) => alterar('mensagem', evento.target.value)}
         />
 
-        {/* TODO: apontar para a página de Política de Privacidade quando ela existir */}
         <CaixaSelecao
           id={ID_CAMPO.aceitouPrivacidade}
           ajuda="Obrigatório"
@@ -180,7 +179,11 @@ export default function FormularioProposta() {
           checked={dados.aceitouPrivacidade}
           onChange={(evento) => alterar('aceitouPrivacidade', evento.target.checked)}
         >
-          Li e aceito a <a href="#politica-de-privacidade">Política de Privacidade</a> e autorizo o contato do
+          Li e aceito a{' '}
+          <a href="/privacidade" target="_blank" rel="noreferrer">
+            Política de privacidade<span className="somente-leitor-tela"> (abre em nova aba)</span>
+          </a>{' '}
+          e autorizo o contato do
           time EntreNós.
         </CaixaSelecao>
 

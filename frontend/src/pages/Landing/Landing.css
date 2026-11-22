@@ -23,6 +23,13 @@
   color: var(--cor-folha);
 }
 
+/* A navbar fica grudada no topo: o link do menu para a seção logo abaixo dela */
+.landing-hero,
+.landing-secao,
+.landing-contato {
+  scroll-margin-top: var(--altura-navbar);
+}
+
 /* Seções de 1024 px de altura (1440 x 1024 no Figma), com o conteúdo centralizado na vertical */
 .landing-secao {
   display: flex;

@@ -97,8 +97,9 @@
   width: calc(56px + var(--esp-16));
 }
 
+/* A vigência já quebra em duas linhas: os 16 px a menos deixam "Confirmar pagamento" longe da borda */
 .admin-empresas .tabela th:nth-child(7) {
-  width: calc(130px + var(--esp-16));
+  width: calc(114px + var(--esp-16));
 }
 
 .admin-empresas .tabela td {
