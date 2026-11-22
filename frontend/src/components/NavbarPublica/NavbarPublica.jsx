@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Botao from '../Botao/Botao';
 import Logo from '../Logo/Logo';
@@ -14,8 +15,19 @@ const SECOES = [
 
 // Links "/#secao": o LayoutPublico rola até a seção, mesmo vindo de outra página
 export default function NavbarPublica() {
+  const [rolada, setRolada] = useState(false);
+
+  useEffect(() => {
+    function aoRolar() {
+      setRolada(window.scrollY > 0);
+    }
+    aoRolar();
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    return () => window.removeEventListener('scroll', aoRolar);
+  }, []);
+
   return (
-    <header className="navbar-publica">
+    <header className={rolada ? 'navbar-publica navbar-publica--rolada' : 'navbar-publica'}>
       <div className="container navbar-publica__conteudo">
         <Link to="/" className="navbar-publica__logo" aria-label="EntreNós, página inicial">
           <Logo fundo="claro" tamanho="grande" />
