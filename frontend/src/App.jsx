@@ -14,6 +14,8 @@ import Landing from './pages/Landing';
 import Login from './pages/Login';
 import MinhasSolicitacoes from './pages/MinhasSolicitacoes';
 import NaoEncontrada from './pages/NaoEncontrada';
+import Privacidade from './pages/Privacidade';
+import Termos from './pages/Termos';
 import RotaProtegida from './rotas/RotaProtegida';
 
 // Vitrine de componentes: só em desenvolvimento, fora do build de produção.
@@ -24,6 +26,8 @@ export default function App() {
     <Routes>
       <Route element={<LayoutPublico />}>
         <Route path="/" element={<Landing />} />
+        <Route path="/termos" element={<Termos />} />
+        <Route path="/privacidade" element={<Privacidade />} />
         <Route path="*" element={<NaoEncontrada />} />
       </Route>
 

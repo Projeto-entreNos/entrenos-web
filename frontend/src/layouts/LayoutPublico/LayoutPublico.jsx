@@ -13,7 +13,7 @@ export default function LayoutPublico() {
       const elemento = document.getElementById(hash.slice(1));
       if (elemento) elemento.scrollIntoView();
     } else {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     }
   }, [hash, pathname]);
 

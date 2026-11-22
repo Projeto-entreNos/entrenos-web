@@ -97,7 +97,7 @@ public class PropostasController : ControllerBase
 
         if (!dados.AceitouPrivacidade)
         {
-            erros["aceitouPrivacidade"] = "Aceite a Política de Privacidade para continuar.";
+            erros["aceitouPrivacidade"] = "Aceite a Política de privacidade para continuar.";
         }
 
         return erros;

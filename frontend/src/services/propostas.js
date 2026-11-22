@@ -19,7 +19,7 @@ export async function enviarProposta(dados) {
     throw new Error('Não foi possível enviar agora. Tente de novo em alguns minutos.');
   }
   if (!dados.aceitouPrivacidade) {
-    throw new Error('Aceite a Política de Privacidade para continuar.');
+    throw new Error('Aceite a Política de privacidade para continuar.');
   }
 
   // No modo mock a proposta não é guardada: são dados pessoais de quem preencheu
