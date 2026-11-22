@@ -6,7 +6,7 @@ A empresa contrata um pacote, pago por colaborador, e oferece os serviços como 
 
 > Projeto acadêmico (MVP). Todos os dados de exemplo (empresas, pessoas, universidades, e-mails e CNPJs) são fictícios.
 
-**Endereço publicado:** `https://PREENCHER.azurewebsites.net`
+**Endereço publicado:** https://entrenos-api-eue3ewe4htgmaxhr.brazilsouth-01.azurewebsites.net
 
 ## Perfis
 
@@ -107,18 +107,10 @@ Para apresentar sem internet, o projeto gera um pacote que roda num notebook Win
 
 ## Equipe
 
-<!-- Preencha com os nomes (e, se quiser, o papel de cada pessoa). -->
-
-- PREENCHER
-- PREENCHER
-- PREENCHER
-- PREENCHER
-- PREENCHER
-- PREENCHER
-- PREENCHER
-
-## Ferramentas usadas no desenvolvimento
-
-<!-- Escolha o que citar. -->
-
-- PREENCHER
+- Athylla Alan
+- Eduardo Yonezawa
+- Gabriel Vitor
+- Gustavo Sales
+- João Pedro
+- Nadyja Maria
+- Victor Melo
