@@ -26,10 +26,9 @@ Pré-requisitos: Node.js (LTS), SDK do .NET 10 e SQL Server Express.
 2. **API** (em `backend/EntreNos.Api`): grave `Jwt:Chave` e `ConnectionStrings:EntreNos` nos User Secrets e rode `dotnet run --launch-profile http`. Ela sobe em http://localhost:5153.
 3. **Front** (em `frontend`): `npm install`, `copy .env.example .env.local` e `npm run dev`. Ele abre em http://localhost:5173.
 
-## Publicação e demonstração offline
+## Publicação
 
-- **Azure:** a cada merge no `main` que mude `backend/` ou `frontend/`, o GitHub Actions publica front e API juntos no Azure App Service.
-- **Offline:** `scripts\gerar-pacote-demo.ps1` gera um pacote que roda num notebook só com o SQL Server Express. Instruções no `LEIA-ME-demo.md`, dentro do pacote.
+A cada merge no `main` que mude `backend/` ou `frontend/`, o GitHub Actions publica front e API juntos no Azure App Service.
 
 ## Próximos passos (fora do MVP)
 
